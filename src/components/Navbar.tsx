@@ -1,11 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../firebase";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Box, Flex, Button, Link, useColorMode, IconButton, useColorModeValue } from "@chakra-ui/react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 import { useAuthState } from "../hooks/useAuthState";
 
 export default function Navbar() {
   const { user } = useAuthState();
   const navigate = useNavigate();
+  const { colorMode, toggleColorMode } = useColorMode();
+  const bg = useColorModeValue("brand.500", "brand.800");
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -13,28 +17,35 @@ export default function Navbar() {
   };
 
   return (
-    <nav style={styles.nav}>
-      <Link to="/" style={styles.brand}>🤱 גמ״ח מנשאים</Link>
-      <div style={styles.links}>
+    <Flex as="nav" bg={bg} px={6} py={3} align="center" justify="space-between" color="white">
+      <Link as={RouterLink} to="/" fontWeight="bold" fontSize="xl" _hover={{ textDecoration:"none", opacity:0.85 }}>
+        🤱 גמ״ח מנשאים
+      </Link>
+      <Flex gap={3} align="center">
+        <IconButton
+          aria-label="Toggle color mode"
+          icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+          onClick={toggleColorMode}
+          variant="ghost"
+          color="white"
+          _hover={{ bg: "whiteAlpha.200" }}
+          size="sm"
+        />
         {user ? (
           <>
-            <Link to="/dashboard" style={styles.link}>לוח בקשות</Link>
-            <button onClick={handleLogout} style={styles.btn}>התנתק</button>
+            <Link as={RouterLink} to="/dashboard" color="white" _hover={{ opacity:0.8 }}>
+              לוח בקשות
+            </Link>
+            <Button onClick={handleLogout} variant="outline" colorScheme="whiteAlpha" size="sm">
+              התנתק
+            </Button>
           </>
         ) : (
-          <Link to="/login" style={styles.link}>כניסת מתנדבים</Link>
+          <Link as={RouterLink} to="/login" color="white" _hover={{ opacity:0.8 }}>
+            כניסת מתנדבים
+          </Link>
         )}
-      </div>
-    </nav>
+      </Flex>
+    </Flex>
   );
 }
-
-const styles: Record<string, React.CSSProperties> = {
-  nav: { display:"flex", justifyContent:"space-between", alignItems:"center",
-    padding:"12px 24px", background:"#6d4c8e", color:"white" },
-  brand: { color:"white", textDecoration:"none", fontSize:"1.3rem", fontWeight:"bold" },
-  links: { display:"flex", gap:"16px", alignItems:"center" },
-  link: { color:"white", textDecoration:"none" },
-  btn: { background:"transparent", border:"1px solid white", color:"white",
-    padding:"6px 12px", borderRadius:"6px", cursor:"pointer" },
-};

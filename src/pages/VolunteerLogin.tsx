@@ -1,45 +1,34 @@
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { Box, Button, Heading, Text, VStack, useColorModeValue } from "@chakra-ui/react";
 
 const provider = new GoogleAuthProvider();
 
 export default function VolunteerLogin() {
   const navigate = useNavigate();
+  const bg = useColorModeValue("white", "gray.800");
 
   const handleGoogleLogin = async () => {
     try {
       await signInWithPopup(auth, provider);
       navigate("/dashboard");
-    } catch (err) {
-      console.error(err);
+    } catch {
       alert("שגיאה בהתחברות / Login failed");
     }
   };
 
   return (
-    <div style={styles.page}>
-      <div style={styles.card}>
-        <h2>כניסת מתנדבים 🔐</h2>
-        <p style={{ color: "#666", marginBottom: "24px" }}>
-          Volunteer access only
-        </p>
-        <button onClick={handleGoogleLogin} style={styles.googleBtn}>
+    <Box minH="80vh" display="flex" alignItems="center" justifyContent="center">
+      <VStack bg={bg} p={10} borderRadius="2xl" boxShadow="lg" spacing={5} minW="300px">
+        <Heading size="lg">כניסת מתנדבים 🔐</Heading>
+        <Text color="gray.500">Volunteer access only</Text>
+        <Button onClick={handleGoogleLogin} width="full" size="lg" variant="outline">
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
             width={20} style={{ marginLeft: "10px" }} />
-          התחבר עם Google / Sign in with Google
-        </button>
-      </div>
-    </div>
+          התחבר עם Google
+        </Button>
+      </VStack>
+    </Box>
   );
 }
-
-const styles: Record<string, React.CSSProperties> = {
-  page: { display:"flex", justifyContent:"center", alignItems:"center",
-    minHeight:"80vh", background:"#f8f4fc" },
-  card: { display:"flex", flexDirection:"column", alignItems:"center", padding:"40px",
-    background:"white", borderRadius:"12px", boxShadow:"0 2px 12px rgba(0,0,0,0.1)" },
-  googleBtn: { display:"flex", alignItems:"center", padding:"12px 24px", fontSize:"1rem",
-    background:"white", border:"2px solid #ddd", borderRadius:"8px", cursor:"pointer",
-    fontWeight:"bold", transition:"box-shadow 0.2s" },
-};
