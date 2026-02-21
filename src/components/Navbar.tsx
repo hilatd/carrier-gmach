@@ -1,5 +1,5 @@
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { Box, Flex, Button, Link, useColorMode, IconButton, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Button, Link, useColorMode, IconButton, useColorModeValue } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";

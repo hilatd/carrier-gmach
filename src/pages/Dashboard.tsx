@@ -4,7 +4,7 @@ import { db } from "../firebase";
 import { useAuthState } from "../hooks/useAuthState";
 import { useNavigate } from "react-router-dom";
 import RequestCard from "../components/RequestCard";
-import { CarrierRequest } from "../types";
+import type { CarrierRequest } from "../types";
 import { Box, Button, Heading, HStack, SimpleGrid, Text, useColorModeValue } from "@chakra-ui/react";
 
 export default function Dashboard() {
