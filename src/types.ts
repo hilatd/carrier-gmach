@@ -59,14 +59,8 @@ export interface Carrier {
   brand: string;
   color: string;
   state: string;
-  createdAt: number;
-  updatedAt: number;
-}
-
-export interface CarrierVolunteer {
-  id?: string;
-  carrierId: string;
   volunteerId: string;
+  notes: string;
   createdAt: number;
   updatedAt: number;
 }

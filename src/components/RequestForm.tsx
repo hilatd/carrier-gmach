@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 export default function RequestForm() {
-  const [form, setForm] = useState({ name:"", email:"", phone:"", babyAge:"", carrierType:"", notes:"", carriersExperience: "", babyWeight: "",
+  const [form, setForm] = useState({ name:"", email:"", phone:"", babyAge:"", notes:"", carriersExperience: "", babyWeight: "",
       carriersRequested: "",
       source: "", legal: false });
   const [submitted, setSubmitted] = useState(false);
@@ -93,16 +93,6 @@ export default function RequestForm() {
         <FormControl isRequired>
           <FormLabel>מנשאים מבוקשים/ Carriers Requested </FormLabel>
           <Input name="carriersRequested" placeholder="" value={form.carriersRequested} onChange={handleChange} />
-        </FormControl>
-        <FormControl>
-          <FormLabel>סוג מנשא / Carrier Type</FormLabel>
-          <Select name="carrierType" value={form.carrierType} onChange={handleChange} placeholder="-- בחר / Select --">
-            <option value="soft-structured">Soft Structured (SSC)</option>
-            <option value="wrap">Wrap / עטיפה</option>
-            <option value="ring-sling">Ring Sling</option>
-            <option value="meh-dai">Mei Dai</option>
-            <option value="any">כל סוג / Any</option>
-          </Select>
         </FormControl>
         <FormControl>
           <FormLabel> איך שמעתם עלינו? / How did you hear about us?</FormLabel>
