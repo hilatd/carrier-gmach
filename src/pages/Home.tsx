@@ -32,8 +32,8 @@ export default function Home() {
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} maxW="700px" mx="auto">
           {[
             { icon: EditIcon,  he: "מלאי טופס",        en: "Fill the form below" },
-            { icon: PhoneIcon, he: "מתנדב יצור קשר",   en: "A volunteer contacts you" },
-            { icon: StarIcon,  he: "קבלו מנשא",         en: "Receive a carrier" },
+            { icon: PhoneIcon, he: "מתנדבת תיצור קשר",   en: "A volunteer contacts you" },
+            { icon: StarIcon,  he: "בואי לקחת את המנשא",         en: "Receive a carrier" },
           ].map((step, i) => (
             <VStack key={i} bg={sectionBg} p={6} borderRadius="xl"
               boxShadow="md" spacing={2}>
