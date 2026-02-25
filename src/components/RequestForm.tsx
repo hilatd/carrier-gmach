@@ -38,7 +38,6 @@ export default function RequestForm() {
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    if (!form.legal) return;
     setLoading(true);
     const client: Client = { address: "", name: form.name, phone: form.phone, email: form.email, createdAt: Date.now(), updatedAt: Date.now()};
     const clientId = await addOrGetClient(client);
@@ -109,8 +108,8 @@ export default function RequestForm() {
           <Textarea name="notes" value={form.notes} onChange={handleChange} rows={3} />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>מכימה לתנאי השימוש / I agree to the terms</FormLabel>
-          <Checkbox name="legalAgreement" onChange={handleChange} />
+          <FormLabel>מכימה לתנאי השימוש / Accept terms and conditions</FormLabel>
+          <Checkbox name="legalAgreement" checked={form.legal}/>
         </FormControl>
         <Button type="submit" isLoading={loading} width="full" size="lg">
           שליחת בקשה / Submit
