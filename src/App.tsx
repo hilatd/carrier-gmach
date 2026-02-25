@@ -8,7 +8,7 @@ import Dashboard from "./pages/Dashboard";
 export default function App() {
   return (
     <BrowserRouter>
-      <Box dir="rtl" lang="he" minH="100vh">
+      <Box minH="100vh">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
