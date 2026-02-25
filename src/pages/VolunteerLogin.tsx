@@ -2,7 +2,16 @@ import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { Box, Button, Heading, Text, VStack, useColorModeValue, Alert, AlertIcon } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  Text,
+  VStack,
+  useColorModeValue,
+  Alert,
+  AlertIcon,
+} from "@chakra-ui/react";
 import { useState } from "react";
 
 const provider = new GoogleAuthProvider();
@@ -54,9 +63,18 @@ export default function VolunteerLogin() {
           </Alert>
         )}
 
-        <Button onClick={handleGoogleLogin} isLoading={loading} width="full" size="lg" variant="outline">
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-            width={20} style={{ marginLeft: "10px" }} />
+        <Button
+          onClick={handleGoogleLogin}
+          isLoading={loading}
+          width="full"
+          size="lg"
+          variant="outline"
+        >
+          <img
+            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+            width={20}
+            style={{ marginLeft: "10px" }}
+          />
           התחבר עם Google
         </Button>
       </VStack>

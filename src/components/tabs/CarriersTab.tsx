@@ -4,26 +4,54 @@ import { db } from "../../firebase";
 import type { Carrier, Volunteer } from "../../types";
 import { useCollection } from "../../hooks/useCollection";
 import {
-  Badge, Box, Button, FormControl, FormLabel, Input,
-  Select, SimpleGrid, Text, Textarea, useColorModeValue, useDisclosure, VStack
+  Badge,
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  SimpleGrid,
+  Text,
+  Textarea,
+  useColorModeValue,
+  useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
 import EditModal from "../EditModal";
 
-const empty: Omit<Carrier, "id"> = { type:"", brand:"", color:"", state:"", volunteerId:"", notes: "", createdAt: Date.now(), updatedAt: Date.now() };
+const empty: Omit<Carrier, "id"> = {
+  type: "",
+  brand: "",
+  color: "",
+  state: "",
+  volunteerId: "",
+  notes: "",
+  createdAt: Date.now(),
+  updatedAt: Date.now(),
+};
 
 export default function CarriersTab() {
   const { data: carriers, loading } = useCollection<Carrier>("carriers");
   const { data: volunteers } = useCollection<Volunteer>("volunteers");
-  const [form, setForm] = useState<Omit<Carrier,"id">>(empty);
+  const [form, setForm] = useState<Omit<Carrier, "id">>(empty);
   const [editId, setEditId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const bg = useColorModeValue("white", "gray.800");
 
-  const openNew = () => { setForm({ ...empty, createdAt: Date.now(), updatedAt: Date.now() }); setEditId(null); onOpen(); };
-  const openEdit = (c: Carrier) => { setForm(c); setEditId(c.id!); onOpen(); };
+  const openNew = () => {
+    setForm({ ...empty, createdAt: Date.now(), updatedAt: Date.now() });
+    setEditId(null);
+    onOpen();
+  };
+  const openEdit = (c: Carrier) => {
+    setForm(c);
+    setEditId(c.id!);
+    onOpen();
+  };
 
-  const volunteerName = (id: string) => volunteers.find(v => v.id === id)?.name ?? id;
+  const volunteerName = (id: string) => volunteers.find((v) => v.id === id)?.name ?? id;
   const handleSave = async () => {
     setSaving(true);
     const data = { ...form, updatedAt: Date.now() };
@@ -33,30 +61,45 @@ export default function CarriersTab() {
     onClose();
   };
 
-  const stateColor = (s: string) => ({ "תקין":"green", "פגום":"red", "בתיקון":"orange" }[s] ?? "gray");
+  const stateColor = (s: string) => ({ תקין: "green", פגום: "red", בתיקון: "orange" })[s] ?? "gray";
 
   if (loading) return null;
 
   return (
     <Box>
-      <Button mb={5} onClick={openNew}>+ הוסף מנשא</Button>
-      <SimpleGrid columns={{ base:1, md:2, lg:3 }} spacing={5}>
-        {carriers.map(c => (
+      <Button mb={5} onClick={openNew}>
+        + הוסף מנשא
+      </Button>
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
+        {carriers.map((c) => (
           <Box key={c.id} bg={bg} p={5} borderRadius="xl" boxShadow="md">
-            <Text fontWeight="bold" fontSize="lg">{c.brand} — {c.type}</Text>
+            <Text fontWeight="bold" fontSize="lg">
+              {c.brand} — {c.type}
+            </Text>
             <Text>🎨 {c.color}</Text>
             <Text> {volunteerName(c.volunteerId)} </Text>
             <Text> {c.notes} </Text>
-            <Badge mt={2} colorScheme={stateColor(c.state)}>{c.state}</Badge>
-            <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(c)}>עריכה</Button>
+            <Badge mt={2} colorScheme={stateColor(c.state)}>
+              {c.state}
+            </Badge>
+            <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(c)}>
+              עריכה
+            </Button>
           </Box>
         ))}
       </SimpleGrid>
 
-      <EditModal title={editId ? "עריכת מנשא" : "מנשא חדש"} isOpen={isOpen} onClose={onClose} onSave={handleSave} loading={saving}>
+      <EditModal
+        title={editId ? "עריכת מנשא" : "מנשא חדש"}
+        isOpen={isOpen}
+        onClose={onClose}
+        onSave={handleSave}
+        loading={saving}
+      >
         <VStack spacing={4}>
-          <FormControl><FormLabel>סוג / Type</FormLabel>
-            <Select value={form.type} onChange={e => setForm({...form, type: e.target.value})}>
+          <FormControl>
+            <FormLabel>סוג / Type</FormLabel>
+            <Select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}>
               <option value="">בחר</option>
               <option>Soft Structured (SSC)</option>
               <option>Wrap</option>
@@ -66,30 +109,49 @@ export default function CarriersTab() {
               <option>ילקוט</option>
             </Select>
           </FormControl>
-          <FormControl><FormLabel>מותג / Brand</FormLabel>
-            <Input value={form.brand} onChange={e => setForm({...form, brand: e.target.value})} />
+          <FormControl>
+            <FormLabel>מותג / Brand</FormLabel>
+            <Input
+              value={form.brand}
+              onChange={(e) => setForm({ ...form, brand: e.target.value })}
+            />
           </FormControl>
-          <FormControl><FormLabel>צבע / Color</FormLabel>
-            <Input value={form.color} onChange={e => setForm({...form, color: e.target.value})} />
+          <FormControl>
+            <FormLabel>צבע / Color</FormLabel>
+            <Input
+              value={form.color}
+              onChange={(e) => setForm({ ...form, color: e.target.value })}
+            />
           </FormControl>
           <FormControl>
             <FormLabel>הערות / Notes</FormLabel>
-              <Textarea name="notes" value={form.notes} onChange={e => setForm({...form, color: e.target.value})} rows={3} />
-             </FormControl>
+            <Textarea
+              name="notes"
+              value={form.notes}
+              onChange={(e) => setForm({ ...form, color: e.target.value })}
+              rows={3}
+            />
+          </FormControl>
           <FormControl>
             <FormLabel>מתנדבת אחראית / Responsible Volunteer</FormLabel>
-            <Select 
-              value={form.volunteerId} 
-              onChange={e => setForm({...form, volunteerId: e.target.value})}
+            <Select
+              value={form.volunteerId}
+              onChange={(e) => setForm({ ...form, volunteerId: e.target.value })}
             >
               <option value="">בחרי מתנדבת</option>
-              {volunteers.map(v => (
-                <option key={v.id} value={v.id}>{v.name}</option>
+              {volunteers.map((v) => (
+                <option key={v.id} value={v.id}>
+                  {v.name}
+                </option>
               ))}
             </Select>
           </FormControl>
-          <FormControl><FormLabel>מצב / State</FormLabel>
-            <Select value={form.state} onChange={e => setForm({...form, state: e.target.value})}>
+          <FormControl>
+            <FormLabel>מצב / State</FormLabel>
+            <Select
+              value={form.state}
+              onChange={(e) => setForm({ ...form, state: e.target.value })}
+            >
               <option value="">בחר</option>
               <option>תקין</option>
               <option>פגום</option>

@@ -1,6 +1,12 @@
 import {
-  Modal, ModalOverlay, ModalContent, ModalHeader,
-  ModalCloseButton, ModalBody, ModalFooter, Button
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Button,
 } from "@chakra-ui/react";
 
 interface Props {
@@ -21,8 +27,12 @@ export default function EditModal({ title, isOpen, onClose, onSave, children, lo
         <ModalCloseButton />
         <ModalBody>{children}</ModalBody>
         <ModalFooter gap={3}>
-          <Button variant="ghost" onClick={onClose}>ביטול</Button>
-          <Button isLoading={loading} onClick={onSave}>שמור</Button>
+          <Button variant="ghost" onClick={onClose}>
+            ביטול
+          </Button>
+          <Button isLoading={loading} onClick={onSave}>
+            שמור
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

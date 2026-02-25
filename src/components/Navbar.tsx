@@ -18,7 +18,13 @@ export default function Navbar() {
 
   return (
     <Flex as="nav" bg={bg} px={6} py={3} align="center" justify="space-between" color="white">
-      <Link as={RouterLink} to="/" fontWeight="bold" fontSize="xl" _hover={{ textDecoration:"none", opacity:0.85 }}>
+      <Link
+        as={RouterLink}
+        to="/"
+        fontWeight="bold"
+        fontSize="xl"
+        _hover={{ textDecoration: "none", opacity: 0.85 }}
+      >
         🤱 גמ״ח מנשאים
       </Link>
       <Flex gap={3} align="center">
@@ -33,7 +39,7 @@ export default function Navbar() {
         />
         {user ? (
           <>
-            <Link as={RouterLink} to="/dashboard" color="white" _hover={{ opacity:0.8 }}>
+            <Link as={RouterLink} to="/dashboard" color="white" _hover={{ opacity: 0.8 }}>
               לוח בקשות
             </Link>
             <Button onClick={handleLogout} variant="outline" colorScheme="whiteAlpha" size="sm">
@@ -41,7 +47,7 @@ export default function Navbar() {
             </Button>
           </>
         ) : (
-          <Link as={RouterLink} to="/login" color="white" _hover={{ opacity:0.8 }}>
+          <Link as={RouterLink} to="/login" color="white" _hover={{ opacity: 0.8 }}>
             כניסת מתנדבים
           </Link>
         )}

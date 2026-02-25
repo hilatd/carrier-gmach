@@ -9,7 +9,7 @@ const firebaseConfig = {
   storageBucket: "carrier-gmach.firebasestorage.app",
   messagingSenderId: "664304808453",
   appId: "1:664304808453:web:66413dfbb017fdfb6c226c",
-  measurementId: "G-H5WBY1B61H"
+  measurementId: "G-H5WBY1B61H",
 };
 
 const app = initializeApp(firebaseConfig);

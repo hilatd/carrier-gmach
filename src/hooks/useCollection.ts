@@ -8,8 +8,8 @@ export function useCollection<T>(collectionName: string) {
 
   useEffect(() => {
     const q = query(collection(db, collectionName), orderBy("createdAt", "desc"));
-    return onSnapshot(q, snap => {
-      setData(snap.docs.map(d => ({ id: d.id, ...d.data() } as T)));
+    return onSnapshot(q, (snap) => {
+      setData(snap.docs.map((d) => ({ id: d.id, ...d.data() }) as T));
       setLoading(false);
     });
   }, [collectionName]);

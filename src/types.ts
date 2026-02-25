@@ -1,4 +1,4 @@
-export type RequestStatus = "open" | "pending" | "handled"  | "closed";
+export type RequestStatus = "open" | "pending" | "handled" | "closed";
 export type ActionStatus = "open" | "lending" | "returned" | "waiting_list" | "closed";
 
 export interface Client {

@@ -10,7 +10,7 @@ const theme = extendTheme({
   direction: "rtl",
   colors: {
     brand: {
-      50:  "#f5eeff",
+      50: "#f5eeff",
       100: "#e8d5ff",
       200: "#d0aaff",
       300: "#b57eff",
