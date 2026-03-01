@@ -83,6 +83,11 @@ export const en = {
 "carrier.volunteer": "Volunteer",
 "carrier.color": "Color",
 "carrier.notes": "Notes",
+"carrier.currentAction": "Current Loan",
+"carrier.noActiveAction": "No active loan",
+"carrier.history": "Loan History",
+"carrier.historyEmpty": "No past loans",
+"carrier.viewAction": "View",
 
 
 // Carrier Types

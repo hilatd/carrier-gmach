@@ -1,10 +1,11 @@
 import { useState, useMemo } from "react";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-import type { Carrier, CarrierState, CarrierTypes, Volunteer } from "../../types";
+import type { Action, Carrier, CarrierState, CarrierTypes, Client, Volunteer } from "../../types";
 import { useCollection } from "../../hooks/useCollection";
 import { useFilterSort } from "../../hooks/useFilterSort";
 import { useIntl } from "react-intl";
+import CarrierActionInfo from "../carriers/CarrierActionInfo";
 import {
   Badge, Box, Button, FormControl, FormLabel,
   HStack, Input, Select, SimpleGrid, Text, Textarea,
@@ -32,6 +33,8 @@ const empty: Omit<Carrier, "id"> = {
 export default function CarriersTab() {
   const { formatMessage: t } = useIntl();
   const { data: carriers, loading } = useCollection<Carrier>("carriers");
+  const { data: actions } = useCollection<Action>("actions");
+  const { data: clients } = useCollection<Client>("clients");
   const { data: volunteers } = useCollection<Volunteer>("volunteers");
   const [form, setForm] = useState<Omit<Carrier, "id">>(empty);
   const [editId, setEditId] = useState<string | null>(null);
@@ -112,21 +115,26 @@ export default function CarriersTab() {
       {/* Cards */}
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
         {filtered.map((c) => (
-          <Box key={c.id} bg={bg} p={5} borderRadius="xl" boxShadow="md">
-            <Text fontWeight="bold" fontSize="lg">
-              {c.brand} — {t({ id: `carrier.type.${c.type}` })}
-            </Text>
-            <Text>🎨 {c.color}</Text>
-            {c.volunteerId && <Text>👤 {volunteerName(c.volunteerId)}</Text>}
-            {c.notes && <Text fontSize="sm" color="gray.500">📝 {c.notes}</Text>}
-            <Badge mt={2} colorScheme={stateColor[c.state]}>
-              {t({ id: `carrier.state.${c.state}` })}
-            </Badge>
-            <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(c)}>
-              {t({ id: "common.edit" })}
-            </Button>
-          </Box>
-        ))}
+        <Box key={c.id} bg={bg} p={5} borderRadius="xl" boxShadow="md">
+          <Text fontWeight="bold" fontSize="lg">
+            {c.brand} — {t({ id: `carrier.type.${c.type}` })}
+          </Text>
+          <Text>🎨 {c.color}</Text>
+          {c.volunteerId && <Text>👤 {volunteerName(c.volunteerId)}</Text>}
+          {c.notes && <Text fontSize="sm" color="gray.500">📝 {c.notes}</Text>}
+          <Badge mt={2} colorScheme={stateColor[c.state]}>
+            {t({ id: `carrier.state.${c.state}` })}
+          </Badge>
+          <CarrierActionInfo
+            carrierId={c.id!}
+            actions={actions}
+            clients={clients}
+          />
+          <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(c)}>
+            {t({ id: "common.edit" })}
+          </Button>
+        </Box>
+      ))}
       </SimpleGrid>
 
       {filtered.length === 0 && (
@@ -239,7 +247,7 @@ export default function CarriersTab() {
               value={form.volunteerId}
               onChange={(e) => setForm({ ...form, volunteerId: e.target.value })}
             >
-              <option value="">{t({ id: "filter.all" })}</option>
+              <option value="">{t({ id: "common.all" })}</option>
               {volunteers.map((v) => (
                 <option key={v.id} value={v.id}>{v.name}</option>
               ))}

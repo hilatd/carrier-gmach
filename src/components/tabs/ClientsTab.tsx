@@ -59,7 +59,7 @@ export default function ClientsTab() {
   return (
     <Box>
       <Button mb={5} onClick={openNew}>
-        + הוסף משאילה
+        + הוסיפי משאילה
       </Button>
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
         {clients.map((c) => (
@@ -78,7 +78,7 @@ export default function ClientsTab() {
       </SimpleGrid>
 
       <EditModal
-        title={editId ? "עריכת משאילה" : "משאילה חדש"}
+        title={editId ? "עריכת משאילה" : "משאילה חדשה"}
         isOpen={isOpen}
         onClose={onClose}
         onSave={handleSave}

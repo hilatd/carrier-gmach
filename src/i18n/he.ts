@@ -83,6 +83,11 @@ export const he = {
 "carrier.volunteer": "מתנדבת",
 "carrier.color": "צבע",
 "carrier.notes": "הערות",
+"carrier.currentAction": "השאלה נוכחית",
+"carrier.noActiveAction": "אין השאלה פעילה",
+"carrier.history": "היסטוריית השאלות",
+"carrier.historyEmpty": "אין השאלות קודמות",
+"carrier.viewAction": "צפייה",
 
 // Carrier Types
 "carrier.type.ssc": "מובנה (SSC)",
@@ -101,9 +106,9 @@ export const he = {
 
   // Common
   "common.edit": "עריכה",
-  "common.save": "שמור",
+  "common.save": "שמרי",
   "common.cancel": "ביטול",
-  "common.add": "הוסף",
+  "common.add": "הוסיפי",
   "common.loading": "טוען...",
   "common.noResults": "אין תוצאות",
   "common.paid": "שולם",
