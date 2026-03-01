@@ -21,6 +21,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import EditModal from "../EditModal";
+import { useIntl } from "react-intl";
 
 const STATUS_COLORS: Record<RequestStatus, string> = {
   open: "purple",
@@ -58,6 +59,7 @@ function buildWhatsAppMessage(request: CarrierRequest, clientName: string): stri
 }
 
 export default function RequestsTab() {
+  const { formatMessage: t} = useIntl();
   const { data: requests, loading } = useCollection<CarrierRequest>("requests");
   const { data: clients } = useCollection<Client>("clients");
   const { data: volunteers } = useCollection<Volunteer>("volunteers");
@@ -138,16 +140,16 @@ export default function RequestsTab() {
                 onClick={() => openWhatsApp(r)}
                 leftIcon={<span>💬</span>}
               >
-                WhatsApp
+                {t({id: "common.whatsapp"})}
               </Button>
               {r.status === "open" && (
                 <Button size="sm" onClick={() => markHandled(r)}>
-                  סמן כטופל
+                 {t({id: "requests.handeld"})}
                 </Button>
               )}
             </HStack>
             <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(r)}>
-              עריכה
+              {t({id: "common.edit"})}
             </Button>
           </Box>
         ))}

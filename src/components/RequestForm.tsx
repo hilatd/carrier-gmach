@@ -1,6 +1,7 @@
 import { useState, type SyntheticEvent } from "react";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import { useIntl } from "react-intl";
 import type { CarrierRequest, Client } from "../types";
 import {
   Box,
@@ -18,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 
 export default function RequestForm() {
+  const { formatMessage: t } = useIntl();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -87,7 +89,7 @@ export default function RequestForm() {
   if (submitted)
     return (
       <Text textAlign="center" fontSize="xl" color="brand.500" py={12}>
-        ✅ הבקשה נשלחה! מתנדבת תיצור איתך קשר בקרוב 💜
+        {t({id:"form.success"})}
       </Text>
     );
 
@@ -103,41 +105,41 @@ export default function RequestForm() {
       boxShadow="lg"
     >
       <Heading size="md" mb={6} textAlign="center">
-        פתיחת בקשה / Open a Request
+        {t({id:"form.title"})}
       </Heading>
       <VStack spacing={4}>
         <FormControl isRequired>
-          <FormLabel>שם ההורה / Parent Name</FormLabel>
+          <FormLabel>{t({id:"form.parentName"})}</FormLabel>
           <Input name="name" value={form.name} onChange={handleChange} />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>טלפון / Phone</FormLabel>
+          <FormLabel>{t({id:"form.phone"})}</FormLabel>
           <Input type="phone" name="phone" value={form.phone} onChange={handleChange} />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>אימייל / Email</FormLabel>
+          <FormLabel>{t({id:"form.email"})}</FormLabel>
           <Input type="email" name="email" value={form.email} onChange={handleChange} />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>גיל התינוק / Baby Age</FormLabel>
+          <FormLabel>{t({id: "form.babyAge"})}</FormLabel>
           <Input
             name="babyAge"
-            placeholder="e.g. 3 months"
+            placeholder={t({id: "form.babyAge.placeholder"})}
             value={form.babyAge}
             onChange={handleChange}
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>משקל התינוק / Baby Weight</FormLabel>
+          <FormLabel>{t({id: "form.babyWeight"})}</FormLabel>
           <Input
             name="babyWeight"
-            placeholder="e.g. 11 kg"
+            placeholder={t({id: "form.babyWeight.placeholder"})}
             value={form.babyWeight}
             onChange={handleChange}
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>ניסיון קודם במנשאים/ Carriers Experience</FormLabel>
+          <FormLabel>{t({id: "form.experience"})}</FormLabel>
           <Input
             name="carriersExperience"
             placeholder=""
@@ -146,7 +148,7 @@ export default function RequestForm() {
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>מנשאים מבוקשים/ Carriers Requested </FormLabel>
+          <FormLabel>{t({id: "form.carrierType"})}</FormLabel>
           <Input
             name="carriersRequested"
             placeholder=""
@@ -155,30 +157,30 @@ export default function RequestForm() {
           />
         </FormControl>
         <FormControl>
-          <FormLabel> איך שמעתם עלינו? / How did you hear about us?</FormLabel>
+          <FormLabel>{t({id: "form.source"})}</FormLabel>
           <Select
             name="source"
             value={form.source}
             onChange={handleChange}
-            placeholder="-- בחר / Select --"
+            placeholder={t({id: "form.source.options.placeholder"})}
           >
-            <option value="facebook">faceBook / פייסבוק</option>
-            <option value="carryWithLove">קבוצת נשיאה</option>
-            <option value="whatsapp">קבוצה בוואטסאפ</option>
-            <option value="friend">מפה לאוזן</option>
-            <option value="other">אחר</option>
+            <option value="facebook">{t({id: "form.source.options.facebook"})}</option>
+            <option value="carryWithLove">{t({id: "form.source.options.carrierGroup"})}</option>
+            <option value="whatsapp">{t({id: "form.source.options.whatsapp"})}</option>
+            <option value="friend">{t({id: "form.source.options.friend"})}</option>
+            <option value="other">{t({id: "form.source.options.other"})}</option>
           </Select>
         </FormControl>
         <FormControl>
-          <FormLabel>הערות / Notes</FormLabel>
+          <FormLabel>{t({id: "form.notes"})}</FormLabel>
           <Textarea name="notes" value={form.notes} onChange={handleChange} rows={3} />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>מכימה לתנאי השימוש / Accept terms and conditions</FormLabel>
+          <FormLabel>{t({id: "form.agreement"})}</FormLabel>
           <Checkbox name="legalAgreement" checked={form.legal} />
         </FormControl>
         <Button type="submit" isLoading={loading} width="full" size="lg">
-          שליחת בקשה / Submit
+          {t({id: "form.submit"})}
         </Button>
       </VStack>
     </Box>

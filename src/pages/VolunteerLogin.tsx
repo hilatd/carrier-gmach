@@ -13,6 +13,7 @@ import {
   AlertIcon,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useIntl } from "react-intl";
 
 const provider = new GoogleAuthProvider();
 
@@ -23,6 +24,7 @@ async function isVolunteer(email: string): Promise<boolean> {
 }
 
 export default function VolunteerLogin() {
+  const { formatMessage: t } = useIntl();
   const navigate = useNavigate();
   const bg = useColorModeValue("white", "gray.800");
   const [error, setError] = useState("");
@@ -38,14 +40,14 @@ export default function VolunteerLogin() {
       const volunteer = await isVolunteer(email);
       if (!volunteer) {
         await signOut(auth);
-        setError("המשתמשת אינה מתנדבת רשומה / This account is not an authorized volunteer.");
+        setError(t({id: "volunteerLogin.error"}));
         setLoading(false);
         return;
       }
 
       navigate("/dashboard");
     } catch {
-      setError("שגיאה בהתחברות / Login failed");
+      setError(t({id: "volunteerLogin.failure"}));
     }
     setLoading(false);
   };

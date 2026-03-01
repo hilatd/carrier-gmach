@@ -16,8 +16,10 @@ import ActionsTab from "../components/tabs/ActionsTab";
 import CarriersTab from "../components/tabs/CarriersTab";
 import ClientsTab from "../components/tabs/ClientsTab";
 import VolunteersTab from "../components/tabs/VolunteersTab";
+import { useIntl } from "react-intl";
 
 export default function Dashboard() {
+  const { formatMessage: t} = useIntl(); 
   const { user, loading } = useAuthState();
   const navigate = useNavigate();
   const bg = useColorModeValue("gray.50", "gray.900");
@@ -30,14 +32,14 @@ export default function Dashboard() {
 
   return (
     <Box bg={bg} minH="100vh" p={6}>
-      <Heading mb={6}>לוח ניהול / Dashboard</Heading>
+      <Heading mb={6}>{t({id: "dashboard.title"})}</Heading>
       <Tabs colorScheme="brand" isLazy>
         <TabList mb={6}>
-          <Tab>📋 בקשות</Tab>
-          <Tab>📦 השאלות</Tab>
-          <Tab>🎽 מנשאים</Tab>
-          <Tab>👤 משאילות</Tab>
-          <Tab>👤 מתנדבות</Tab>
+          <Tab>📋 {t({id: "dashboard.requests"})}</Tab>
+          <Tab>📦 {t({id: "dashboard.actions"})}</Tab>
+          <Tab>🎽 {t({id: "dashboard.carriers"})}</Tab>
+          <Tab>👤 {t({id: "dashboard.clients"})}</Tab>
+          <Tab>👤 {t({id: "dashboard.volunteers"})}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel p={0}>
