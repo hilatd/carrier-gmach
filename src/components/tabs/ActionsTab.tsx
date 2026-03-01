@@ -87,7 +87,7 @@ export default function ActionsTab() {
   });
 
   const openNew = () => {
-    setForm({ ...empty, createdAt: Date.now(), updatedAt: Date.now() });
+    setForm({ ...empty, dateReturned: defaultReturnDate(), createdAt: Date.now(), updatedAt: Date.now() });
     setEditId(null);
     onEditOpen();
   };
