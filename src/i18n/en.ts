@@ -82,6 +82,23 @@ export const en = {
 "carrier.brand": "Brand",
 "carrier.volunteer": "Volunteer",
 "carrier.color": "Color",
+"carrier.notes": "Notes",
+
+
+// Carrier Types
+"carrier.type.ssc": "Soft Structured (SSC)",
+"carrier.type.wrap": "Wrap",
+"carrier.type.ring_sling": "Ring Sling",
+"carrier.type.mei_dai": "Mei Dai",
+"carrier.type.backpack": "Backpack",
+"carrier.type.blanket_coat": "Blanket Coat",
+"carrier.type.other": "Other",
+
+// Carrier States
+"carrier.state.good": "Good",
+"carrier.state.damaged": "Damaged",
+"carrier.state.for_sell": "For Sale",
+"carrier.state.maintenance": "In Maintenance",
 
   // Common
   "common.edit": "Edit",

@@ -82,6 +82,22 @@ export const he = {
 "carrier.brand": "מותג",
 "carrier.volunteer": "מתנדבת",
 "carrier.color": "צבע",
+"carrier.notes": "הערות",
+
+// Carrier Types
+"carrier.type.ssc": "מובנה (SSC)",
+"carrier.type.wrap": "עטיפה ארוגה",
+"carrier.type.ring_sling": "רינג סלינג",
+"carrier.type.mei_dai": "מיי טאי",
+"carrier.type.backpack": "ילקוט",
+"carrier.type.blanket_coat": "שמיכת עטיפה",
+"carrier.type.other": "אחר",
+
+// Carrier States
+"carrier.state.good": "תקין",
+"carrier.state.damaged": "פגום",
+"carrier.state.for_sell": "למכירה",
+"carrier.state.maintenance": "בתיקון",
 
   // Common
   "common.edit": "עריכה",

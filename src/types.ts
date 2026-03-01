@@ -1,5 +1,7 @@
 export type RequestStatus = "open" | "pending" | "handled" | "closed";
 export type ActionStatus = "open" | "lending" | "returned" | "waiting_list" | "closed";
+export type CarrierTypes = "ssc" | "wrap" | "ring_sling" | "mei_dai" | "backpack" | "blanket_coat" | "other";
+export type CarrierState = "good" | "damaged" | "for_sell" | "maintenance";
 
 export interface Client {
   id?: string;
@@ -55,10 +57,10 @@ export interface Action {
 
 export interface Carrier {
   id?: string;
-  type: string;
+  type: CarrierTypes;
   brand: string;
   color: string;
-  state: string;
+  state: CarrierState;
   volunteerId: string;
   notes: string;
   createdAt: number;
