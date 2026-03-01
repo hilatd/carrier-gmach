@@ -86,6 +86,7 @@ export const en = {
 "carrier.currentAction": "Current Loan",
 "carrier.noActiveAction": "No active loan",
 "carrier.history": "Loan History",
+"carrier.waitingList": "Loan Waiting List",
 "carrier.historyEmpty": "No past loans",
 "carrier.viewAction": "View",
 

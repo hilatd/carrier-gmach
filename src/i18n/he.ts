@@ -86,6 +86,7 @@ export const he = {
 "carrier.currentAction": "השאלה נוכחית",
 "carrier.noActiveAction": "אין השאלה פעילה",
 "carrier.history": "היסטוריית השאלות",
+"carrier.waitingList": "רשימת המתנה",
 "carrier.historyEmpty": "אין השאלות קודמות",
 "carrier.viewAction": "צפייה",
 

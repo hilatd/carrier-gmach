@@ -16,7 +16,8 @@ interface Props {
 
 export default function CarrierActionInfo({ carrierId, actions, clients }: Props) {
   const { formatMessage: t, formatDate } = useIntl();
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [isHistoryDrawerOpen, setHistoryDrawerOpen] = useState(false);
+  const [isWaitingListDrawerOpen, setWaitingListDrawerOpen] = useState(false);
   const dividerColor = useColorModeValue("gray.200", "gray.600");
   const historyBg = useColorModeValue("gray.50", "gray.700");
 
@@ -26,7 +27,7 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
   // current = most recent non-closed/returned action for this carrier
   const currentAction = useMemo(() =>
     actions
-      .filter((a) => a.carrierId === carrierId && a.status !== "closed" && a.status !== "returned")
+      .filter((a) => a.carrierId === carrierId && a.status === "lending")
       .sort((a, b) => b.createdAt - a.createdAt)[0] ?? null,
     [actions, carrierId]
   );
@@ -35,6 +36,12 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
   const historyActions = useMemo(() =>
     actions
       .filter((a) => a.carrierId === carrierId && (a.status === "closed" || a.status === "returned"))
+      .sort((a, b) => b.createdAt - a.createdAt),
+    [actions, carrierId]
+  );
+  const waitingListActions = useMemo(() =>
+    actions
+      .filter((a) => a.carrierId === carrierId && (a.status === "waiting_list" || a.status === "open"))
       .sort((a, b) => b.createdAt - a.createdAt),
     [actions, carrierId]
   );
@@ -78,17 +85,30 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
           variant="ghost"
           colorScheme="brand"
           mt={2}
-          onClick={() => setDrawerOpen(true)}
+          mb={2}
+          onClick={() => setHistoryDrawerOpen(true)}
         >
           📋 {t({ id: "carrier.history" })} ({historyActions.length})
+        </Button>
+      )}
+      {waitingListActions.length > 0 && (
+        <Button
+          size="xs"
+          variant="ghost"
+          colorScheme="brand"
+          mt={2}
+          mb={2}
+          onClick={() => setWaitingListDrawerOpen(true)}
+        >
+          📋 {t({ id: "carrier.waitingList" })} ({waitingListActions.length})
         </Button>
       )}
 
       {/* History Drawer */}
       <Drawer
-        isOpen={isDrawerOpen}
+        isOpen={isHistoryDrawerOpen}
         placement="right"
-        onClose={() => setDrawerOpen(false)}
+        onClose={() => setHistoryDrawerOpen(false)}
         size="md"
       >
         <DrawerOverlay />
@@ -132,6 +152,60 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
                     <Badge mt={2} colorScheme={a.paid ? "green" : "red"}>
                       {t({ id: a.paid ? "common.paid" : "common.unpaid" })}
                     </Badge>
+
+                    {a.notes && (
+                      <Text fontSize="sm" color="gray.500" mt={1}>
+                        📝 {a.notes}
+                      </Text>
+                    )}
+
+                    <Text fontSize="xs" color="gray.400" mt={2}>
+                      {formatDate(a.createdAt, {
+                        day: "2-digit", month: "2-digit", year: "numeric"
+                      })}
+                    </Text>
+                  </Box>
+                ))}
+              </VStack>
+            )}
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+
+      {/* Waiting List Drawer */}
+      <Drawer
+        isOpen={isWaitingListDrawerOpen}
+        placement="right"
+        onClose={() => setWaitingListDrawerOpen(false)}
+        size="md"
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>
+            {t({ id: "carrier.waitingList" })}
+          </DrawerHeader>
+          <DrawerBody>
+            {waitingListActions.length === 0 ? (
+              <Text color="gray.400">{t({ id: "carrier.waitingList" })}</Text>
+            ) : (
+              <VStack spacing={4} align="stretch">
+                {waitingListActions.map((a) => (
+                  <Box
+                    key={a.id}
+                    bg={historyBg}
+                    p={4}
+                    borderRadius="lg"
+                    borderLeftWidth={4}
+                    borderLeftColor={`${ACTION_STATUS_COLORS[a.status]}.400`}
+                  >
+                    <HStack justify="space-between" mb={2}>
+                      <Text fontWeight="bold">{clientName(a.clientId)}</Text>
+                      <Badge colorScheme={ACTION_STATUS_COLORS[a.status]}>
+                        {t({ id: `action.status.${a.status}` })}
+                      </Badge>
+                    </HStack>
+
 
                     {a.notes && (
                       <Text fontSize="sm" color="gray.500" mt={1}>
