@@ -144,7 +144,7 @@ export default function RequestsTab() {
               </Button>
               {r.status === "open" && (
                 <Button size="sm" onClick={() => markHandled(r)}>
-                 {t({id: "requests.handeld"})}
+                 {t({id: "requests.handled"})}
                 </Button>
               )}
             </HStack>

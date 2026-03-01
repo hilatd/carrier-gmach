@@ -58,7 +58,7 @@ export const he = {
   "status.closed": "סגור",
   
   // requests
-  "requests.handled": "Mark as handled",
+  "requests.handled": "סמני כטופל",
 
   // Common
   "common.edit": "עריכה",
@@ -69,5 +69,5 @@ export const he = {
   "common.noResults": "אין תוצאות",
   "common.paid": "שולם",
   "common.unpaid": "לא שולם",
-  "common.whatsApp": "WhatsApp"
+  "common.whatsapp": "שלחי וואטסאפ"
 };

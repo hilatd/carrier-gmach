@@ -53,7 +53,7 @@ export default function RequestForm() {
       return existingDoc.id;
     } else {
       // Record doesn't exist! Add it
-      const newDoc = await addDoc(colRef, { client });
+      const newDoc = await addDoc(colRef, client);
       return newDoc.id;
     }
   }
