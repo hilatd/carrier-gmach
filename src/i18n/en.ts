@@ -1,6 +1,6 @@
 export const en = {
   // Navbar
-  "nav.title": "Carrier Gmach Jerusalem",
+  "nav.title": "Carrier Gemach Jerusalem",
   "nav.dashboard": "Dashboard",
   "nav.logout": "Logout",
   "nav.login": "Volunteer Login",
@@ -37,6 +37,8 @@ export const en = {
   "form.submitting": "Submitting...",
   "form.success": "Request sent! A volunteer will contact you soon 💜",
   "form.select": "Select",
+  "form.agreement.prefix": "I have read and agree to the",
+  "form.agreement.link": "Terms & Conditions",
 
   // Volunteer login
   "volunteerLogin.error": "This account is not an authorized volunteer.",
@@ -59,6 +61,27 @@ export const en = {
 
   // requests
   "requests.handled": "Mark as handled",
+
+  //legal
+  "legal.title": "Terms & Conditions",
+
+  // Search & Filter
+"common.search": "Free search...",
+"common.filter": "Filter",
+"common.sort": "Sort",
+"common.reset": "Reset",
+"common.apply": "Apply",
+"common.results": "{count} results",
+"common.sortNewest": "Newest first",
+"common.sortOldest": "Oldest first",
+"common.all": "All",
+
+// carrier
+"carrier.state": "State",
+"carrier.type": "Type",
+"carrier.brand": "Brand",
+"carrier.volunteer": "Volunteer",
+"carrier.color": "Color",
 
   // Common
   "common.edit": "Edit",

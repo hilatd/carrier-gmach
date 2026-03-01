@@ -16,6 +16,7 @@ import {
   Text,
   useColorModeValue,
   Checkbox,
+  Link,
 } from "@chakra-ui/react";
 
 export default function RequestForm() {
@@ -176,8 +177,25 @@ export default function RequestForm() {
           <Textarea name="notes" value={form.notes} onChange={handleChange} rows={3} />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>{t({id: "form.agreement"})}</FormLabel>
-          <Checkbox name="legalAgreement" checked={form.legal} />
+         <Checkbox
+    isRequired
+    isChecked={form.legal}
+    onChange={(e) => setForm({ ...form, legal: e.target.checked })}
+  >
+    <Text as="span" fontSize="sm">
+      {t({ id: "form.agreement.prefix" })}{" "}
+      <Link
+        href="/legal"
+        target="_blank"
+        rel="noopener noreferrer"
+        color="brand.500"
+        textDecoration="underline"
+      >
+        {t({ id: "form.agreement.link" })}
+      </Link>
+    </Text>
+  </Checkbox>
+
         </FormControl>
         <Button type="submit" isLoading={loading} width="full" size="lg">
           {t({id: "form.submit"})}

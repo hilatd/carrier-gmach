@@ -7,7 +7,7 @@ export const he = {
 
   // Home
   "home.desc": " שמחות שפנית אלינו! {br} ההשאלה מהגמח היא חינם לתקופה של חודש, וניתנת להארכה לאחר אישורנו ובתשלום של 20 שח על כל חודש נוסף.{br}  הכסף משמש אותנו לתחזוקה של הגמ\"ח ורכישת מנשאים חדשים במידת הצורך. {br} הגמח מופעל בהתנדבות מלאה! אנו משתדלות לתת מענה בהקדם האפשרי, אבל זה יכול לקחת יום-יומי ואפילו קצת יותר אנא היאזרו בסבלנות.{br}   מוזמנים למלא פרטים ונחזור אליכם בהקדם :)",
-  "home.subtitle": " גמ\"ח הנשיאה שלנו פועל בירושלים לטובת קהילת הנשיאה המקומי ת.",
+  "home.subtitle": " גמ\"ח הנשיאה שלנו פועל בירושלים לטובת קהילת הנשיאה המקומית.",
   "home.how": "איך זה עובד?",
   "home.step1.title": "מלאי טופס",
   "home.step2.title": "מתנדבת תיצור קשר",
@@ -37,6 +37,8 @@ export const he = {
   "form.submitting": "שולח...",
   "form.success": "הבקשה נשלחה! מתנדבת תיצור איתך קשר בקרוב 💜",
   "form.select": "בחרי",
+  "form.agreement.prefix": "קראתי ואני מסכים/ה ל",
+  "form.agreement.link": "תנאי השימוש",
 
    // Volunteer login
   "volunteerLogin.error": "המשתמשת אינה מתנדבת רשומה",
@@ -59,6 +61,27 @@ export const he = {
   
   // requests
   "requests.handled": "סמני כטופל",
+
+  //legal
+  "legal.title": "תנאי השימוש",
+
+  // Search & Filter
+"common.search": "חיפוש חופשי...",
+"common.filter": "סינון",
+"common.sort": "מיון",
+"common.reset": "איפוס",
+"common.apply": "החל",
+"common.results": "{count} תוצאות",
+"common.sortNewest": "חדש לישן",
+"common.sortOldest": "ישן לחדש",
+"common.all": "הכל",
+
+// carrier
+"carrier.state": "מצב",
+"carrier.type": "סוג",
+"carrier.brand": "מותג",
+"carrier.volunteer": "מתנדבת",
+"carrier.color": "צבע",
 
   // Common
   "common.edit": "עריכה",

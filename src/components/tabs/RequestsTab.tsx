@@ -96,10 +96,10 @@ export default function RequestsTab() {
 
   const clientName = (id: string) => clients.find((c) => c.id === id)?.name ?? id;
   const volunteerName = (id: string) => volunteers.find((v) => v.id === id)?.name ?? id;
-  const volunteerPhone = (id: string) => volunteers.find((v) => v.id === id)?.phone ?? id;
+  const clientPhone = (id: string) => clients.find((v) => v.id === id)?.phone ?? id;
   const openWhatsApp = (request: CarrierRequest) => {
     const msg = buildWhatsAppMessage(request, clientName(request.clientId));
-    window.open(`https://wa.me/${volunteerPhone(request.handledBy)}?text=${msg}`, "_blank");
+    window.open(`https://wa.me/${clientPhone(request.clientId)}?text=${msg}`, "_blank");
   };
   if (loading) return null;
 
