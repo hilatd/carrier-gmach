@@ -108,5 +108,29 @@ export const he = {
   "common.noResults": "אין תוצאות",
   "common.paid": "שולם",
   "common.unpaid": "לא שולם",
-  "common.whatsapp": "שלחי וואטסאפ"
+  "common.whatsapp": "שלחי וואטסאפ",
+
+  // Actions
+"action.new": "השאלה חדשה",
+"action.edit": "עריכת השאלה",
+"action.client": "משאילה",
+"action.carrier": "מנשא",
+"action.status": "סטטוס",
+"action.takenFrom": "נלקח מ",
+"action.lastContactBy": "קשר אחרון ע״י",
+"action.dateReturned": "תאריך החזרה",
+"action.paid": "שולם",
+"action.notes": "הערות",
+"action.select.client": "בחרי משאילה",
+"action.select.carrier": "בחרי מנשא",
+"action.select.volunteer": "בחרי מתנדבת",
+"action.returnDate": "החזרה: {date}",
+"action.takenFromLabel": "נלקח מ: {name}",
+
+// Action Statuses
+"action.status.open": "פתוח",
+"action.status.lending": "בהשאלה",
+"action.status.returned": "הוחזר",
+"action.status.waiting_list": "רשימת המתנה",
+"action.status.closed": "סגור",
 };

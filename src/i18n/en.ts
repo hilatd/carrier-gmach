@@ -109,5 +109,29 @@ export const en = {
   "common.noResults": "No results",
   "common.paid": "Paid",
   "common.unpaid": "Unpaid",
-  "common.whatsApp": "WhatsApp"
+  "common.whatsapp": "Send WhatsApp",
+
+  // Actions
+"action.new": "New Loan",
+"action.edit": "Edit Loan",
+"action.client": "Client",
+"action.carrier": "Carrier",
+"action.status": "Status",
+"action.takenFrom": "Taken From",
+"action.lastContactBy": "Last Contact By",
+"action.dateReturned": "Return Date",
+"action.paid": "Paid",
+"action.notes": "Notes",
+"action.select.client": "Select client",
+"action.select.carrier": "Select carrier",
+"action.select.volunteer": "Select volunteer",
+"action.returnDate": "Return: {date}",
+"action.takenFromLabel": "From: {name}",
+
+// Action Statuses
+"action.status.open": "Open",
+"action.status.lending": "On Loan",
+"action.status.returned": "Returned",
+"action.status.waiting_list": "Waiting List",
+"action.status.closed": "Closed",
 };
