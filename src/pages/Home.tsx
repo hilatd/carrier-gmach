@@ -2,6 +2,7 @@ import { Box, Heading, Text, SimpleGrid, VStack, Icon, useColorModeValue } from 
 import { EditIcon, PhoneIcon, StarIcon } from "@chakra-ui/icons";
 import { useIntl } from "react-intl";
 import RequestForm from "../components/RequestForm";
+import CarrierCatalog from "../components/CarrierCatalog";
 
 export default function Home() {
   const { formatMessage: t } = useIntl();
@@ -14,7 +15,7 @@ export default function Home() {
       {/* Hero */}
       <Box bg={heroBg} color="white" textAlign="center" py={16} px={6}>
         <Heading size="2xl" mb={3}>
-          🤱 {t({ id: "home.subtitle" })}
+          {t({ id: "home.subtitle" })}
         </Heading>
         <Text fontSize="sm" maxW="480px" mx="auto">
          {t({id:"home.desc"}, { br: <br /> })}
@@ -43,6 +44,9 @@ export default function Home() {
       {/* Request Form */}
       <Box pb={16} px={6}>
         <RequestForm />
+      </Box>
+      <Box>
+        <CarrierCatalog />
       </Box>
     </Box>
   );
