@@ -90,6 +90,7 @@ export const en = {
 "carrier.waitingList": "Loan Waiting List",
 "carrier.historyEmpty": "No past loans",
 "carrier.viewAction": "View",
+"carrier.deleteConfirm": "Are you sure you want to delete this carrier? All related loans will also be removed.",
 
 //Carrier Availabality
 "carrier.availabality": "Availability",
@@ -116,6 +117,7 @@ export const en = {
   // Common
   "common.edit": "Edit",
   "common.save": "Save",
+  "common.delete": "Delete",
   "common.cancel": "Cancel",
   "common.add": "Add",
   "common.loading": "Loading...",
