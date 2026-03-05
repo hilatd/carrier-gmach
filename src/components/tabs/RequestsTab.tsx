@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 import EditModal from "../EditModal";
 import { useIntl } from "react-intl";
+import { useCurrentVolunteer } from "../../hooks/useCurrentVolunteer";
 
 const STATUS_COLORS: Record<RequestStatus, string> = {
   open: "purple",
@@ -44,22 +45,20 @@ const empty: Omit<CarrierRequest, "id"> = {
   updatedAt: Date.now(),
 };
 
-function buildWhatsAppMessage(request: CarrierRequest, clientName: string): string {
+function buildWhatsAppMessage(volunteer: Volunteer, clientName: string): string {
   return encodeURIComponent(
-    `🤱 בקשה חדשה בגמ״ח מנשאים!
-
-👤 שם: ${request.clientId}
-📞 טלפון: ${clientName}
-👶 גיל תינוק: ${request.babyAge}
-🎽 סוג מנשא: ${request.carriersRequested}
-📝 הערות: ${request.notes || "אין"}
-
-נא לצור קשר בהקדם 💜`
+    `היי  ${clientName}
+נעים מאוד, אני ${volunteer.name},
+ מתנדבת מגמ"ח המנשאים הקהילתי - ירושלים 🦘
+עברתי עכשיו על הפנייה שהשארת לנו.
+זה עדיין רלוונטי לכם?/n
+אם כן, אני כאן כדי לייעץ, לענות על שאלות ולהפנות אותך לתיאום איסוף🤍`
   );
 }
 
 export default function RequestsTab() {
   const { formatMessage: t} = useIntl();
+  const currentVolunteer = useCurrentVolunteer();
   const { data: requests, loading } = useCollection<CarrierRequest>("requests");
   const { data: clients } = useCollection<Client>("clients");
   const { data: volunteers } = useCollection<Volunteer>("volunteers");
@@ -98,9 +97,10 @@ export default function RequestsTab() {
   const volunteerName = (id: string) => volunteers.find((v) => v.id === id)?.name ?? id;
   const clientPhone = (id: string) => clients.find((v) => v.id === id)?.phone ?? id;
   const openWhatsApp = (request: CarrierRequest) => {
-    const msg = buildWhatsAppMessage(request, clientName(request.clientId));
-    window.open(`https://wa.me/${clientPhone(request.clientId)}?text=${msg}`, "_blank");
-  };
+  if (!currentVolunteer) return;
+  const msg = buildWhatsAppMessage(currentVolunteer, clientName(request.clientId));
+  window.open(`https://wa.me/${clientPhone(request.clientId)}?text=${msg}`, "_blank");
+};
   if (loading) return null;
 
   return (
@@ -136,7 +136,6 @@ export default function RequestsTab() {
             <HStack>
               <Button
                 size="sm"
-                colorScheme="whatsapp"
                 onClick={() => openWhatsApp(r)}
                 leftIcon={<span>💬</span>}
               >

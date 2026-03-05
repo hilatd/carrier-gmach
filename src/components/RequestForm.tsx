@@ -18,6 +18,7 @@ import {
   Checkbox,
   Link,
 } from "@chakra-ui/react";
+import { sendConfirmationEmail } from "../utils/sendConfirmationEmail";
 
 export default function RequestForm() {
   const { formatMessage: t } = useIntl();
@@ -62,6 +63,7 @@ export default function RequestForm() {
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     setLoading(true);
+    try {
     const client: Client = {
       address: "",
       name: form.name,
@@ -84,7 +86,18 @@ export default function RequestForm() {
     };
     await addDoc(collection(db, "requests"), request);
     setSubmitted(true);
+    // 3 — send confirmation email
+    await sendConfirmationEmail({
+      name: form.name,
+      email: form.email,
+    });
+    } catch (err) {
+    console.error("Submission error:", err);
+    // still show success if only email failed
+    setSubmitted(true);
+  } finally {
     setLoading(false);
+  }
   };
 
   if (submitted)
