@@ -127,6 +127,23 @@ export const en = {
   "carrier.state.damaged": "Damaged",
   "carrier.state.for_sell": "For Sale",
   "carrier.state.maintenance": "In Maintenance",
+  // Clients
+  "client.new": "New Client",
+  "client.edit": "Edit Client",
+  "client.name": "Name",
+  "client.phone": "Phone",
+  "client.email": "Email",
+  "client.address": "Address",
+  "client.add": "Add Client",
+
+  // Volunteers
+  "volunteer.new": "New Volunteer",
+  "volunteer.edit": "Edit Volunteer",
+  "volunteer.name": "Name",
+  "volunteer.phone": "Phone",
+  "volunteer.email": "Email",
+  "volunteer.address": "Address",
+  "volunteer.add": "Add Volunteer",
 
   // Common
   "common.edit": "Edit",

@@ -127,6 +127,24 @@ export const he = {
   "carrier.state.for_sell": "למכירה",
   "carrier.state.maintenance": "בתיקון",
 
+  // Clients
+  "client.new": "שואלת חדשה",
+  "client.edit": "עריכת שואלת",
+  "client.name": "שם",
+  "client.phone": "טלפון",
+  "client.email": "אימייל",
+  "client.address": "כתובת",
+  "client.add": "הוסיפי שואלת",
+
+  // Volunteers
+  "volunteer.new": "מתנדבת חדשה",
+  "volunteer.edit": "עריכת מתנדבת",
+  "volunteer.name": "שם",
+  "volunteer.phone": "טלפון",
+  "volunteer.email": "אימייל",
+  "volunteer.address": "כתובת",
+  "volunteer.add": "הוסיפי מתנדבת",
+
   // Common
   "common.edit": "עריכה",
   "common.save": "שמרי",
