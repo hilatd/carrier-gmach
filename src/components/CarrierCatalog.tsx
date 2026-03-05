@@ -1,8 +1,18 @@
 import { useIntl } from "react-intl";
 import {
-  Box, Grid, GridItem, Heading, Text, Badge,
-  VStack, HStack, List, ListItem, ListIcon,
-  useColorModeValue, Divider,
+  Box,
+  Grid,
+  GridItem,
+  Heading,
+  Text,
+  Badge,
+  VStack,
+  HStack,
+  List,
+  ListItem,
+  ListIcon,
+  useColorModeValue,
+  Divider,
 } from "@chakra-ui/react";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
@@ -37,7 +47,7 @@ const CARRIERS: CarrierInfo[] = [
     key: "rings",
     color: "orange",
     imageUrl: "src/assets/images/ring-sling.png",
-    },
+  },
   {
     key: "accessories",
     color: "teal",
@@ -81,8 +91,7 @@ function CarrierCard({ carrier }: { carrier: CarrierInfo }) {
           justifyContent="center"
           fontSize="20px"
           boxShadow="sm"
-        >
-        </Box>
+        ></Box>
       </Box>
 
       {/* Content */}
@@ -147,9 +156,7 @@ export default function CarrierCatalog() {
   return (
     <Box bg={sectionBg} py={16} px={6}>
       <VStack spacing={3} mb={10} textAlign="center">
-        <Heading size="lg">
-          {t({ id: "catalog.title" })}
-        </Heading>
+        <Heading size="lg">{t({ id: "catalog.title" })}</Heading>
         <Text color="gray.500" maxW="560px">
           {t({ id: "catalog.subtitle" })}
         </Text>

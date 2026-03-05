@@ -7,9 +7,20 @@ import { useFilterSort } from "../../hooks/useFilterSort";
 import { useIntl } from "react-intl";
 import CarrierActionInfo from "../carriers/CarrierActionInfo";
 import {
-  Badge, Box, Button, FormControl, FormLabel,
-  HStack, Input, Select, SimpleGrid, Text, Textarea,
-  useColorModeValue, useDisclosure, VStack,
+  Badge,
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  HStack,
+  Input,
+  Select,
+  SimpleGrid,
+  Text,
+  Textarea,
+  useColorModeValue,
+  useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
 import EditModal from "../EditModal";
 import SearchBar from "../search/SearchBar";
@@ -45,42 +56,50 @@ export default function CarriersTab() {
   const { isOpen: isFilterOpen, onOpen: onFilterOpen, onClose: onFilterClose } = useDisclosure();
   const bg = useColorModeValue("white", "gray.800");
 
-  const volunteerName = (id: string) =>
-    volunteers.find((v) => v.id === id)?.name ?? "";
+  const volunteerName = (id: string) => volunteers.find((v) => v.id === id)?.name ?? "";
 
   const uniqueBrands = useMemo(
     () => [...new Set(carriers.map((c) => c.brand).filter(Boolean))],
     [carriers]
   );
   // current = most recent non-closed/returned action for this carrier
-  const currentLendingAction =(carrierId: string) =>
+  const currentLendingAction = (carrierId: string) =>
     actions
       .filter((a) => a.carrierId === carrierId && a.status === "lending")
       .sort((a, b) => b.createdAt - a.createdAt)[0] ?? null;
-  
-  const matchCarrierAvilability= (availability: string, carrierId:string)=>{
-    if (availability==='all') return true;
+
+  const matchCarrierAvilability = (availability: string, carrierId: string) => {
+    if (availability === "all") return true;
     const isLending = currentLendingAction(carrierId) !== null;
-    return availability === 'available' ? !isLending : isLending;
-  }
+    return availability === "available" ? !isLending : isLending;
+  };
 
   const {
-    filtered, search, setSearch,
-    sortOrder, setSortOrder,
-    pendingFilters, setPendingFilters,
-    activeFilterCount, applyFilters, resetFilters,
+    filtered,
+    search,
+    setSearch,
+    sortOrder,
+    setSortOrder,
+    pendingFilters,
+    setPendingFilters,
+    activeFilterCount,
+    applyFilters,
+    resetFilters,
   } = useFilterSort<Carrier>(carriers, {
     searchFields: (c) => [
       t({ id: `carrier.type.${c.type}` }),
       t({ id: `carrier.state.${c.state}` }),
-      c.brand, c.model, c.color, c.notes,
+      c.brand,
+      c.model,
+      c.color,
+      c.notes,
       volunteerName(c.volunteerId ?? ""),
     ],
     filters: [
-      { key: "state",       match: (c, v) => c.state === v },
-      { key: "type",        match: (c, v) => c.type === v },
-      { key: "brand",       match: (c, v) => c.brand === v },
-      { key: "model",       match: (c, v) => c.model === v },
+      { key: "state", match: (c, v) => c.state === v },
+      { key: "type", match: (c, v) => c.type === v },
+      { key: "brand", match: (c, v) => c.brand === v },
+      { key: "model", match: (c, v) => c.model === v },
       { key: "volunteerId", match: (c, v) => c.volunteerId === v },
       { key: "availabality", match: (c, v) => matchCarrierAvilability(v, c.id || "") },
     ],
@@ -130,26 +149,26 @@ export default function CarriersTab() {
       {/* Cards */}
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
         {filtered.map((c) => (
-        <Box key={c.id} bg={bg} p={5} borderRadius="xl" boxShadow="md">
-          <Text fontWeight="bold" fontSize="lg">
-            {t({ id: `carrier.type.${c.type}` })}: {c.brand} — {c.model}
-          </Text>
-          <Text>🎨 {c.color}</Text>
-          {c.volunteerId && <Text>👤 {volunteerName(c.volunteerId)}</Text>}
-          {c.notes && <Text fontSize="sm" color="gray.500">📝 {c.notes}</Text>}
-          <Badge mt={2} colorScheme={stateColor[c.state]}>
-            {t({ id: `carrier.state.${c.state}` })}
-          </Badge>
-          <CarrierActionInfo
-            carrierId={c.id!}
-            actions={actions}
-            clients={clients}
-          />
-          <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(c)}>
-            {t({ id: "common.edit" })}
-          </Button>
-        </Box>
-      ))}
+          <Box key={c.id} bg={bg} p={5} borderRadius="xl" boxShadow="md">
+            <Text fontWeight="bold" fontSize="lg">
+              {t({ id: `carrier.type.${c.type}` })}: {c.brand} — {c.model}
+            </Text>
+            <Text>🎨 {c.color}</Text>
+            {c.volunteerId && <Text>👤 {volunteerName(c.volunteerId)}</Text>}
+            {c.notes && (
+              <Text fontSize="sm" color="gray.500">
+                📝 {c.notes}
+              </Text>
+            )}
+            <Badge mt={2} colorScheme={stateColor[c.state]}>
+              {t({ id: `carrier.state.${c.state}` })}
+            </Badge>
+            <CarrierActionInfo carrierId={c.id!} actions={actions} clients={clients} />
+            <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(c)}>
+              {t({ id: "common.edit" })}
+            </Button>
+          </Box>
+        ))}
       </SimpleGrid>
 
       {filtered.length === 0 && (
@@ -162,8 +181,14 @@ export default function CarriersTab() {
       <FilterDrawer
         isOpen={isFilterOpen}
         onClose={onFilterClose}
-        onApply={() => { applyFilters(); onFilterClose(); }}
-        onReset={() => { resetFilters(); onFilterClose(); }}
+        onApply={() => {
+          applyFilters();
+          onFilterClose();
+        }}
+        onReset={() => {
+          resetFilters();
+          onFilterClose();
+        }}
         activeFilterCount={activeFilterCount}
       >
         <SortControl value={sortOrder} onChange={setSortOrder} />
@@ -172,9 +197,9 @@ export default function CarriersTab() {
           value={pendingFilters["availabality"] ?? ""}
           onChange={(v) => setPendingFilters({ ...pendingFilters, availabality: v })}
           options={[
-            {value: 'all', label: t({id: 'carrier.availabality.all'})},
-            {value: 'available', label: t({id: 'carrier.availabality.available'})},
-            {value: 'lended', label: t({id:'carrier.availabality.no'})},
+            { value: "all", label: t({ id: "carrier.availabality.all" }) },
+            { value: "available", label: t({ id: "carrier.availabality.available" }) },
+            { value: "lended", label: t({ id: "carrier.availabality.no" }) },
           ]}
         />
         <FilterSelect
@@ -279,7 +304,9 @@ export default function CarriersTab() {
             >
               <option value="">{t({ id: "common.all" })}</option>
               {volunteers.map((v) => (
-                <option key={v.id} value={v.id}>{v.name}</option>
+                <option key={v.id} value={v.id}>
+                  {v.name}
+                </option>
               ))}
             </Select>
           </FormControl>

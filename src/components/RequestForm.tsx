@@ -64,46 +64,46 @@ export default function RequestForm() {
     e.preventDefault();
     setLoading(true);
     try {
-    const client: Client = {
-      address: "",
-      name: form.name,
-      phone: form.phone,
-      email: form.email,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-    };
-    const clientId = await addOrGetClient(client);
-    const request: CarrierRequest = {
-      ...form,
-      clientId,
-      status: "open",
-      createdAt: Date.now(),
-      babyWeight: "",
-      carriersRequested: "",
-      source: "",
-      handledBy: "",
-      updatedAt: 0,
-    };
-    await addDoc(collection(db, "requests"), request);
-    setSubmitted(true);
-    // 3 — send confirmation email
-    await sendConfirmationEmail({
-      name: form.name,
-      email: form.email,
-    });
+      const client: Client = {
+        address: "",
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      };
+      const clientId = await addOrGetClient(client);
+      const request: CarrierRequest = {
+        ...form,
+        clientId,
+        status: "open",
+        createdAt: Date.now(),
+        babyWeight: "",
+        carriersRequested: "",
+        source: "",
+        handledBy: "",
+        updatedAt: 0,
+      };
+      await addDoc(collection(db, "requests"), request);
+      setSubmitted(true);
+      // 3 — send confirmation email
+      await sendConfirmationEmail({
+        name: form.name,
+        email: form.email,
+      });
     } catch (err) {
-    console.error("Submission error:", err);
-    // still show success if only email failed
-    setSubmitted(true);
-  } finally {
-    setLoading(false);
-  }
+      console.error("Submission error:", err);
+      // still show success if only email failed
+      setSubmitted(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted)
     return (
       <Text textAlign="center" fontSize="xl" color="brand.500" py={12}>
-        {t({id:"form.success"})}
+        {t({ id: "form.success" })}
       </Text>
     );
 
@@ -119,41 +119,41 @@ export default function RequestForm() {
       boxShadow="lg"
     >
       <Heading size="md" mb={6} textAlign="center">
-        {t({id:"form.title"})}
+        {t({ id: "form.title" })}
       </Heading>
       <VStack spacing={4}>
         <FormControl isRequired>
-          <FormLabel>{t({id:"form.parentName"})}</FormLabel>
+          <FormLabel>{t({ id: "form.parentName" })}</FormLabel>
           <Input name="name" value={form.name} onChange={handleChange} />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>{t({id:"form.phone"})}</FormLabel>
+          <FormLabel>{t({ id: "form.phone" })}</FormLabel>
           <Input type="phone" name="phone" value={form.phone} onChange={handleChange} />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>{t({id:"form.email"})}</FormLabel>
+          <FormLabel>{t({ id: "form.email" })}</FormLabel>
           <Input type="email" name="email" value={form.email} onChange={handleChange} />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>{t({id: "form.babyAge"})}</FormLabel>
+          <FormLabel>{t({ id: "form.babyAge" })}</FormLabel>
           <Input
             name="babyAge"
-            placeholder={t({id: "form.babyAge.placeholder"})}
+            placeholder={t({ id: "form.babyAge.placeholder" })}
             value={form.babyAge}
             onChange={handleChange}
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>{t({id: "form.babyWeight"})}</FormLabel>
+          <FormLabel>{t({ id: "form.babyWeight" })}</FormLabel>
           <Input
             name="babyWeight"
-            placeholder={t({id: "form.babyWeight.placeholder"})}
+            placeholder={t({ id: "form.babyWeight.placeholder" })}
             value={form.babyWeight}
             onChange={handleChange}
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>{t({id: "form.experience"})}</FormLabel>
+          <FormLabel>{t({ id: "form.experience" })}</FormLabel>
           <Input
             name="carriersExperience"
             placeholder=""
@@ -162,7 +162,7 @@ export default function RequestForm() {
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>{t({id: "form.carrierType"})}</FormLabel>
+          <FormLabel>{t({ id: "form.carrierType" })}</FormLabel>
           <Input
             name="carriersRequested"
             placeholder=""
@@ -171,47 +171,46 @@ export default function RequestForm() {
           />
         </FormControl>
         <FormControl>
-          <FormLabel>{t({id: "form.source"})}</FormLabel>
+          <FormLabel>{t({ id: "form.source" })}</FormLabel>
           <Select
             name="source"
             value={form.source}
             onChange={handleChange}
-            placeholder={t({id: "form.source.options.placeholder"})}
+            placeholder={t({ id: "form.source.options.placeholder" })}
           >
-            <option value="facebook">{t({id: "form.source.options.facebook"})}</option>
-            <option value="carryWithLove">{t({id: "form.source.options.carrierGroup"})}</option>
-            <option value="whatsapp">{t({id: "form.source.options.whatsapp"})}</option>
-            <option value="friend">{t({id: "form.source.options.friend"})}</option>
-            <option value="other">{t({id: "form.source.options.other"})}</option>
+            <option value="facebook">{t({ id: "form.source.options.facebook" })}</option>
+            <option value="carryWithLove">{t({ id: "form.source.options.carrierGroup" })}</option>
+            <option value="whatsapp">{t({ id: "form.source.options.whatsapp" })}</option>
+            <option value="friend">{t({ id: "form.source.options.friend" })}</option>
+            <option value="other">{t({ id: "form.source.options.other" })}</option>
           </Select>
         </FormControl>
         <FormControl>
-          <FormLabel>{t({id: "form.notes"})}</FormLabel>
+          <FormLabel>{t({ id: "form.notes" })}</FormLabel>
           <Textarea name="notes" value={form.notes} onChange={handleChange} rows={3} />
         </FormControl>
         <FormControl isRequired>
-         <Checkbox
-    isRequired
-    isChecked={form.legal}
-    onChange={(e) => setForm({ ...form, legal: e.target.checked })}
-  >
-    <Text as="span" fontSize="sm">
-      {t({ id: "form.agreement.prefix" })}{" "}
-      <Link
-        href="/legal"
-        target="_blank"
-        rel="noopener noreferrer"
-        color="brand.500"
-        textDecoration="underline"
-      >
-        {t({ id: "form.agreement.link" })}
-      </Link>
-    </Text>
-  </Checkbox>
-
+          <Checkbox
+            isRequired
+            isChecked={form.legal}
+            onChange={(e) => setForm({ ...form, legal: e.target.checked })}
+          >
+            <Text as="span" fontSize="sm">
+              {t({ id: "form.agreement.prefix" })}{" "}
+              <Link
+                href="/legal"
+                target="_blank"
+                rel="noopener noreferrer"
+                color="brand.500"
+                textDecoration="underline"
+              >
+                {t({ id: "form.agreement.link" })}
+              </Link>
+            </Text>
+          </Checkbox>
         </FormControl>
         <Button type="submit" isLoading={loading} width="full" size="lg">
-          {t({id: "form.submit"})}
+          {t({ id: "form.submit" })}
         </Button>
       </VStack>
     </Box>

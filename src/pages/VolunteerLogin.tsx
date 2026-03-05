@@ -40,14 +40,14 @@ export default function VolunteerLogin() {
       const volunteer = await isVolunteer(email);
       if (!volunteer) {
         await signOut(auth);
-        setError(t({id: "volunteerLogin.error"}));
+        setError(t({ id: "volunteerLogin.error" }));
         setLoading(false);
         return;
       }
 
       navigate("/dashboard");
     } catch {
-      setError(t({id: "volunteerLogin.failure"}));
+      setError(t({ id: "volunteerLogin.failure" }));
     }
     setLoading(false);
   };

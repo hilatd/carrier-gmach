@@ -57,7 +57,7 @@ function buildWhatsAppMessage(volunteer: Volunteer, clientName: string): string 
 }
 
 export default function RequestsTab() {
-  const { formatMessage: t} = useIntl();
+  const { formatMessage: t } = useIntl();
   const currentVolunteer = useCurrentVolunteer();
   const { data: requests, loading } = useCollection<CarrierRequest>("requests");
   const { data: clients } = useCollection<Client>("clients");
@@ -97,10 +97,10 @@ export default function RequestsTab() {
   const volunteerName = (id: string) => volunteers.find((v) => v.id === id)?.name ?? id;
   const clientPhone = (id: string) => clients.find((v) => v.id === id)?.phone ?? id;
   const openWhatsApp = (request: CarrierRequest) => {
-  if (!currentVolunteer) return;
-  const msg = buildWhatsAppMessage(currentVolunteer, clientName(request.clientId));
-  window.open(`https://wa.me/${clientPhone(request.clientId)}?text=${msg}`, "_blank");
-};
+    if (!currentVolunteer) return;
+    const msg = buildWhatsAppMessage(currentVolunteer, clientName(request.clientId));
+    window.open(`https://wa.me/${clientPhone(request.clientId)}?text=${msg}`, "_blank");
+  };
   if (loading) return null;
 
   return (
@@ -134,21 +134,17 @@ export default function RequestsTab() {
               </Text>
             )}
             <HStack>
-              <Button
-                size="sm"
-                onClick={() => openWhatsApp(r)}
-                leftIcon={<span>💬</span>}
-              >
-                {t({id: "common.whatsapp"})}
+              <Button size="sm" onClick={() => openWhatsApp(r)} leftIcon={<span>💬</span>}>
+                {t({ id: "common.whatsapp" })}
               </Button>
               {r.status === "open" && (
                 <Button size="sm" onClick={() => markHandled(r)}>
-                 {t({id: "requests.handled"})}
+                  {t({ id: "requests.handled" })}
                 </Button>
               )}
             </HStack>
             <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(r)}>
-              {t({id: "common.edit"})}
+              {t({ id: "common.edit" })}
             </Button>
           </Box>
         ))}

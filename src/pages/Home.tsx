@@ -18,14 +18,14 @@ export default function Home() {
           {t({ id: "home.subtitle" })}
         </Heading>
         <Text fontSize="sm" maxW="480px" mx="auto">
-         {t({id:"home.desc"}, { br: <br /> })}
+          {t({ id: "home.desc" }, { br: <br /> })}
         </Text>
       </Box>
 
       {/* How it works */}
       <Box py={12} px={6} textAlign="center">
         <Heading size="lg" mb={8}>
-         {t({id:"home.how"})}
+          {t({ id: "home.how" })}
         </Heading>
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} maxW="700px" mx="auto">
           {[
@@ -35,7 +35,7 @@ export default function Home() {
           ].map((step, i) => (
             <VStack key={i} bg={sectionBg} p={6} borderRadius="xl" boxShadow="md" spacing={2}>
               <Icon as={step.icon} boxSize={7} color="brand.500" />
-              <Text fontWeight="bold">{t({id: step.title})}</Text>
+              <Text fontWeight="bold">{t({ id: step.title })}</Text>
             </VStack>
           ))}
         </SimpleGrid>

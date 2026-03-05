@@ -2,9 +2,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "../hooks/useAuthState";
 import {
-  Box, Flex, Heading, Text,
-  useColorModeValue, useBreakpointValue,
-  Tabs, TabList, Tab, TabPanels, TabPanel,
+  Box,
+  Flex,
+  Heading,
+  Text,
+  useColorModeValue,
+  useBreakpointValue,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
 } from "@chakra-ui/react";
 import RequestsTab from "../components/tabs/RequestsTab";
 import ActionsTab from "../components/tabs/ActionsTab";
@@ -15,9 +23,9 @@ import { useIntl } from "react-intl";
 
 const TABS = [
   { emoji: "📋", labelId: "dashboard.requests" },
-  { emoji: "📦", labelId: "dashboard.actions"  },
+  { emoji: "📦", labelId: "dashboard.actions" },
   { emoji: "🎽", labelId: "dashboard.carriers" },
-  { emoji: "👤", labelId: "dashboard.clients"  },
+  { emoji: "👤", labelId: "dashboard.clients" },
   { emoji: "🙋", labelId: "dashboard.volunteers" },
 ];
 
@@ -28,12 +36,12 @@ export default function Dashboard() {
   const [tabIndex, setTabIndex] = useState(0);
 
   // ── All hooks at the top, no conditions ──
-  const bg           = useColorModeValue("gray.50",  "gray.900");
-  const navBg        = useColorModeValue("white",    "gray.800");
-  const activeCol    = useColorModeValue("brand.500","brand.300");
-  const inactiveCol  = useColorModeValue("gray.400", "gray.500");
-  const borderCol    = useColorModeValue("gray.200", "gray.700");
-  const isMobile     = useBreakpointValue({ base: true, md: false });
+  const bg = useColorModeValue("gray.50", "gray.900");
+  const navBg = useColorModeValue("white", "gray.800");
+  const activeCol = useColorModeValue("brand.500", "brand.300");
+  const inactiveCol = useColorModeValue("gray.400", "gray.500");
+  const borderCol = useColorModeValue("gray.200", "gray.700");
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   useEffect(() => {
     if (!loading && !user) navigate("/login");
@@ -56,11 +64,21 @@ export default function Dashboard() {
               ))}
             </TabList>
             <TabPanels>
-              <TabPanel p={0}><RequestsTab /></TabPanel>
-              <TabPanel p={0}><ActionsTab /></TabPanel>
-              <TabPanel p={0}><CarriersTab /></TabPanel>
-              <TabPanel p={0}><ClientsTab /></TabPanel>
-              <TabPanel p={0}><VolunteersTab /></TabPanel>
+              <TabPanel p={0}>
+                <RequestsTab />
+              </TabPanel>
+              <TabPanel p={0}>
+                <ActionsTab />
+              </TabPanel>
+              <TabPanel p={0}>
+                <CarriersTab />
+              </TabPanel>
+              <TabPanel p={0}>
+                <ClientsTab />
+              </TabPanel>
+              <TabPanel p={0}>
+                <VolunteersTab />
+              </TabPanel>
             </TabPanels>
           </Tabs>
         </Box>
@@ -104,7 +122,9 @@ export default function Dashboard() {
                 color={tabIndex === i ? activeCol : inactiveCol}
                 transition="color 0.15s"
               >
-                <Text fontSize="22px" lineHeight={1}>{tab.emoji}</Text>
+                <Text fontSize="22px" lineHeight={1}>
+                  {tab.emoji}
+                </Text>
                 <Text
                   fontSize="10px"
                   fontWeight={tabIndex === i ? "bold" : "normal"}

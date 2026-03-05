@@ -1,7 +1,10 @@
 import { FormControl, FormLabel, Select } from "@chakra-ui/react";
 import { useIntl } from "react-intl";
 
-interface Option { label: string; value: string; }
+interface Option {
+  label: string;
+  value: string;
+}
 
 interface Props {
   label: string;
@@ -21,7 +24,9 @@ export default function FilterSelect({ label, value, options, onChange }: Props)
         onChange={(e) => onChange(e.target.value)}
       >
         {options.map((o) => (
-          <option key={o.value} value={o.value}>{o.label}</option>
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
         ))}
       </Select>
     </FormControl>

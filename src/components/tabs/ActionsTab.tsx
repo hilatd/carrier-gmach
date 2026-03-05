@@ -7,9 +7,21 @@ import { useFilterSort } from "../../hooks/useFilterSort";
 import { ACTION_STATUSES, ACTION_STATUS_COLORS } from "../../utils/actionOptions";
 import { useIntl, FormattedMessage } from "react-intl";
 import {
-  Badge, Box, Button, Checkbox, FormControl, FormLabel,
-  HStack, Input, Select, SimpleGrid, Text, Textarea,
-  useColorModeValue, useDisclosure, VStack,
+  Badge,
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormLabel,
+  HStack,
+  Input,
+  Select,
+  SimpleGrid,
+  Text,
+  Textarea,
+  useColorModeValue,
+  useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
 import EditModal from "../EditModal";
 import SearchBar from "../search/SearchBar";
@@ -52,11 +64,13 @@ export default function ActionsTab() {
   const { isOpen: isFilterOpen, onOpen: onFilterOpen, onClose: onFilterClose } = useDisclosure();
   const bg = useColorModeValue("white", "gray.800");
 
-  const clientName  = (id: string) => clients.find((c) => c.id === id)?.name ?? "";
+  const clientName = (id: string) => clients.find((c) => c.id === id)?.name ?? "";
   const volunteerName = (id: string) => volunteers.find((v) => v.id === id)?.name ?? "";
   const carrierLabel = (id: string) => {
     const c = carriers.find((c) => c.id === id);
-    return c ? `${t({ id: `carrier.type.${c.type}` })}: ${c.brand} - ${c.model || ""}  (${c.color})` : "";
+    return c
+      ? `${t({ id: `carrier.type.${c.type}` })}: ${c.brand} - ${c.model || ""}  (${c.color})`
+      : "";
   };
 
   const uniqueClients = useMemo(
@@ -65,10 +79,16 @@ export default function ActionsTab() {
   );
 
   const {
-    filtered, search, setSearch,
-    sortOrder, setSortOrder,
-    pendingFilters, setPendingFilters,
-    activeFilterCount, applyFilters, resetFilters,
+    filtered,
+    search,
+    setSearch,
+    sortOrder,
+    setSortOrder,
+    pendingFilters,
+    setPendingFilters,
+    activeFilterCount,
+    applyFilters,
+    resetFilters,
   } = useFilterSort<Action>(actions, {
     searchFields: (a) => [
       clientName(a.clientId),
@@ -79,15 +99,20 @@ export default function ActionsTab() {
       a.notes,
     ],
     filters: [
-      { key: "status",   match: (a, v) => a.status === v },
+      { key: "status", match: (a, v) => a.status === v },
       { key: "clientId", match: (a, v) => a.clientId === v },
-      { key: "paid",     match: (a, v) => String(a.paid) === v },
+      { key: "paid", match: (a, v) => String(a.paid) === v },
       { key: "takenFrom", match: (a, v) => a.takenFrom === v },
     ],
   });
 
   const openNew = () => {
-    setForm({ ...empty, dateReturned: defaultReturnDate(), createdAt: Date.now(), updatedAt: Date.now() });
+    setForm({
+      ...empty,
+      dateReturned: defaultReturnDate(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    });
     setEditId(null);
     onEditOpen();
   };
@@ -139,7 +164,9 @@ export default function ActionsTab() {
             borderRightWidth={4}
             borderRightColor={`${ACTION_STATUS_COLORS[a.status]}.400`}
           >
-            <Text fontWeight="bold" fontSize="lg">{clientName(a.clientId)}</Text>
+            <Text fontWeight="bold" fontSize="lg">
+              {clientName(a.clientId)}
+            </Text>
 
             <Badge colorScheme={ACTION_STATUS_COLORS[a.status]} mb={2}>
               {t({ id: `action.status.${a.status}` })}
@@ -148,14 +175,22 @@ export default function ActionsTab() {
             <Text>🎽 {carrierLabel(a.carrierId)}</Text>
 
             <Text>
-              📅 <FormattedMessage
+              📅{" "}
+              <FormattedMessage
                 id="action.returnDate"
-                values={{ date: formatDate(a.dateReturned, { day: "2-digit", month: "2-digit", year: "numeric" }) }}
+                values={{
+                  date: formatDate(a.dateReturned, {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  }),
+                }}
               />
             </Text>
 
             <Text>
-              👤 <FormattedMessage
+              👤{" "}
+              <FormattedMessage
                 id="action.takenFromLabel"
                 values={{ name: volunteerName(a.takenFrom) }}
               />
@@ -166,7 +201,9 @@ export default function ActionsTab() {
             </Badge>
 
             {a.notes && (
-              <Text fontSize="sm" color="gray.500" mt={1}>📝 {a.notes}</Text>
+              <Text fontSize="sm" color="gray.500" mt={1}>
+                📝 {a.notes}
+              </Text>
             )}
 
             <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(a)}>
@@ -186,8 +223,14 @@ export default function ActionsTab() {
       <FilterDrawer
         isOpen={isFilterOpen}
         onClose={onFilterClose}
-        onApply={() => { applyFilters(); onFilterClose(); }}
-        onReset={() => { resetFilters(); onFilterClose(); }}
+        onApply={() => {
+          applyFilters();
+          onFilterClose();
+        }}
+        onReset={() => {
+          resetFilters();
+          onFilterClose();
+        }}
         activeFilterCount={activeFilterCount}
       >
         <SortControl value={sortOrder} onChange={setSortOrder} />
@@ -221,7 +264,7 @@ export default function ActionsTab() {
           value={pendingFilters["paid"] ?? ""}
           onChange={(v) => setPendingFilters({ ...pendingFilters, paid: v })}
           options={[
-            { label: t({ id: "common.paid" }),   value: "true" },
+            { label: t({ id: "common.paid" }), value: "true" },
             { label: t({ id: "common.unpaid" }), value: "false" },
           ]}
         />
@@ -244,7 +287,9 @@ export default function ActionsTab() {
             >
               <option value="">{t({ id: "action.select.client" })}</option>
               {clients.map((c) => (
-                <option key={c.id} value={c.id}>{c.name}</option>
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
               ))}
             </Select>
           </FormControl>
@@ -286,7 +331,9 @@ export default function ActionsTab() {
             >
               <option value="">{t({ id: "action.select.volunteer" })}</option>
               {volunteers.map((v) => (
-                <option key={v.id} value={v.id}>{v.name}</option>
+                <option key={v.id} value={v.id}>
+                  {v.name}
+                </option>
               ))}
             </Select>
           </FormControl>
@@ -299,7 +346,9 @@ export default function ActionsTab() {
             >
               <option value="">{t({ id: "action.select.volunteer" })}</option>
               {volunteers.map((v) => (
-                <option key={v.id} value={v.id}>{v.name}</option>
+                <option key={v.id} value={v.id}>
+                  {v.name}
+                </option>
               ))}
             </Select>
           </FormControl>

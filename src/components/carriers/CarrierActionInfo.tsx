@@ -3,9 +3,20 @@ import { useIntl, FormattedMessage } from "react-intl";
 import type { Action, Client } from "../../types";
 import { ACTION_STATUS_COLORS } from "../../utils/actionOptions";
 import {
-  Badge, Box, Button, Divider, Drawer, DrawerBody,
-  DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay,
-  HStack, Text, useColorModeValue, VStack,
+  Badge,
+  Box,
+  Button,
+  Divider,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  HStack,
+  Text,
+  useColorModeValue,
+  VStack,
 } from "@chakra-ui/react";
 
 interface Props {
@@ -21,28 +32,34 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
   const dividerColor = useColorModeValue("gray.200", "gray.600");
   const historyBg = useColorModeValue("gray.50", "gray.700");
 
-  const clientName = (id: string) =>
-    clients.find((c) => c.id === id)?.name ?? "";
+  const clientName = (id: string) => clients.find((c) => c.id === id)?.name ?? "";
 
   // current = most recent non-closed/returned action for this carrier
-  const currentAction = useMemo(() =>
-    actions
-      .filter((a) => a.carrierId === carrierId && a.status === "lending")
-      .sort((a, b) => b.createdAt - a.createdAt)[0] ?? null,
+  const currentAction = useMemo(
+    () =>
+      actions
+        .filter((a) => a.carrierId === carrierId && a.status === "lending")
+        .sort((a, b) => b.createdAt - a.createdAt)[0] ?? null,
     [actions, carrierId]
   );
 
   // history = all closed/returned actions sorted newest first
-  const historyActions = useMemo(() =>
-    actions
-      .filter((a) => a.carrierId === carrierId && (a.status === "closed" || a.status === "returned"))
-      .sort((a, b) => b.createdAt - a.createdAt),
+  const historyActions = useMemo(
+    () =>
+      actions
+        .filter(
+          (a) => a.carrierId === carrierId && (a.status === "closed" || a.status === "returned")
+        )
+        .sort((a, b) => b.createdAt - a.createdAt),
     [actions, carrierId]
   );
-  const waitingListActions = useMemo(() =>
-    actions
-      .filter((a) => a.carrierId === carrierId && (a.status === "waiting_list" || a.status === "open"))
-      .sort((a, b) => b.createdAt - a.createdAt),
+  const waitingListActions = useMemo(
+    () =>
+      actions
+        .filter(
+          (a) => a.carrierId === carrierId && (a.status === "waiting_list" || a.status === "open")
+        )
+        .sort((a, b) => b.createdAt - a.createdAt),
     [actions, carrierId]
   );
 
@@ -62,8 +79,11 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
                 👤 {clientName(currentAction.clientId)}
               </Text>
               <Text fontSize="xs" color="gray.500">
-                📅 {formatDate(currentAction.dateReturned, {
-                  day: "2-digit", month: "2-digit", year: "numeric"
+                📅{" "}
+                {formatDate(currentAction.dateReturned, {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
                 })}
               </Text>
             </VStack>
@@ -114,9 +134,7 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>
-            {t({ id: "carrier.history" })}
-          </DrawerHeader>
+          <DrawerHeader>{t({ id: "carrier.history" })}</DrawerHeader>
           <DrawerBody>
             {historyActions.length === 0 ? (
               <Text color="gray.400">{t({ id: "carrier.historyEmpty" })}</Text>
@@ -139,12 +157,15 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
                     </HStack>
 
                     <Text fontSize="sm">
-                      📅 <FormattedMessage
+                      📅{" "}
+                      <FormattedMessage
                         id="action.returnDate"
                         values={{
                           date: formatDate(a.dateReturned, {
-                            day: "2-digit", month: "2-digit", year: "numeric"
-                          })
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                          }),
                         }}
                       />
                     </Text>
@@ -161,7 +182,9 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
 
                     <Text fontSize="xs" color="gray.400" mt={2}>
                       {formatDate(a.createdAt, {
-                        day: "2-digit", month: "2-digit", year: "numeric"
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
                       })}
                     </Text>
                   </Box>
@@ -182,9 +205,7 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>
-            {t({ id: "carrier.waitingList" })}
-          </DrawerHeader>
+          <DrawerHeader>{t({ id: "carrier.waitingList" })}</DrawerHeader>
           <DrawerBody>
             {waitingListActions.length === 0 ? (
               <Text color="gray.400">{t({ id: "carrier.waitingList" })}</Text>
@@ -206,7 +227,6 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
                       </Badge>
                     </HStack>
 
-
                     {a.notes && (
                       <Text fontSize="sm" color="gray.500" mt={1}>
                         📝 {a.notes}
@@ -215,7 +235,9 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
 
                     <Text fontSize="xs" color="gray.400" mt={2}>
                       {formatDate(a.createdAt, {
-                        day: "2-digit", month: "2-digit", year: "numeric"
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
                       })}
                     </Text>
                   </Box>
