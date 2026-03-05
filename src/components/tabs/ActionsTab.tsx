@@ -56,7 +56,7 @@ export default function ActionsTab() {
   const volunteerName = (id: string) => volunteers.find((v) => v.id === id)?.name ?? "";
   const carrierLabel = (id: string) => {
     const c = carriers.find((c) => c.id === id);
-    return c ? `${c.brand} — ${t({ id: `carrier.type.${c.type}` })} (${c.color})` : "";
+    return c ? `${t({ id: `carrier.type.${c.type}` })}: ${c.brand} - ${c.model || ""}  (${c.color})` : "";
   };
 
   const uniqueClients = useMemo(
@@ -258,7 +258,7 @@ export default function ActionsTab() {
               <option value="">{t({ id: "action.select.carrier" })}</option>
               {carriers.map((c) => (
                 <option key={c.id} value={c.id}>
-                  {c.brand} — {t({ id: `carrier.type.${c.type}` })} ({c.color})
+                  {t({ id: `carrier.type.${c.type}` })}: {c.brand} - {c.model || ""} ({c.color})
                 </option>
               ))}
             </Select>

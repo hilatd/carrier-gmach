@@ -80,6 +80,7 @@ export const en = {
 "carrier.state": "State",
 "carrier.type": "Type",
 "carrier.brand": "Brand",
+"carrier.model": "Model",
 "carrier.volunteer": "Volunteer",
 "carrier.color": "Color",
 "carrier.notes": "Notes",

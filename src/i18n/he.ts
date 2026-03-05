@@ -80,6 +80,7 @@ export const he = {
 "carrier.state": "מצב",
 "carrier.type": "סוג",
 "carrier.brand": "מותג",
+"carrier.model": "דגם",
 "carrier.volunteer": "מתנדבת",
 "carrier.color": "צבע",
 "carrier.notes": "הערות",

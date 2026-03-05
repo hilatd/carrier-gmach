@@ -23,6 +23,7 @@ const empty: Omit<Carrier, "id"> = {
   type: "other",
   brand: "",
   color: "",
+  model: "",
   state: "good",
   volunteerId: "",
   notes: "",
@@ -60,13 +61,14 @@ export default function CarriersTab() {
     searchFields: (c) => [
       t({ id: `carrier.type.${c.type}` }),
       t({ id: `carrier.state.${c.state}` }),
-      c.brand, c.color, c.notes,
+      c.brand, c.model, c.color, c.notes,
       volunteerName(c.volunteerId ?? ""),
     ],
     filters: [
       { key: "state",       match: (c, v) => c.state === v },
       { key: "type",        match: (c, v) => c.type === v },
       { key: "brand",       match: (c, v) => c.brand === v },
+      { key: "model",       match: (c, v) => c.model === v },
       { key: "volunteerId", match: (c, v) => c.volunteerId === v },
     ],
   });
@@ -117,7 +119,7 @@ export default function CarriersTab() {
         {filtered.map((c) => (
         <Box key={c.id} bg={bg} p={5} borderRadius="xl" boxShadow="md">
           <Text fontWeight="bold" fontSize="lg">
-            {c.brand} — {t({ id: `carrier.type.${c.type}` })}
+            {t({ id: `carrier.type.${c.type}` })}: {c.brand} — {c.model}
           </Text>
           <Text>🎨 {c.color}</Text>
           {c.volunteerId && <Text>👤 {volunteerName(c.volunteerId)}</Text>}
@@ -218,7 +220,13 @@ export default function CarriersTab() {
               onChange={(e) => setForm({ ...form, brand: e.target.value })}
             />
           </FormControl>
-
+          <FormControl>
+            <FormLabel>{t({ id: "carrier.model" })}</FormLabel>
+            <Input
+              value={form.model}
+              onChange={(e) => setForm({ ...form, model: e.target.value })}
+            />
+          </FormControl>
           <FormControl>
             <FormLabel>{t({ id: "carrier.color" })}</FormLabel>
             <Input

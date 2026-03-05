@@ -59,6 +59,7 @@ export interface Carrier {
   id?: string;
   type: CarrierTypes;
   brand: string;
+  model: string;
   color: string;
   state: CarrierState;
   volunteerId: string;
