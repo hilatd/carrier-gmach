@@ -1,7 +1,7 @@
 import type { CarrierState, CarrierTypes } from "../types";
 
 export const CARRIER_TYPES: CarrierTypes[] = [
-  "ssc", "wrap", "ring_sling", "mei_dai", "backpack", "blanket_coat", "other"
+  "elastic", "woven_wrap", "rings", "mei_dai", "backpack", "accessories", "other"
 ];
 
 export const CARRIER_STATES: CarrierState[] = [

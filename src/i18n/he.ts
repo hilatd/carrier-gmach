@@ -92,12 +92,12 @@ export const he = {
 "carrier.viewAction": "צפייה",
 
 // Carrier Types
-"carrier.type.ssc": "מובנה (SSC)",
-"carrier.type.wrap": "עטיפה ארוגה",
-"carrier.type.ring_sling": "רינג סלינג",
-"carrier.type.mei_dai": "מיי טאי",
 "carrier.type.backpack": "ילקוט",
-"carrier.type.blanket_coat": "שמיכת עטיפה",
+"carrier.type.woven_wrap": "ארוג ארוך",
+"carrier.type.elastic": "אלסטי",
+"carrier.type.mei_dai": "מיי טאי",
+"carrier.type.rings": "טבעות",
+"carrier.type.accessories": "אביזרים",
 "carrier.type.other": "אחר",
 
 // Carrier States

@@ -1,6 +1,6 @@
 export type RequestStatus = "open" | "pending" | "handled" | "closed";
 export type ActionStatus = "open" | "lending" | "returned" | "waiting_list" | "closed";
-export type CarrierTypes = "ssc" | "wrap" | "ring_sling" | "mei_dai" | "backpack" | "blanket_coat" | "other";
+export type CarrierTypes = "backpack" | "woven_wrap" | "elastic" | "mei_dai" | "rings" | "accessories" | "other";
 export type CarrierState = "good" | "damaged" | "for_sell" | "maintenance";
 
 export interface Client {
