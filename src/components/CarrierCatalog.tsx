@@ -16,32 +16,32 @@ const CARRIERS: CarrierInfo[] = [
   {
     key: "backpack",
     color: "purple",
-    imageUrl: "public/images/backpack-carrier.png",
+    imageUrl: "src/assets/images/backpack-carrier.png",
   },
   {
     key: "woven_wrap",
     color: "blue",
-    imageUrl: "public/images/woven-wrap.png",
+    imageUrl: "src/assets/images/woven-wrap.png",
   },
   {
     key: "elastic",
     color: "pink",
-    imageUrl: "public/images/elastic-wrap.png",
+    imageUrl: "src/assets/images/elastic-wrap.png",
   },
   {
     key: "mei_dai",
     color: "green",
-    imageUrl: "public/images/mei-dai.png",
+    imageUrl: "src/assets/images/mei-dai.png",
   },
   {
     key: "rings",
     color: "orange",
-    imageUrl: "public/images/ring-sling.png",
+    imageUrl: "src/assets/images/ring-sling.png",
     },
   {
     key: "accessories",
     color: "teal",
-    imageUrl: "public/images/accessories.png",
+    imageUrl: "src/assets/images/accessories.png",
   },
 ];
 
