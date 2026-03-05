@@ -18,6 +18,7 @@ import FilterSelect from "../search/FilterSelect";
 import SortControl from "../search/SortControl";
 import ResultsCount from "../search/ResultsCount";
 import { CARRIER_TYPES, CARRIER_STATES, stateColor } from "../../utils/carrierOptions";
+import FilterRadioButton from "../search/FilterRadioButton";
 
 const empty: Omit<Carrier, "id"> = {
   type: "other",
@@ -51,6 +52,17 @@ export default function CarriersTab() {
     () => [...new Set(carriers.map((c) => c.brand).filter(Boolean))],
     [carriers]
   );
+  // current = most recent non-closed/returned action for this carrier
+  const currentLendingAction =(carrierId: string) =>
+    actions
+      .filter((a) => a.carrierId === carrierId && a.status === "lending")
+      .sort((a, b) => b.createdAt - a.createdAt)[0] ?? null;
+  
+  const matchCarrierAvilability= (availability: string, carrierId:string)=>{
+    if (availability==='all') return true;
+    const isLending = currentLendingAction(carrierId) !== null;
+    return availability === 'available' ? !isLending : isLending;
+  }
 
   const {
     filtered, search, setSearch,
@@ -70,6 +82,7 @@ export default function CarriersTab() {
       { key: "brand",       match: (c, v) => c.brand === v },
       { key: "model",       match: (c, v) => c.model === v },
       { key: "volunteerId", match: (c, v) => c.volunteerId === v },
+      { key: "availabality", match: (c, v) => matchCarrierAvilability(v, c.id || "") },
     ],
   });
 
@@ -154,7 +167,16 @@ export default function CarriersTab() {
         activeFilterCount={activeFilterCount}
       >
         <SortControl value={sortOrder} onChange={setSortOrder} />
-
+        <FilterRadioButton
+          label={t({ id: "carrier.availabality" })}
+          value={pendingFilters["availabality"] ?? ""}
+          onChange={(v) => setPendingFilters({ ...pendingFilters, availabality: v })}
+          options={[
+            {value: 'all', label: t({id: 'carrier.availabality.all'})},
+            {value: 'available', label: t({id: 'carrier.availabality.available'})},
+            {value: 'lended', label: t({id:'carrier.availabality.no'})},
+          ]}
+        />
         <FilterSelect
           label={t({ id: "carrier.type" })}
           value={pendingFilters["type"] ?? ""}

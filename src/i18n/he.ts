@@ -1,7 +1,7 @@
 export const he = {
   // Navbar
   "nav.title":  "גמ״ח מנשאים ירושלים",
-  "nav.dashboard": "לוח בקשות",
+  "nav.dashboard": "לוח ניהול",
   "nav.logout": "התנתקי",
   "nav.login": "כניסת מתנדבות",
 
@@ -46,7 +46,7 @@ export const he = {
 
   // Dashboard
   "dashboard.title": "לוח ניהול",
-  "dashboard.requests": "בקשות",
+  "dashboard.requests": "פניות",
   "dashboard.actions": "השאלות",
   "dashboard.carriers": "מנשאים",
   "dashboard.clients": "שואלות",
@@ -99,6 +99,14 @@ export const he = {
 "carrier.type.rings": "טבעות",
 "carrier.type.accessories": "אביזרים",
 "carrier.type.other": "אחר",
+
+
+//Carrier Availabality
+"carrier.availabality": "זמינות",
+"carrier.availabality.all": "הכל",
+"carrier.availabality.available": "זמין",
+"carrier.availabality.no": "מושאל",
+
 
 // Carrier States
 "carrier.state.good": "תקין",

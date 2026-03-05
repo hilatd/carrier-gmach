@@ -6,6 +6,7 @@ import {
   DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay,
   HStack, VStack,
 } from "@chakra-ui/react";
+import { useLang } from "../../i18n/useLang";
 
 interface Props {
   isOpen: boolean;
@@ -20,11 +21,13 @@ export default function FilterDrawer({
   isOpen, onClose, onApply, onReset, activeFilterCount, children,
 }: Props) {
   const { formatMessage: t } = useIntl();
+  const { lang } = useLang();
+  const dir = lang === "he" ? "rtl" : "ltr";
 
   return (
     <Drawer isOpen={isOpen} placement="bottom" onClose={onClose}>
       <DrawerOverlay />
-      <DrawerContent borderTopRadius="2xl" maxH="85vh">
+      <DrawerContent dir={dir} borderTopRadius="2xl" maxH="85vh">
         <DrawerCloseButton />
         <DrawerHeader>{t({ id: "common.filter" })}</DrawerHeader>
         <DrawerBody overflowY="auto">

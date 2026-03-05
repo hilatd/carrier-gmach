@@ -91,6 +91,12 @@ export const en = {
 "carrier.historyEmpty": "No past loans",
 "carrier.viewAction": "View",
 
+//Carrier Availabality
+"carrier.availabality": "Availability",
+"carrier.availabality.all": "All",
+"carrier.availabality.available": "Available",
+"carrier.availabality.no": "Lended",
+
 
 // Carrier Types
 "carrier.type.elastic": "Elastic",
