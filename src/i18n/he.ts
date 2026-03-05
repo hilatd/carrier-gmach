@@ -60,7 +60,21 @@ export const he = {
   "status.waiting_list": "רשימת המתנה",
   "status.closed": "סגור",
 
-  // requests
+  // Requests
+  "request.new": "בקשה חדשה",
+  "request.edit": "עריכת בקשה",
+  "request.client": "שואלת",
+  "request.status": "סטטוס",
+  "request.babyAge": "גיל תינוק",
+  "request.babyWeight": "משקל תינוק",
+  "request.experience": "ניסיון",
+  "request.requested": "מנשא מבוקש",
+  "request.source": "מקור",
+  "request.handledBy": "מטופל ע״י",
+  "request.notes": "הערות",
+  "request.select.client": "בחרי שואלת",
+  "request.select.volunteer": "בחרי מתנדבת",
+  "request.showUnhandled": "הצג רק בקשות פתוחות",
   "requests.handled": "סמני כטופל",
 
   //legal

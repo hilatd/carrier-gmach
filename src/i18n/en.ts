@@ -61,6 +61,21 @@ export const en = {
   "status.closed": "Closed",
 
   // requests
+  // Requests
+  "request.new": "New Request",
+  "request.edit": "Edit Request",
+  "request.client": "Client",
+  "request.status": "Status",
+  "request.babyAge": "Baby Age",
+  "request.babyWeight": "Baby Weight",
+  "request.experience": "Experience",
+  "request.requested": "Carrier Requested",
+  "request.source": "Source",
+  "request.handledBy": "Handled By",
+  "request.notes": "Notes",
+  "request.select.client": "Select client",
+  "request.select.volunteer": "Select volunteer",
+  "request.showUnhandled": "Show unhandled only",
   "requests.handled": "Mark as handled",
 
   //legal

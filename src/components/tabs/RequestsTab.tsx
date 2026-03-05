@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import type { CarrierRequest, RequestStatus } from "../../types";
 import { useCollection } from "../../hooks/useCollection";
 import type { Client, Volunteer } from "../../types";
+import { useFilterSort } from "../../hooks/useFilterSort";
+import { useCurrentVolunteer } from "../../hooks/useCurrentVolunteer";
+import { useIntl } from "react-intl";
 import {
   Badge,
   Box,
   Button,
+  Checkbox,
   FormControl,
   FormLabel,
   HStack,
@@ -21,8 +25,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import EditModal from "../EditModal";
-import { useIntl } from "react-intl";
-import { useCurrentVolunteer } from "../../hooks/useCurrentVolunteer";
+import SearchBar from "../search/SearchBar";
+import FilterDrawer from "../search/FilterDrawer";
+import FilterSelect from "../search/FilterSelect";
+import SortControl from "../search/SortControl";
+import ResultsCount from "../search/ResultsCount";
 
 const STATUS_COLORS: Record<RequestStatus, string> = {
   open: "purple",
@@ -30,6 +37,8 @@ const STATUS_COLORS: Record<RequestStatus, string> = {
   handled: "green",
   closed: "gray",
 };
+
+const REQUEST_STATUSES: RequestStatus[] = ["open", "pending", "handled", "closed"];
 
 const empty: Omit<CarrierRequest, "id"> = {
   clientId: "",
@@ -47,11 +56,11 @@ const empty: Omit<CarrierRequest, "id"> = {
 
 function buildWhatsAppMessage(volunteer: Volunteer, clientName: string): string {
   return encodeURIComponent(
-    `היי  ${clientName}
+    `היי ${clientName}
 נעים מאוד, אני ${volunteer.name},
- מתנדבת מגמ"ח המנשאים הקהילתי - ירושלים 🦘
+מתנדבת מגמ"ח המנשאים הקהילתי - ירושלים 🦘
 עברתי עכשיו על הפנייה שהשארת לנו.
-זה עדיין רלוונטי לכם?/n
+זה עדיין רלוונטי לכם?
 אם כן, אני כאן כדי לייעץ, לענות על שאלות ולהפנות אותך לתיאום איסוף🤍`
   );
 }
@@ -65,18 +74,69 @@ export default function RequestsTab() {
   const [form, setForm] = useState<Omit<CarrierRequest, "id">>(empty);
   const [editId, setEditId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [unhandledOnly, setUnhandledOnly] = useState(true); // ← default checked
+  const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure();
+  const { isOpen: isFilterOpen, onOpen: onFilterOpen, onClose: onFilterClose } = useDisclosure();
   const bg = useColorModeValue("white", "gray.800");
+
+  const clientName = (id: string) => clients.find((c) => c.id === id)?.name ?? "";
+  const volunteerName = (id: string) => volunteers.find((v) => v.id === id)?.name ?? "";
+  const clientPhone = (id: string) => clients.find((v) => v.id === id)?.phone ?? "";
+
+  const uniqueClients = useMemo(
+    () => clients.map((c) => ({ label: c.name, value: c.id! })),
+    [clients]
+  );
+
+  const {
+    filtered,
+    search,
+    setSearch,
+    sortOrder,
+    setSortOrder,
+    pendingFilters,
+    setPendingFilters,
+    activeFilterCount,
+    applyFilters,
+    resetFilters,
+  } = useFilterSort<CarrierRequest>(requests, {
+    searchFields: (r) => [
+      clientName(r.clientId),
+      volunteerName(r.handledBy),
+      r.babyAge,
+      r.babyWeight,
+      r.carriersRequested,
+      r.carriersExperience,
+      r.source,
+      r.notes,
+      t({ id: `status.${r.status}` }),
+    ],
+    filters: [
+      { key: "status", match: (r, v) => r.status === v },
+      { key: "clientId", match: (r, v) => r.clientId === v },
+      { key: "handledBy", match: (r, v) => r.handledBy === v },
+    ],
+  });
+
+  // apply unhandled checkbox on top of filter/search results
+  const displayed = useMemo(
+    () =>
+      unhandledOnly
+        ? filtered.filter((r) => r.status !== "handled" && r.status !== "closed")
+        : filtered,
+    [filtered, unhandledOnly]
+  );
 
   const openNew = () => {
     setForm({ ...empty, createdAt: Date.now(), updatedAt: Date.now() });
     setEditId(null);
-    onOpen();
+    onEditOpen();
   };
+
   const openEdit = (r: CarrierRequest) => {
     setForm(r);
     setEditId(r.id!);
-    onOpen();
+    onEditOpen();
   };
 
   const handleSave = async () => {
@@ -85,7 +145,7 @@ export default function RequestsTab() {
     if (editId) await updateDoc(doc(db, "requests", editId), data);
     else await addDoc(collection(db, "requests"), { ...data, createdAt: Date.now() });
     setSaving(false);
-    onClose();
+    onEditClose();
   };
 
   const markHandled = async (request: CarrierRequest) => {
@@ -93,23 +153,46 @@ export default function RequestsTab() {
     await updateDoc(doc(db, "requests", request.id), { status: "handled" });
   };
 
-  const clientName = (id: string) => clients.find((c) => c.id === id)?.name ?? id;
-  const volunteerName = (id: string) => volunteers.find((v) => v.id === id)?.name ?? id;
-  const clientPhone = (id: string) => clients.find((v) => v.id === id)?.phone ?? id;
   const openWhatsApp = (request: CarrierRequest) => {
     if (!currentVolunteer) return;
     const msg = buildWhatsAppMessage(currentVolunteer, clientName(request.clientId));
     window.open(`https://wa.me/${clientPhone(request.clientId)}?text=${msg}`, "_blank");
   };
+
   if (loading) return null;
 
   return (
     <Box>
-      <Button mb={5} onClick={openNew}>
-        + בקשה חדשה
-      </Button>
+      {/* Top bar */}
+      <HStack mb={4} spacing={3} wrap="wrap">
+        <Button onClick={openNew}>+ {t({ id: "request.new" })}</Button>
+        <SearchBar value={search} onChange={setSearch} />
+        <Button
+          onClick={onFilterOpen}
+          variant={activeFilterCount > 0 ? "solid" : "outline"}
+          colorScheme={activeFilterCount > 0 ? "brand" : "gray"}
+        >
+          🔽 {t({ id: "common.filter" })}
+          {activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
+        </Button>
+      </HStack>
+
+      {/* Unhandled checkbox */}
+      <Checkbox
+        mb={4}
+        isChecked={unhandledOnly}
+        onChange={(e) => setUnhandledOnly(e.target.checked)}
+        colorScheme="brand"
+        fontWeight="medium"
+      >
+        {t({ id: "request.showUnhandled" })}
+      </Checkbox>
+
+      <ResultsCount count={displayed.length} />
+
+      {/* Cards */}
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
-        {requests.map((r) => (
+        {displayed.map((r) => (
           <Box
             key={r.id}
             bg={bg}
@@ -119,10 +202,17 @@ export default function RequestsTab() {
             borderRightWidth={4}
             borderRightColor={`${STATUS_COLORS[r.status]}.400`}
           >
-            <Text fontWeight="bold">{clientName(r.clientId)}</Text>
+            <HStack justify="space-between" mb={1}>
+              <Text fontWeight="bold">{clientName(r.clientId)}</Text>
+              <Text fontSize="xs" color="gray.400">
+                {new Date(r.createdAt).toLocaleDateString("he-IL")}
+              </Text>
+            </HStack>
+
             <Badge colorScheme={STATUS_COLORS[r.status]} mb={2}>
-              {r.status}
+              {t({ id: `status.${r.status}` })}
             </Badge>
+
             <Text>
               👶 {r.babyAge} / {r.babyWeight}
             </Text>
@@ -133,7 +223,8 @@ export default function RequestsTab() {
                 📝 {r.notes}
               </Text>
             )}
-            <HStack>
+
+            <HStack mt={3} wrap="wrap" spacing={2}>
               <Button size="sm" onClick={() => openWhatsApp(r)} leftIcon={<span>💬</span>}>
                 {t({ id: "common.whatsapp" })}
               </Button>
@@ -142,29 +233,77 @@ export default function RequestsTab() {
                   {t({ id: "requests.handled" })}
                 </Button>
               )}
+              <Button size="xs" variant="outline" onClick={() => openEdit(r)}>
+                {t({ id: "common.edit" })}
+              </Button>
             </HStack>
-            <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(r)}>
-              {t({ id: "common.edit" })}
-            </Button>
           </Box>
         ))}
       </SimpleGrid>
 
+      {displayed.length === 0 && (
+        <Text textAlign="center" color="gray.400" mt={10}>
+          {t({ id: "common.noResults" })}
+        </Text>
+      )}
+
+      {/* Filter Drawer */}
+      <FilterDrawer
+        isOpen={isFilterOpen}
+        onClose={onFilterClose}
+        onApply={() => {
+          applyFilters();
+          onFilterClose();
+        }}
+        onReset={() => {
+          resetFilters();
+          onFilterClose();
+        }}
+        activeFilterCount={activeFilterCount}
+      >
+        <SortControl value={sortOrder} onChange={setSortOrder} />
+
+        <FilterSelect
+          label={t({ id: "request.status" })}
+          value={pendingFilters["status"] ?? ""}
+          onChange={(v) => setPendingFilters({ ...pendingFilters, status: v })}
+          options={REQUEST_STATUSES.map((s) => ({
+            value: s,
+            label: t({ id: `status.${s}` }),
+          }))}
+        />
+
+        <FilterSelect
+          label={t({ id: "request.client" })}
+          value={pendingFilters["clientId"] ?? ""}
+          onChange={(v) => setPendingFilters({ ...pendingFilters, clientId: v })}
+          options={uniqueClients}
+        />
+
+        <FilterSelect
+          label={t({ id: "request.handledBy" })}
+          value={pendingFilters["handledBy"] ?? ""}
+          onChange={(v) => setPendingFilters({ ...pendingFilters, handledBy: v })}
+          options={volunteers.map((v) => ({ label: v.name, value: v.id! }))}
+        />
+      </FilterDrawer>
+
+      {/* Edit Modal */}
       <EditModal
-        title={editId ? "עריכת בקשה" : "בקשה חדשה"}
-        isOpen={isOpen}
-        onClose={onClose}
+        title={editId ? t({ id: "request.edit" }) : t({ id: "request.new" })}
+        isOpen={isEditOpen}
+        onClose={onEditClose}
         onSave={handleSave}
         loading={saving}
       >
         <VStack spacing={4}>
           <FormControl>
-            <FormLabel>משאילה / Client</FormLabel>
+            <FormLabel>{t({ id: "request.client" })}</FormLabel>
             <Select
               value={form.clientId}
               onChange={(e) => setForm({ ...form, clientId: e.target.value })}
             >
-              <option value="">בחר משאילה</option>
+              <option value="">{t({ id: "request.select.client" })}</option>
               {clients.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.name}
@@ -172,63 +311,68 @@ export default function RequestsTab() {
               ))}
             </Select>
           </FormControl>
+
           <FormControl>
-            <FormLabel>סטטוס / Status</FormLabel>
+            <FormLabel>{t({ id: "request.status" })}</FormLabel>
             <Select
               value={form.status}
               onChange={(e) => setForm({ ...form, status: e.target.value as RequestStatus })}
             >
-              {(["open", "pending", "handled", "waiting_list", "closed"] as RequestStatus[]).map(
-                (s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                )
-              )}
+              {REQUEST_STATUSES.map((s) => (
+                <option key={s} value={s}>
+                  {t({ id: `status.${s}` })}
+                </option>
+              ))}
             </Select>
           </FormControl>
+
           <FormControl>
-            <FormLabel>גיל תינוק / Baby Age</FormLabel>
+            <FormLabel>{t({ id: "request.babyAge" })}</FormLabel>
             <Input
               value={form.babyAge}
               onChange={(e) => setForm({ ...form, babyAge: e.target.value })}
             />
           </FormControl>
+
           <FormControl>
-            <FormLabel>משקל תינוק / Baby Weight</FormLabel>
+            <FormLabel>{t({ id: "request.babyWeight" })}</FormLabel>
             <Input
               value={form.babyWeight}
               onChange={(e) => setForm({ ...form, babyWeight: e.target.value })}
             />
           </FormControl>
+
           <FormControl>
-            <FormLabel>ניסיון / Experience</FormLabel>
+            <FormLabel>{t({ id: "request.experience" })}</FormLabel>
             <Input
               value={form.carriersExperience}
               onChange={(e) => setForm({ ...form, carriersExperience: e.target.value })}
             />
           </FormControl>
+
           <FormControl>
-            <FormLabel>מנשא מבוקש / Requested</FormLabel>
+            <FormLabel>{t({ id: "request.requested" })}</FormLabel>
             <Input
               value={form.carriersRequested}
               onChange={(e) => setForm({ ...form, carriersRequested: e.target.value })}
             />
           </FormControl>
+
           <FormControl>
-            <FormLabel>מקור / Source</FormLabel>
+            <FormLabel>{t({ id: "request.source" })}</FormLabel>
             <Input
               value={form.source}
               onChange={(e) => setForm({ ...form, source: e.target.value })}
             />
           </FormControl>
+
           <FormControl>
-            <FormLabel>מטופל ע״י / Handled By</FormLabel>
+            <FormLabel>{t({ id: "request.handledBy" })}</FormLabel>
             <Select
               value={form.handledBy}
               onChange={(e) => setForm({ ...form, handledBy: e.target.value })}
             >
-              <option value="">בחר מתנדב</option>
+              <option value="">{t({ id: "request.select.volunteer" })}</option>
               {volunteers.map((v) => (
                 <option key={v.id} value={v.id}>
                   {v.name}
@@ -237,7 +381,7 @@ export default function RequestsTab() {
             </Select>
           </FormControl>
           <FormControl>
-            <FormLabel>הערות / Notes</FormLabel>
+            <FormLabel>{t({ id: "request.notes" })}</FormLabel>
             <Textarea
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
