@@ -29,7 +29,7 @@ export default function Navbar() {
         fontSize="xl"
         _hover={{ textDecoration: "none", opacity: 0.85 }}
       >
-        🤱 {t({ id: "nav.title" })}
+        {t({ id: "nav.title" })}
       </Link>
       <Flex gap={3} align="center">
         {/* Language toggle */}

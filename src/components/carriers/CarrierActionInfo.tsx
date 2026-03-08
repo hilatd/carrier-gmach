@@ -18,6 +18,7 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
+import { useLang } from "../../i18n/useLang";
 
 interface Props {
   carrierId: string;
@@ -31,6 +32,8 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
   const [isWaitingListDrawerOpen, setWaitingListDrawerOpen] = useState(false);
   const dividerColor = useColorModeValue("gray.200", "gray.600");
   const historyBg = useColorModeValue("gray.50", "gray.700");
+  const { lang } = useLang();
+  const dir = lang === "he" ? "rtl" : "ltr";
 
   const clientName = (id: string) => clients.find((c) => c.id === id)?.name ?? "";
 
@@ -132,7 +135,7 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
         size="md"
       >
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent dir={dir}>
           <DrawerCloseButton />
           <DrawerHeader>{t({ id: "carrier.history" })}</DrawerHeader>
           <DrawerBody>
@@ -203,7 +206,7 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
         size="md"
       >
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent dir={dir}>
           <DrawerCloseButton />
           <DrawerHeader>{t({ id: "carrier.waitingList" })}</DrawerHeader>
           <DrawerBody>
