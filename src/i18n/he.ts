@@ -40,6 +40,18 @@ export const he = {
   "form.select": "בחרי",
   "form.agreement.prefix": "קראתי ואני מסכים/ה ל",
   "form.agreement.link": "תנאי השימוש",
+  "form.step.personal": "הפרטים שלך",
+  "form.step.baby": "על התינוק",
+  "form.step.carrier": "העדפות מנשא",
+  "form.step.confirm": "סיכום ואישור",
+  "form.next": "המשך",
+  "form.back": "חזרה",
+  "form.phone.helper": "מספר נייד ישראלי לדוגמא 052-123-4567",
+  "form.error.required": "שדה חובה",
+  "form.error.phone": "נא להזין מספר נייד ישראלי תקין",
+  "form.error.email": "נא להזין כתובת אימייל תקינה",
+  "form.error.legal": "יש לאשר את תנאי השימוש להמשך",
+  "form.success.title": "הבקשה נשלחה! 💜",
 
   // Volunteer login
   "volunteerLogin.error": "המשתמשת אינה מתנדבת רשומה",

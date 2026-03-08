@@ -18,6 +18,7 @@ export interface Client {
   address: string;
   createdAt: number;
   updatedAt: number;
+  deletedAt: number | null;
 }
 
 export interface Volunteer {
@@ -47,6 +48,7 @@ export interface CarrierRequest {
   handledBy: string;
   createdAt: number;
   updatedAt: number;
+  deletedAt: number | null;
 }
 
 export interface Action {

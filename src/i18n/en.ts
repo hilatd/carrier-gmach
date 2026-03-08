@@ -40,6 +40,18 @@ export const en = {
   "form.select": "Select",
   "form.agreement.prefix": "I have read and agree to the",
   "form.agreement.link": "Terms & Conditions",
+  "form.step.personal": "Your details",
+  "form.step.baby": "About your baby",
+  "form.step.carrier": "Carrier preferences",
+  "form.step.confirm": "Review & confirm",
+  "form.next": "Next",
+  "form.back": "Back",
+  "form.phone.helper": "Israeli mobile number e.g. 052-123-4567",
+  "form.error.required": "This field is required",
+  "form.error.phone": "Please enter a valid Israeli mobile number",
+  "form.error.email": "Please enter a valid email address",
+  "form.error.legal": "You must accept the terms to continue",
+  "form.success.title": "Request sent! 💜",
 
   // Volunteer login
   "volunteerLogin.error": "This account is not an authorized volunteer.",

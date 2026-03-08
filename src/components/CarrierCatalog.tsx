@@ -26,7 +26,8 @@ const CARRIERS: CarrierInfo[] = [
   {
     key: "backpack",
     color: "purple",
-    imageUrl: "https://res.cloudinary.com/dfyt2knn6/image/upload/v1772994176/backpack-carrier_tlobad.png",
+    imageUrl:
+      "https://res.cloudinary.com/dfyt2knn6/image/upload/v1772994176/backpack-carrier_tlobad.png",
   },
   {
     key: "woven_wrap",
@@ -36,7 +37,8 @@ const CARRIERS: CarrierInfo[] = [
   {
     key: "elastic",
     color: "pink",
-    imageUrl: "https://res.cloudinary.com/dfyt2knn6/image/upload/v1772994176/elastic-wrap_wesl4b.png",
+    imageUrl:
+      "https://res.cloudinary.com/dfyt2knn6/image/upload/v1772994176/elastic-wrap_wesl4b.png",
   },
   {
     key: "mei_dai",
@@ -51,7 +53,8 @@ const CARRIERS: CarrierInfo[] = [
   {
     key: "accessories",
     color: "teal",
-    imageUrl: "https://res.cloudinary.com/dfyt2knn6/image/upload/v1772994175/accessories_bxeztk.png",
+    imageUrl:
+      "https://res.cloudinary.com/dfyt2knn6/image/upload/v1772994175/accessories_bxeztk.png",
   },
 ];
 
