@@ -205,7 +205,12 @@ export default function RequestsTab() {
             borderRightColor={`${STATUS_COLORS[r.status]}.400`}
           >
             <HStack justify="space-between" mb={1}>
-              <Text fontWeight="bold">{clientName(r.clientId)}</Text>
+              <HStack justify="flex-start">
+                <Text fontWeight="bold">{clientName(r.clientId)}</Text>
+                <Link href={`tel:${clientPhone(r.clientId)}`} color="brand.500" fontWeight="medium">
+                  📞 {clientPhone(r.clientId)}
+                </Link>
+              </HStack>
               <Text fontSize="xs" color="gray.400">
                 {new Date(r.createdAt).toLocaleDateString("he-IL")}
               </Text>
@@ -214,9 +219,7 @@ export default function RequestsTab() {
             <Badge colorScheme={STATUS_COLORS[r.status]} mb={2}>
               {t({ id: `status.${r.status}` })}
             </Badge>
-            <Link href={`tel:${clientPhone(r.clientId)}`} color="brand.500" fontWeight="medium">
-              📞 {clientPhone(r.clientId)}
-            </Link>
+
             <Text>
               👶 {r.babyAge} / {r.babyWeight}
             </Text>
