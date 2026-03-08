@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import VolunteerLogin from "./pages/VolunteerLogin";
 import Dashboard from "./pages/Dashboard";
-import Legal from './pages/Legal';
+import Legal from "./pages/Legal";
 
 export default function App() {
   return (

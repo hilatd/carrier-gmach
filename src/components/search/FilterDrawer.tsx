@@ -2,9 +2,15 @@ import type { ReactNode } from "react";
 import { useIntl } from "react-intl";
 import {
   Button,
-  Drawer, DrawerBody, DrawerCloseButton,
-  DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay,
-  HStack, VStack,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  HStack,
+  VStack,
 } from "@chakra-ui/react";
 import { useLang } from "../../i18n/useLang";
 
@@ -18,7 +24,12 @@ interface Props {
 }
 
 export default function FilterDrawer({
-  isOpen, onClose, onApply, onReset, activeFilterCount, children,
+  isOpen,
+  onClose,
+  onApply,
+  onReset,
+  activeFilterCount,
+  children,
 }: Props) {
   const { formatMessage: t } = useIntl();
   const { lang } = useLang();

@@ -1,7 +1,9 @@
 import { FormControl, FormLabel, RadioGroup, Stack, Radio } from "@chakra-ui/react";
 
-
-interface Option { label: string; value: string; }
+interface Option {
+  label: string;
+  value: string;
+}
 
 interface Props {
   label: string;
@@ -14,13 +16,13 @@ export default function FilterRadioButton({ label, value, options, onChange }: P
   return (
     <FormControl>
       <FormLabel>{label}</FormLabel>
-       <RadioGroup onChange={onChange} value={value}>
-      <Stack direction='row'>
-        {options.map(option=>
+      <RadioGroup onChange={onChange} value={value}>
+        <Stack direction="row">
+          {options.map((option) => (
             <Radio value={option.value}>{option.label}</Radio>
-    )}
-      </Stack>
-    </RadioGroup>
+          ))}
+        </Stack>
+      </RadioGroup>
     </FormControl>
   );
 }

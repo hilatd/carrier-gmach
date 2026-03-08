@@ -1,6 +1,13 @@
 export type RequestStatus = "open" | "pending" | "handled" | "closed";
 export type ActionStatus = "open" | "lending" | "returned" | "waiting_list" | "closed";
-export type CarrierTypes = "backpack" | "woven_wrap" | "elastic" | "mei_dai" | "rings" | "accessories" | "other";
+export type CarrierTypes =
+  | "backpack"
+  | "woven_wrap"
+  | "elastic"
+  | "mei_dai"
+  | "rings"
+  | "accessories"
+  | "other";
 export type CarrierState = "good" | "damaged" | "for_sell" | "maintenance";
 
 export interface Client {
@@ -11,6 +18,7 @@ export interface Client {
   address: string;
   createdAt: number;
   updatedAt: number;
+  deletedAt: number | null;
 }
 
 export interface Volunteer {
@@ -19,8 +27,12 @@ export interface Volunteer {
   phone: string;
   email: string;
   address: string;
+  imageUrl: string;
+  bio: string;
+  isActive: boolean;
   createdAt: number;
   updatedAt: number;
+  deletedAt: number | null;
 }
 
 export interface CarrierRequest {
@@ -36,6 +48,7 @@ export interface CarrierRequest {
   handledBy: string;
   createdAt: number;
   updatedAt: number;
+  deletedAt: number | null;
 }
 
 export interface Action {

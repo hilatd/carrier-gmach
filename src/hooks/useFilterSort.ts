@@ -12,10 +12,7 @@ export interface FilterConfig<T> {
 
 export type SortOrder = "asc" | "desc";
 
-export function useFilterSort<T extends { createdAt: number }>(
-  data: T[],
-  config: FilterConfig<T>
-) {
+export function useFilterSort<T extends { createdAt: number }>(data: T[], config: FilterConfig<T>) {
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
@@ -47,20 +44,21 @@ export function useFilterSort<T extends { createdAt: number }>(
     });
 
     result.sort((a, b) =>
-      sortOrder === "desc"
-        ? b.createdAt - a.createdAt
-        : a.createdAt - b.createdAt
+      sortOrder === "desc" ? b.createdAt - a.createdAt : a.createdAt - b.createdAt
     );
 
     return result;
-  // config is intentionally excluded — it's stable per call site
+    // config is intentionally excluded — it's stable per call site
   }, [data, search, activeFilters, sortOrder]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
     filtered,
-    search, setSearch,
-    sortOrder, setSortOrder,
-    pendingFilters, setPendingFilters,
+    search,
+    setSearch,
+    sortOrder,
+    setSortOrder,
+    pendingFilters,
+    setPendingFilters,
     activeFilters,
     activeFilterCount,
     applyFilters,

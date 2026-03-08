@@ -22,22 +22,38 @@ export default function Navbar() {
 
   return (
     <Flex as="nav" bg={bg} px={6} py={3} align="center" justify="space-between" color="white">
-      <Link as={RouterLink} to="/" fontWeight="bold" fontSize="xl"
-        _hover={{ textDecoration: "none", opacity: 0.85 }}>
-        🤱 {t({ id: "nav.title" })}
+      <Link
+        as={RouterLink}
+        to="/"
+        fontWeight="bold"
+        fontSize="xl"
+        _hover={{ textDecoration: "none", opacity: 0.85 }}
+      >
+        {t({ id: "nav.title" })}
       </Link>
       <Flex gap={3} align="center">
         {/* Language toggle */}
-        <Button onClick={toggleLang} variant="ghost" color="white"
-          _hover={{ bg: "whiteAlpha.200" }} size="sm" fontSize="lg">
+        <Button
+          onClick={toggleLang}
+          variant="ghost"
+          color="white"
+          _hover={{ bg: "whiteAlpha.200" }}
+          size="sm"
+          fontSize="lg"
+        >
           {lang === "he" ? "🇺🇸" : "🇮🇱"}
         </Button>
 
         {/* Dark mode toggle */}
-        <IconButton aria-label="Toggle color mode"
+        <IconButton
+          aria-label="Toggle color mode"
           icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-          onClick={toggleColorMode} variant="ghost" color="white"
-          _hover={{ bg: "whiteAlpha.200" }} size="sm" />
+          onClick={toggleColorMode}
+          variant="ghost"
+          color="white"
+          _hover={{ bg: "whiteAlpha.200" }}
+          size="sm"
+        />
 
         {user ? (
           <>

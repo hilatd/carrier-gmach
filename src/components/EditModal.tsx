@@ -2,8 +2,14 @@ import { useIntl } from "react-intl";
 import type { ReactNode } from "react";
 import { useLang } from "../i18n/useLang";
 import {
-  Modal, ModalOverlay, ModalContent, ModalHeader,
-  ModalCloseButton, ModalBody, ModalFooter, Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Button,
 } from "@chakra-ui/react";
 
 interface Props {

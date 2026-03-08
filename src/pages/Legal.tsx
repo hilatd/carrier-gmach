@@ -7,7 +7,7 @@ import { useIntl } from "react-intl";
 
 export default function Legal() {
   const { lang } = useLang();
-  const { formatMessage: t} = useIntl();
+  const { formatMessage: t } = useIntl();
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(true);
   const bg = useColorModeValue("gray.50", "gray.900");
@@ -23,11 +23,13 @@ export default function Legal() {
   }, [lang]);
   return (
     <Box bg={bg} minH="100vh" p={10} maxW="800px" mx="auto">
-      <Heading mb={6}>{t({id:"legal.title"})} </Heading>
+      <Heading mb={6}>{t({ id: "legal.title" })} </Heading>
       {loading ? (
         <Spinner />
       ) : (
-        <Text whiteSpace="pre-wrap" lineHeight={1.9}>{text}</Text>
+        <Text whiteSpace="pre-wrap" lineHeight={1.9}>
+          {text}
+        </Text>
       )}
     </Box>
   );
