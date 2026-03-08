@@ -30,6 +30,7 @@ import SortControl from "../search/SortControl";
 import ResultsCount from "../search/ResultsCount";
 import { CARRIER_TYPES, CARRIER_STATES, stateColor } from "../../utils/carrierOptions";
 import FilterRadioButton from "../search/FilterRadioButton";
+import { softDeleteCarrier } from "../../utils/deleteCarrier";
 
 const empty: Omit<Carrier, "id"> = {
   type: "other",
@@ -41,6 +42,7 @@ const empty: Omit<Carrier, "id"> = {
   notes: "",
   createdAt: Date.now(),
   updatedAt: Date.now(),
+  deletedAt: null,
 };
 
 export default function CarriersTab() {
@@ -117,6 +119,11 @@ export default function CarriersTab() {
     onEditOpen();
   };
 
+  const deleteCarrier = async (c: Carrier) => {
+  if (!window.confirm(t({ id: "carrier.deleteConfirm" }))) return;
+  await softDeleteCarrier(c.id!);
+};
+
   const handleSave = async () => {
     setSaving(true);
     const data = { ...form, updatedAt: Date.now() };
@@ -167,6 +174,9 @@ export default function CarriersTab() {
             <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(c)}>
               {t({ id: "common.edit" })}
             </Button>
+            <Button size="xs" mt={3} variant="outline" onClick={() => deleteCarrier(c)}>
+            {t({ id: "common.delete" })}
+          </Button>
           </Box>
         ))}
       </SimpleGrid>

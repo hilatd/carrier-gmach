@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 
 export function useCollection<T>(collectionName: string) {
@@ -7,7 +7,9 @@ export function useCollection<T>(collectionName: string) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const q = query(collection(db, collectionName), orderBy("createdAt", "desc"));
+    const q = query(collection(db, collectionName),
+    where("deletedAt", "==", null),
+     orderBy("createdAt", "desc"));
     return onSnapshot(q, (snap) => {
       setData(snap.docs.map((d) => ({ id: d.id, ...d.data() }) as T));
       setLoading(false);

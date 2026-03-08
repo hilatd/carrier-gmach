@@ -49,6 +49,7 @@ const empty: Omit<Action, "id"> = {
   OriginalDateReturn: 0,
   additionalFee: 0,
   totalFee: 0,
+  deletedAt: null,
 };
 
 export default function ActionsTab() {
