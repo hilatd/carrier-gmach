@@ -3,6 +3,7 @@ import { EditIcon, PhoneIcon, StarIcon } from "@chakra-ui/icons";
 import { useIntl } from "react-intl";
 import RequestForm from "../components/RequestForm";
 import CarrierCatalog from "../components/CarrierCatalog";
+import AboutUs from "../components/AboutUs";
 
 export default function Home() {
   const { formatMessage: t } = useIntl();
@@ -47,6 +48,9 @@ export default function Home() {
       </Box>
       <Box>
         <CarrierCatalog />
+      </Box>
+      <Box>
+        <AboutUs />
       </Box>
     </Box>
   );
