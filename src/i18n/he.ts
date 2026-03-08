@@ -144,6 +144,17 @@ export const he = {
   "volunteer.email": "אימייל",
   "volunteer.address": "כתובת",
   "volunteer.add": "הוסיפי מתנדבת",
+  "volunteer.bio": "כמה מילים אישיות",
+  "volunteer.bio.placeholder": "כמה מילים על עצמך...",
+  "volunteer.image": "תמונת פרופיל",
+  "volunteer.image.upload": "העלי תמונה",
+  "volunteer.image.uploading": "מעלה...",
+  "volunteer.image.change": "החלפת תמונה",
+  "volunteer.isActive": "מתנדבת פעילה",
+
+  // About us
+  "aboutUs.title": "הכירו את המתנדבות שלנו",
+  "aboutUs.subtitle": "הגמ״ח מופעל בהתנדבות מלאה על ידי נשים שאוהבות נשיאה ואוהבות לעזור למשפחות.",
 
   // Common
   "common.edit": "עריכה",

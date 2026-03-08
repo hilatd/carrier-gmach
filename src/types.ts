@@ -26,8 +26,12 @@ export interface Volunteer {
   phone: string;
   email: string;
   address: string;
+  imageUrl: string;
+  bio: string;
+  isActive: boolean;
   createdAt: number;
   updatedAt: number;
+  deletedAt: number | null;
 }
 
 export interface CarrierRequest {

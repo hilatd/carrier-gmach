@@ -144,6 +144,18 @@ export const en = {
   "volunteer.email": "Email",
   "volunteer.address": "Address",
   "volunteer.add": "Add Volunteer",
+  "volunteer.bio": "Personal words",
+  "volunteer.bio.placeholder": "A few words about yourself...",
+  "volunteer.image": "Profile photo",
+  "volunteer.image.upload": "Upload photo",
+  "volunteer.image.uploading": "Uploading...",
+  "volunteer.image.change": "Change photo",
+  "volunteer.isActive": "Active volunteer",
+
+  //About us
+  "aboutUs.title": "Meet Our Volunteers",
+  "aboutUs.subtitle":
+    "Our gemach is run entirely by volunteers who love babywearing and love helping families.",
 
   // Common
   "common.edit": "Edit",
