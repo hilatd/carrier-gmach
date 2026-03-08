@@ -23,6 +23,7 @@ import {
   useColorModeValue,
   useDisclosure,
   VStack,
+  Link,
 } from "@chakra-ui/react";
 import EditModal from "../EditModal";
 import SearchBar from "../search/SearchBar";
@@ -52,6 +53,7 @@ const empty: Omit<CarrierRequest, "id"> = {
   handledBy: "",
   createdAt: Date.now(),
   updatedAt: Date.now(),
+  deletedAt: null,
 };
 
 function buildWhatsAppMessage(volunteer: Volunteer, clientName: string): string {
@@ -212,7 +214,9 @@ export default function RequestsTab() {
             <Badge colorScheme={STATUS_COLORS[r.status]} mb={2}>
               {t({ id: `status.${r.status}` })}
             </Badge>
-
+            <Link href={`tel:${clientPhone(r.clientId)}`} color="brand.500" fontWeight="medium">
+              📞 {clientPhone(r.clientId)}
+            </Link>
             <Text>
               👶 {r.babyAge} / {r.babyWeight}
             </Text>

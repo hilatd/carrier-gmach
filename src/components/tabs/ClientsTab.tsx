@@ -17,6 +17,7 @@ import {
   useColorModeValue,
   useDisclosure,
   VStack,
+  Link,
 } from "@chakra-ui/react";
 import EditModal from "../EditModal";
 import SearchBar from "../search/SearchBar";
@@ -29,6 +30,7 @@ const empty: Omit<Client, "id"> = {
   address: "",
   createdAt: Date.now(),
   updatedAt: Date.now(),
+  deletedAt: null,
 };
 
 export default function ClientsTab() {
@@ -83,7 +85,9 @@ export default function ClientsTab() {
             <Text fontWeight="bold" fontSize="lg">
               {c.name}
             </Text>
-            <Text>📞 {c.phone}</Text>
+            <Link href={`tel:${c.phone}`} color="brand.500" fontWeight="medium">
+              📞 {c.phone}
+            </Link>
             <Text>📧 {c.email}</Text>
             <Text>📍 {c.address}</Text>
             <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(c)}>

@@ -17,6 +17,7 @@ import {
   FormLabel,
   HStack,
   Input,
+  Link,
   SimpleGrid,
   Text,
   Textarea,
@@ -132,7 +133,9 @@ export default function VolunteersTab() {
                 </Badge>
               </Box>
             </HStack>
-            <Text>📞 {v.phone}</Text>
+            <Link href={`tel:${v.phone}`} color="brand.500" fontWeight="medium">
+              📞 {v.phone}
+            </Link>
             <Text>📧 {v.email}</Text>
             {v.bio && (
               <Text fontSize="sm" color="gray.500" mt={2} fontStyle="italic">
