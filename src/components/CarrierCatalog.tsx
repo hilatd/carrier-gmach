@@ -26,32 +26,32 @@ const CARRIERS: CarrierInfo[] = [
   {
     key: "backpack",
     color: "purple",
-    imageUrl: "src/assets/images/backpack-carrier.png",
+    imageUrl: "https://res.cloudinary.com/dfyt2knn6/image/upload/v1772994176/backpack-carrier_tlobad.png",
   },
   {
     key: "woven_wrap",
     color: "blue",
-    imageUrl: "src/assets/images/woven-wrap.png",
+    imageUrl: "https://res.cloudinary.com/dfyt2knn6/image/upload/v1772994177/woven-wrap_lknvib.png",
   },
   {
     key: "elastic",
     color: "pink",
-    imageUrl: "src/assets/images/elastic-wrap.png",
+    imageUrl: "https://res.cloudinary.com/dfyt2knn6/image/upload/v1772994176/elastic-wrap_wesl4b.png",
   },
   {
     key: "mei_dai",
     color: "green",
-    imageUrl: "src/assets/images/mei-dai.png",
+    imageUrl: "https://res.cloudinary.com/dfyt2knn6/image/upload/v1772994177/mei-dai_bysa9r.png",
   },
   {
     key: "rings",
     color: "orange",
-    imageUrl: "src/assets/images/ring-sling.png",
+    imageUrl: "https://res.cloudinary.com/dfyt2knn6/image/upload/v1772994176/ring-sling_xepcwc.png",
   },
   {
     key: "accessories",
     color: "teal",
-    imageUrl: "src/assets/images/accessories.png",
+    imageUrl: "https://res.cloudinary.com/dfyt2knn6/image/upload/v1772994175/accessories_bxeztk.png",
   },
 ];
 
