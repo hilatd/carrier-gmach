@@ -43,6 +43,8 @@ const empty: Omit<Action, "id"> = {
   lastContactBy: "",
   status: "open",
   dateReturned: defaultReturnDate(),
+  dateTaken: Date.now(),
+  returnedTo: "",
   paid: false,
   notes: "",
   createdAt: Date.now(),
@@ -112,6 +114,7 @@ export default function ActionsTab() {
     setForm({
       ...empty,
       dateReturned: defaultReturnDate(),
+      dateTaken: Date.now(),
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -166,9 +169,14 @@ export default function ActionsTab() {
             borderRightWidth={4}
             borderRightColor={`${ACTION_STATUS_COLORS[a.status]}.400`}
           >
-            <Text fontWeight="bold" fontSize="lg">
-              {clientName(a.clientId)}
-            </Text>
+            <HStack justify="space-between">
+              <Text fontWeight="bold" fontSize="lg">
+                {clientName(a.clientId)}
+              </Text>
+              <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(a)}>
+                {t({ id: "common.edit" })}
+              </Button>
+            </HStack>
 
             <Badge colorScheme={ACTION_STATUS_COLORS[a.status]} mb={2}>
               {t({ id: `action.status.${a.status}` })}
@@ -207,10 +215,6 @@ export default function ActionsTab() {
                 📝 {a.notes}
               </Text>
             )}
-
-            <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(a)}>
-              {t({ id: "common.edit" })}
-            </Button>
           </Box>
         ))}
       </SimpleGrid>
@@ -344,7 +348,30 @@ export default function ActionsTab() {
               ))}
             </Select>
           </FormControl>
-
+          <FormControl>
+            <FormLabel>{t({ id: "action.returnedTo" })}</FormLabel>
+            <Select
+              value={form.returnedTo}
+              onChange={(e) => setForm({ ...form, returnedTo: e.target.value })}
+            >
+              <option value="">{t({ id: "action.select.volunteer" })}</option>
+              {volunteers.map((v) => (
+                <option key={v.id} value={v.id}>
+                  {v.name}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl>
+            <FormLabel>{t({ id: "action.dateTaken" })}</FormLabel>
+            <Input
+              type="date"
+              value={
+                form?.dateTaken ? new Date(form?.dateTaken).toISOString().split("T")[0] : undefined
+              }
+              onChange={(e) => setForm({ ...form, dateTaken: new Date(e.target.value).getTime() })}
+            />
+          </FormControl>
           <FormControl>
             <FormLabel>{t({ id: "action.dateReturned" })}</FormLabel>
             <Input

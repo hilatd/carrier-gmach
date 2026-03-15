@@ -56,10 +56,12 @@ export interface Action {
   clientId: string;
   carrierId: string;
   takenFrom: string;
+  returnedTo: string;
   lastContactBy: string;
   status: ActionStatus;
   OriginalDateReturn: number;
   dateReturned: number;
+  dateTaken: number;
   additionalFee: number;
   totalFee: number;
   paid: boolean;
