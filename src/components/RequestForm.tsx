@@ -176,7 +176,7 @@ export default function RequestForm() {
   // ─── Submit ────────────────────────────────────────────────────────────────
   async function addOrGetClient(client: Client): Promise<string> {
     const colRef = collection(db, "clients");
-    const q = query(colRef, where("email", "==", client.email));
+    const q = query(colRef, where("email", "==", client.email.toLocaleLowerCase()));
     const snap = await getDocs(q);
     if (!snap.empty) return snap.docs[0].id;
     const newDoc = await addDoc(colRef, client);
@@ -192,9 +192,9 @@ export default function RequestForm() {
         address: "",
         name: form.name,
         phone: toE164(form.phone),
-        email: form.email,
+        email: form.email.toLocaleLowerCase(),
         createdAt: Date.now(),
-        updatedAt: Date.now(),
+        updatedAt: Date.now(),  
         deletedAt: null,
       };
       const clientId = await addOrGetClient(client);

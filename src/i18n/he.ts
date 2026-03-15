@@ -119,7 +119,6 @@ export const he = {
   "carrier.viewAction": "צפייה",
   "carrier.deleteConfirm": "האם את בטוחה שתרצי למחוק את המנשא? כל ההשאלות הקשורות יוסרו גם כן.",
 
-
   // Carrier Types
   "carrier.type.backpack": "ילקוט",
   "carrier.type.woven_wrap": "ארוג ארוך",

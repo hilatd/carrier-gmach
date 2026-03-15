@@ -18,7 +18,7 @@ import { useIntl } from "react-intl";
 const provider = new GoogleAuthProvider();
 
 async function isVolunteer(email: string): Promise<boolean> {
-  const q = query(collection(db, "volunteers"), where("email", "==", email));
+  const q = query(collection(db, "volunteers"), where("email", "==", email.toLocaleLowerCase()));
   const snap = await getDocs(q);
   return !snap.empty;
 }

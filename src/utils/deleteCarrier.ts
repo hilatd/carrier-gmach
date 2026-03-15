@@ -18,8 +18,6 @@ export async function softDeleteCarrier(carrierId: string): Promise<void> {
   );
   const actionsSnap = await getDocs(actionsQuery);
   await Promise.all(
-    actionsSnap.docs.map((d) =>
-      updateDoc(d.ref, { deletedAt: now, updatedAt: now })
-    )
+    actionsSnap.docs.map((d) => updateDoc(d.ref, { deletedAt: now, updatedAt: now }))
   );
 }

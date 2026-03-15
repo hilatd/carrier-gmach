@@ -197,7 +197,7 @@ export default function VolunteersTab() {
             <FormLabel>{t({ id: "volunteer.email" })}</FormLabel>
             <Input
               value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              onChange={(e) => setForm({ ...form, email: e.target.value.toLocaleLowerCase() })}
             />
           </FormControl>
 

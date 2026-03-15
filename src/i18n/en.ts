@@ -104,21 +104,22 @@ export const en = {
   "common.sortOldest": "Oldest first",
   "common.all": "All",
 
-// carrier
-"carrier.state": "State",
-"carrier.type": "Type",
-"carrier.brand": "Brand",
-"carrier.model": "Model",
-"carrier.volunteer": "Volunteer",
-"carrier.color": "Color",
-"carrier.notes": "Notes",
-"carrier.currentAction": "Current Loan",
-"carrier.noActiveAction": "No active loan",
-"carrier.history": "Loan History",
-"carrier.waitingList": "Loan Waiting List",
-"carrier.historyEmpty": "No past loans",
-"carrier.viewAction": "View",
-"carrier.deleteConfirm": "Are you sure you want to delete this carrier? All related loans will also be removed.",
+  // carrier
+  "carrier.state": "State",
+  "carrier.type": "Type",
+  "carrier.brand": "Brand",
+  "carrier.model": "Model",
+  "carrier.volunteer": "Volunteer",
+  "carrier.color": "Color",
+  "carrier.notes": "Notes",
+  "carrier.currentAction": "Current Loan",
+  "carrier.noActiveAction": "No active loan",
+  "carrier.history": "Loan History",
+  "carrier.waitingList": "Loan Waiting List",
+  "carrier.historyEmpty": "No past loans",
+  "carrier.viewAction": "View",
+  "carrier.deleteConfirm":
+    "Are you sure you want to delete this carrier? All related loans will also be removed.",
 
   //Carrier Availabality
   "carrier.availabality": "Availability",
