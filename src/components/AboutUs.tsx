@@ -11,7 +11,52 @@ import {
   Text,
   VStack,
   useColorModeValue,
+  Collapse,
+  Button,
 } from "@chakra-ui/react";
+
+function VolunteerCard({ v }: { v: Volunteer }) {
+  const [expanded, setExpanded] = useState(false);
+  const needsExpand = (v.bio?.length ?? 0) > 80;
+
+  return (
+    <VStack spacing={3} textAlign="center">
+      <Avatar
+        src={v.imageUrl || undefined}
+        name={v.name}
+        size="xl"
+        border="3px solid"
+        borderColor="brand.400"
+        boxShadow="md"
+      />
+      <Box>
+        <Text fontWeight="bold" fontSize="sm">
+          {v.name}
+        </Text>
+        {v.bio && (
+          <Box>
+            <Collapse startingHeight="3.6em" in={expanded}>
+              <Text fontSize="xs" color="gray.500" fontStyle="italic" mt={1} lineHeight={1.6}>
+                {v.bio}
+              </Text>
+            </Collapse>
+            {needsExpand && (
+              <Button
+                variant="link"
+                size="xs"
+                colorScheme="brand"
+                mt={1}
+                onClick={() => setExpanded((p) => !p)}
+              >
+                {expanded ? "▲" : "▼"}
+              </Button>
+            )}
+          </Box>
+        )}
+      </Box>
+    </VStack>
+  );
+}
 
 export default function AboutUs() {
   const { formatMessage: t } = useIntl();
@@ -44,26 +89,7 @@ export default function AboutUs() {
 
       <SimpleGrid columns={{ base: 2, sm: 3, md: 4, lg: 5 }} spacing={8} maxW="900px" mx="auto">
         {volunteers.map((v) => (
-          <VStack key={v.id} spacing={3} textAlign="center">
-            <Avatar
-              src={v.imageUrl || undefined}
-              name={v.name}
-              size="xl"
-              border="3px solid"
-              borderColor="brand.400"
-              boxShadow="md"
-            />
-            <Box>
-              <Text fontWeight="bold" fontSize="sm">
-                {v.name}
-              </Text>
-              {v.bio && (
-                <Text fontSize="xs" color="gray.500" fontStyle="italic" mt={1} noOfLines={3}>
-                  {v.bio}
-                </Text>
-              )}
-            </Box>
-          </VStack>
+          <VolunteerCard key={v.id} v={v} />
         ))}
       </SimpleGrid>
     </Box>
