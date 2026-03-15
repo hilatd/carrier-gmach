@@ -7,9 +7,11 @@ export function useCollection<T>(collectionName: string) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const q = query(collection(db, collectionName),
-    where("deletedAt", "==", null),
-     orderBy("createdAt", "desc"));
+    const q = query(
+      collection(db, collectionName),
+      where("deletedAt", "==", null),
+      orderBy("createdAt", "desc")
+    );
     return onSnapshot(q, (snap) => {
       setData(snap.docs.map((d) => ({ id: d.id, ...d.data() }) as T));
       setLoading(false);

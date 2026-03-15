@@ -23,8 +23,8 @@ const theme = extendTheme({
     },
   },
   fonts: {
-    heading: "'Segoe UI', sans-serif",
-    body: "'Segoe UI', sans-serif",
+    heading: `'Heebo', sans-serif`,
+    body:    `'Heebo', sans-serif`,
   },
   components: {
     Button: {

@@ -120,9 +120,9 @@ export default function CarriersTab() {
   };
 
   const deleteCarrier = async (c: Carrier) => {
-  if (!window.confirm(t({ id: "carrier.deleteConfirm" }))) return;
-  await softDeleteCarrier(c.id!);
-};
+    if (!window.confirm(t({ id: "carrier.deleteConfirm" }))) return;
+    await softDeleteCarrier(c.id!);
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -171,12 +171,14 @@ export default function CarriersTab() {
               {t({ id: `carrier.state.${c.state}` })}
             </Badge>
             <CarrierActionInfo carrierId={c.id!} actions={actions} clients={clients} />
-            <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(c)}>
-              {t({ id: "common.edit" })}
-            </Button>
-            <Button size="xs" mt={3} variant="outline" onClick={() => deleteCarrier(c)}>
-            {t({ id: "common.delete" })}
-          </Button>
+            <HStack mb={2}>
+              <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(c)}>
+                {t({ id: "common.edit" })}
+              </Button>
+              <Button size="xs" mt={3} variant="outline" onClick={() => deleteCarrier(c)}>
+                {t({ id: "common.delete" })}
+              </Button>
+            </HStack>
           </Box>
         ))}
       </SimpleGrid>
