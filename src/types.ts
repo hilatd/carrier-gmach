@@ -66,6 +66,7 @@ export interface Action {
   notes: string;
   createdAt: number;
   updatedAt: number;
+  deletedAt: number | null;
 }
 
 export interface Carrier {
@@ -79,4 +80,5 @@ export interface Carrier {
   notes: string;
   createdAt: number;
   updatedAt: number;
+  deletedAt: number | null;
 }

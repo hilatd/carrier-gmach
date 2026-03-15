@@ -15,7 +15,7 @@ export const he = {
   "home.step3.title": "בואי לקחת את המנשא",
 
   // Request Form
-  "form.title": "פתיחת בקשה",
+  "form.title": "פתיחת פניה",
   "form.parentName": "שם ההורה",
   "form.phone": "טלפון",
   "form.email": "אימייל",
@@ -117,6 +117,8 @@ export const he = {
   "carrier.waitingList": "רשימת המתנה",
   "carrier.historyEmpty": "אין השאלות קודמות",
   "carrier.viewAction": "צפייה",
+  "carrier.deleteConfirm": "האם את בטוחה שתרצי למחוק את המנשא? כל ההשאלות הקשורות יוסרו גם כן.",
+
 
   // Carrier Types
   "carrier.type.backpack": "ילקוט",
@@ -171,6 +173,7 @@ export const he = {
   // Common
   "common.edit": "עריכה",
   "common.save": "שמרי",
+  "common.delete": "מחקי",
   "common.cancel": "ביטול",
   "common.add": "הוסיפי",
   "common.loading": "טוען...",
