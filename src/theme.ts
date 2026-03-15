@@ -24,7 +24,7 @@ const theme = extendTheme({
   },
   fonts: {
     heading: `'Heebo', sans-serif`,
-    body:    `'Heebo', sans-serif`,
+    body: `'Heebo', sans-serif`,
   },
   components: {
     Button: {

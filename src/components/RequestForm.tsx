@@ -194,7 +194,7 @@ export default function RequestForm() {
         phone: toE164(form.phone),
         email: form.email.toLocaleLowerCase(),
         createdAt: Date.now(),
-        updatedAt: Date.now(),  
+        updatedAt: Date.now(),
         deletedAt: null,
       };
       const clientId = await addOrGetClient(client);
