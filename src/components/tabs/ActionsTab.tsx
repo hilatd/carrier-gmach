@@ -29,6 +29,7 @@ import FilterDrawer from "../search/FilterDrawer";
 import FilterSelect from "../search/FilterSelect";
 import SortControl from "../search/SortControl";
 import ResultsCount from "../search/ResultsCount";
+import SearchableSelect from "../search/SearchableSelect";
 
 const defaultReturnDate = () => {
   const date = new Date();
@@ -280,36 +281,26 @@ export default function ActionsTab() {
         loading={saving}
       >
         <VStack spacing={4}>
-          <FormControl>
-            <FormLabel>{t({ id: "action.client" })}</FormLabel>
-            <Select
-              value={form.clientId}
-              onChange={(e) => setForm({ ...form, clientId: e.target.value })}
-            >
-              <option value="">{t({ id: "action.select.client" })}</option>
-              {clients.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
+          {/* replace the client FormControl */}
+          <SearchableSelect
+            label={t({ id: "action.client" })}
+            value={form.clientId}
+            onChange={(v) => setForm({ ...form, clientId: v })}
+            placeholder={t({ id: "action.select.client" })}
+            options={clients.map((c) => ({ label: c.name, value: c.id! }))}
+          />
 
-          <FormControl>
-            <FormLabel>{t({ id: "action.carrier" })}</FormLabel>
-            <Select
-              value={form.carrierId}
-              onChange={(e) => setForm({ ...form, carrierId: e.target.value })}
-            >
-              <option value="">{t({ id: "action.select.carrier" })}</option>
-              {carriers.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {t({ id: `carrier.type.${c.type}` })}: {c.brand} - {c.model || ""} ({c.color})
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-
+          {/* replace the carrier FormControl */}
+          <SearchableSelect
+            label={t({ id: "action.carrier" })}
+            value={form.carrierId}
+            onChange={(v) => setForm({ ...form, carrierId: v })}
+            placeholder={t({ id: "action.select.carrier" })}
+            options={carriers.map((c) => ({
+              value: c.id!,
+              label: `${t({ id: `carrier.type.${c.type}` })}: ${c.brand} - ${c.model || ""} (${c.color})`,
+            }))}
+          />
           <FormControl>
             <FormLabel>{t({ id: "action.status" })}</FormLabel>
             <Select
