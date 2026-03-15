@@ -221,9 +221,13 @@ export default function RequestsTab() {
             </Badge>
 
             <Text>
-              👶 {r.babyAge} / {r.babyWeight}
+              👶{t({ id: "request.babyAge" })} {r.babyAge}
+            </Text>
+            <Text>
+              🍼 {t({ id: "request.babyWeight" })} {r.babyWeight}
             </Text>
             <Text>🎽 {r.carriersRequested}</Text>
+            <Text>🎒 {r.carriersExperience}</Text>
             {r.handledBy && <Text>👤 {volunteerName(r.handledBy)}</Text>}
             {r.notes && (
               <Text fontSize="sm" color="gray.500">
