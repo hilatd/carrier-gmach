@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import type { Volunteer } from "../../types";
 import { useCollection } from "../../hooks/useCollection";
@@ -81,23 +81,32 @@ export default function VolunteersTab() {
 
   const handleSave = async () => {
     setSaving(true);
-    const data = { ...form, updatedAt: Date.now() };
+    const data = { ...form, email: form.email.toLowerCase(), updatedAt: Date.now() };
+
     if (editId) {
       await updateDoc(doc(db, "volunteers", editId), data);
     } else {
-      await addDoc(collection(db, "volunteers"), {
-        ...data,
-        createdAt: Date.now(),
-      });
+      await addDoc(collection(db, "volunteers"), { ...data, createdAt: Date.now() });
     }
+
+    // keep volunteer_emails lookup in sync
+    await setDoc(doc(db, "volunteer_emails", data.email), {
+      active: data.isActive,
+    });
+
     setSaving(false);
     onClose();
   };
 
   const toggleActive = async (v: Volunteer) => {
+    const newActive = !v.isActive;
     await updateDoc(doc(db, "volunteers", v.id!), {
-      isActive: !v.isActive,
+      isActive: newActive,
       updatedAt: Date.now(),
+    });
+    // keep volunteer_emails lookup in sync
+    await setDoc(doc(db, "volunteer_emails", v.email.toLowerCase()), {
+      active: newActive,
     });
   };
 

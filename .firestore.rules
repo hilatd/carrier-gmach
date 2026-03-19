@@ -1,0 +1,52 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isActiveVolunteer() {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/volunteer_emails/$(request.auth.token.email)) &&
+        get(/databases/$(database)/documents/volunteer_emails/$(request.auth.token.email)).data.active == true;
+    }
+
+    match /volunteer_emails/{email} {
+      allow read: if isSignedIn();
+      allow write: if isActiveVolunteer();
+    }
+
+    match /volunteers/{id} {
+      allow read: if resource.data.isActive == true || isActiveVolunteer();
+      allow write: if isActiveVolunteer();
+    }
+
+    match /legal/{id} {
+      allow read: if true;
+      allow write: if isActiveVolunteer();
+    }
+
+    match /clients/{id} {
+      allow create: if true;
+      allow read, update, delete: if isActiveVolunteer();
+    }
+
+    match /requests/{id} {
+      allow create: if true;
+      allow read, update, delete: if isActiveVolunteer();
+    }
+
+    match /actions/{id} {
+      allow read, write: if isActiveVolunteer();
+    }
+
+    match /carriers/{id} {
+      allow read, write: if isActiveVolunteer();
+    }
+
+    match /carrier_volunteer/{id} {
+      allow read, write: if isActiveVolunteer();
+    }
+  }
+}
