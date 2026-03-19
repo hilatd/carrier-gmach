@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import VolunteerLogin from "./pages/VolunteerLogin";
 import Dashboard from "./pages/Dashboard";
 import Legal from "./pages/Legal";
+import Footer from "./components/Footer";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/legal" element={<Legal />} />
         </Routes>
+        <Footer />
       </Box>
     </BrowserRouter>
   );

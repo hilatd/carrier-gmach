@@ -261,5 +261,7 @@ firebase deploy
 - Responsive card grid: 1 col mobile → 3 col desktop
 
 ---
+## 📄 License
+[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) — free to use and adapt for non-commercial purposes with attribution.
 
 ## 💜 Built with love for the Jerusalem babywearing community
