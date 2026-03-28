@@ -30,18 +30,12 @@ jobs:
           VITE_CLOUDINARY_CLOUD_NAME: ${{ secrets.VITE_CLOUDINARY_CLOUD_NAME }}
           VITE_CLOUDINARY_UPLOAD_PRESET: ${{ secrets.VITE_CLOUDINARY_UPLOAD_PRESET }}
 
-      - name: Deploy Firestore indexes and rules  
-        run: |
-          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > /tmp/sa.json
-          npx firebase-tools@latest deploy --only firestore \
-            --project carrier-gmach
+      - name: Deploy Firestore indexes and rules
+        run: npx firebase-tools@latest deploy --only firestore --project carrier-gmach
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: /tmp/sa.json
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          channelId: live
-          projectId: carrier-gmach
+        run: npx firebase-tools@latest deploy --only hosting --project carrier-gmach
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
