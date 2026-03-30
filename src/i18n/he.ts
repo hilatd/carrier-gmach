@@ -34,9 +34,9 @@ export const he = {
   "form.source.options.other": "אחר",
   "form.notes": "הערות",
   "form.agreement": "מסכימה לתנאי השימוש ",
-  "form.submit": "שלחי בקשה",
+  "form.submit": "שלחי פניה",
   "form.submitting": "שולח...",
-  "form.success": "הבקשה נשלחה! מתנדבת תיצור איתך קשר בקרוב 💜",
+  "form.success": "הפניה נשלחה! מתנדבת תיצור איתך קשר בקרוב 💜",
   "form.select": "בחרי",
   "form.agreement.prefix": "קראתי ואני מסכים/ה ל",
   "form.agreement.link": "תנאי השימוש",
@@ -51,7 +51,7 @@ export const he = {
   "form.error.phone": "נא להזין מספר נייד ישראלי תקין",
   "form.error.email": "נא להזין כתובת אימייל תקינה",
   "form.error.legal": "יש לאשר את תנאי השימוש להמשך",
-  "form.success.title": "הבקשה נשלחה! 💜",
+  "form.success.title": "הפניה נשלחה! 💜",
 
   // Volunteer login
   "volunteerLogin.error": "המשתמשת אינה מתנדבת רשומה",
@@ -73,8 +73,8 @@ export const he = {
   "status.closed": "סגור",
 
   // Requests
-  "request.new": "בקשה חדשה",
-  "request.edit": "עריכת בקשה",
+  "request.new": "פניה חדשה",
+  "request.edit": "עריכת פניה",
   "request.client": "שואלת",
   "request.status": "סטטוס",
   "request.babyAge": "גיל תינוק",
@@ -86,7 +86,7 @@ export const he = {
   "request.notes": "הערות",
   "request.select.client": "בחרי שואלת",
   "request.select.volunteer": "בחרי מתנדבת",
-  "request.showUnhandled": "הצג רק בקשות פתוחות",
+  "request.showUnhandled": "הצג רק פניות פתוחות",
   "requests.handled": "סמני כטופל",
 
   //legal
@@ -219,7 +219,7 @@ export const he = {
   "catalog.backpack.age": "מלידה עד 4 שנים",
   "catalog.backpack.difficulty": "קל ⭐",
   "catalog.backpack.best": "שימוש יומיומי, טיולים",
-  "catalog.backpack.pro1": "מהיר וקל לחבישה",
+  "catalog.backpack.pro1": "מהיר וקל ללבישה",
   "catalog.backpack.pro2": "פיזור משקל מצוין",
   "catalog.backpack.pro3": "מתאים לנשיאה ממושכת",
   "catalog.backpack.con1": "גדול יותר ממנשאים אחרים",
@@ -236,7 +236,7 @@ export const he = {
   "catalog.woven_wrap.con1": "עקומת למידה תלולה",
   "catalog.woven_wrap.con2": "הבד הארוך עלול לגרור על הרצפה",
 
-  "catalog.elastic.name": "עטיפה אלסטית",
+  "catalog.elastic.name": "עטיפת בד אלסטית",
   "catalog.elastic.example": "לדוגמא Moby, Boba Wrap",
   "catalog.elastic.age": "מלידה עד ~7 ק״ג",
   "catalog.elastic.difficulty": "קל ⭐",

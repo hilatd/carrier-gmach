@@ -239,7 +239,7 @@ export default function RequestsTab() {
               <Button size="sm" onClick={() => openWhatsApp(r)} leftIcon={<span>💬</span>}>
                 {t({ id: "common.whatsapp" })}
               </Button>
-              {r.status === "open" && (
+              {(r.status === "open" || r.status === "pending") && (
                 <Button size="sm" onClick={() => markHandled(r)}>
                   {t({ id: "requests.handled" })}
                 </Button>
