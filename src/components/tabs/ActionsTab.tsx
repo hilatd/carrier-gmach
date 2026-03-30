@@ -161,6 +161,7 @@ export default function ActionsTab() {
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
         {filtered.map((a) => (
           <Box
+            onClick={() => openEdit(a)}
             key={a.id}
             bg={bg}
             p={5}
