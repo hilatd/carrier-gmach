@@ -133,6 +133,7 @@ export default function ActionsTab() {
     const data = { ...form, updatedAt: Date.now() };
     if (editId) await updateDoc(doc(db, "actions", editId), data);
     else await addDoc(collection(db, "actions"), { ...data, createdAt: Date.now() });
+    // here update the carrier station volunteer id
     setSaving(false);
     onEditClose();
   };
@@ -185,6 +186,19 @@ export default function ActionsTab() {
 
             <Text>🎽 {carrierLabel(a.carrierId)}</Text>
 
+            <Text>
+              📅{" "}
+              <FormattedMessage
+                id="action.dateTaken"
+                values={{
+                  date: formatDate(a.dateTaken, {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  }),
+                }}
+              />
+            </Text>
             <Text>
               📅{" "}
               <FormattedMessage
