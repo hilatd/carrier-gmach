@@ -123,7 +123,7 @@ export const he = {
   "carrier.type.backpack": "ילקוט",
   "carrier.type.woven_wrap": "ארוג ארוך",
   "carrier.type.elastic": "אלסטי",
-  "carrier.type.mei_dai": "מיי טאי",
+  "carrier.type.mei_dai": "מאי טאי",
   "carrier.type.rings": "טבעות",
   "carrier.type.accessories": "אביזרים",
   "carrier.type.other": "אחר",
@@ -247,7 +247,7 @@ export const he = {
   "catalog.elastic.con1": "לא מתאים מעל ~7-8 ק״ג",
   "catalog.elastic.con2": "עלול להיות חם בקיץ",
 
-  "catalog.mei_dai.name": "מיי טאי",
+  "catalog.mei_dai.name": "מאי טאי",
   "catalog.mei_dai.example": "לדוגמא Fidella Fly Tai",
   "catalog.mei_dai.age": "מלידה עד גיל הליכה",
   "catalog.mei_dai.difficulty": "בינוני ⭐⭐",
