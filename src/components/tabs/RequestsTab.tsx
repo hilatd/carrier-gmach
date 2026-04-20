@@ -150,10 +150,10 @@ export default function RequestsTab() {
     onEditClose();
   };
 
-  const markHandled = async (request: CarrierRequest) => {
+  /*  const markHandled = async (request: CarrierRequest) => {
     if (!request.id) return;
     await updateDoc(doc(db, "requests", request.id), { status: "handled" });
-  };
+  }; */
 
   const openWhatsApp = (request: CarrierRequest) => {
     if (!currentVolunteer) return;
@@ -203,6 +203,7 @@ export default function RequestsTab() {
             boxShadow="md"
             borderRightWidth={4}
             borderRightColor={`${STATUS_COLORS[r.status]}.400`}
+            onClick={() => openEdit(r)}
           >
             <HStack justify="space-between" mb={1}>
               <HStack justify="flex-start">
@@ -239,11 +240,11 @@ export default function RequestsTab() {
               <Button size="sm" onClick={() => openWhatsApp(r)} leftIcon={<span>💬</span>}>
                 {t({ id: "common.whatsapp" })}
               </Button>
-              {(r.status === "open" || r.status === "pending") && (
+              {/*{(r.status === "open" || r.status === "pending") && (
                 <Button size="sm" onClick={() => markHandled(r)}>
                   {t({ id: "requests.handled" })}
                 </Button>
-              )}
+              )}*/}
               <Button size="xs" variant="outline" onClick={() => openEdit(r)}>
                 {t({ id: "common.edit" })}
               </Button>
