@@ -83,7 +83,7 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
               </Text>
               <Text fontSize="xs" color="gray.500">
                 📅{" "}
-                {formatDate(currentAction.dateReturned, {
+                {formatDate(currentAction.dateTaken, {
                   day: "2-digit",
                   month: "2-digit",
                   year: "numeric",

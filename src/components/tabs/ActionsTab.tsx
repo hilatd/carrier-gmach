@@ -22,6 +22,7 @@ import {
   useColorModeValue,
   useDisclosure,
   VStack,
+  Link,
 } from "@chakra-ui/react";
 import EditModal from "../EditModal";
 import SearchBar from "../search/SearchBar";
@@ -42,7 +43,7 @@ const empty: Omit<Action, "id"> = {
   takenFrom: "",
   lastContactBy: "",
   status: "open",
-  dateReturned: defaultReturnDate(),
+  dateReturned: 0,
   dateTaken: Date.now(),
   returnedTo: "",
   paid: false,
@@ -67,8 +68,15 @@ export default function ActionsTab() {
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure();
   const { isOpen: isFilterOpen, onOpen: onFilterOpen, onClose: onFilterClose } = useDisclosure();
   const bg = useColorModeValue("white", "gray.800");
+  const showMoreDetails = (status: ActionStatus) => status === "lending" || status === "returned";
+  const returnDateForStatus: Partial<Record<ActionStatus, () => number>> = {
+    lending: defaultReturnDate,
+    returned: Date.now,
+  };
 
   const clientName = (id: string) => clients.find((c) => c.id === id)?.name ?? "";
+  const clientPhone = (id: string) => clients.find((v) => v.id === id)?.phone ?? "";
+
   const volunteerName = (id: string) => volunteers.find((v) => v.id === id)?.name ?? "";
   const carrierLabel = (id: string) => {
     const c = carriers.find((c) => c.id === id);
@@ -113,7 +121,7 @@ export default function ActionsTab() {
   const openNew = () => {
     setForm({
       ...empty,
-      dateReturned: defaultReturnDate(),
+      dateReturned: 0,
       dateTaken: Date.now(),
       createdAt: Date.now(),
       updatedAt: Date.now(),
@@ -131,11 +139,23 @@ export default function ActionsTab() {
   const handleSave = async () => {
     setSaving(true);
     const data = { ...form, updatedAt: Date.now() };
-    if (editId) await updateDoc(doc(db, "actions", editId), data);
-    else await addDoc(collection(db, "actions"), { ...data, createdAt: Date.now() });
-    // here update the carrier station volunteer id
+    if (editId) {
+      await updateDoc(doc(db, "actions", editId), data);
+      const c = carriers.find((c) => c.id === data.carrierId);
+      if (data?.returnedTo !== c?.volunteerId) {
+        await updateDoc(doc(db, "carriers", data.carrierId), {
+          volunteerId: data.returnedTo,
+          updatedAt: Date.now(),
+        });
+      }
+    } else await addDoc(collection(db, "actions"), { ...data, createdAt: Date.now() });
+
     setSaving(false);
     onEditClose();
+  };
+
+  const openWhatsApp = (action: Action) => {
+    window.open(`https://wa.me/${clientPhone(action.clientId)}`, "_blank");
   };
 
   if (loading) return null;
@@ -175,61 +195,68 @@ export default function ActionsTab() {
               <Text fontWeight="bold" fontSize="lg">
                 {clientName(a.clientId)}
               </Text>
+              <Link href={`tel:${clientPhone(a.clientId)}`} color="brand.500" fontWeight="medium">
+                📞 {clientPhone(a.clientId)}
+              </Link>
               <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(a)}>
                 {t({ id: "common.edit" })}
               </Button>
             </HStack>
-
             <Badge colorScheme={ACTION_STATUS_COLORS[a.status]} mb={2}>
               {t({ id: `action.status.${a.status}` })}
             </Badge>
-
             <Text>🎽 {carrierLabel(a.carrierId)}</Text>
+            {showMoreDetails(a.status) && (
+              <>
+                <Text>
+                  📅{" "}
+                  <FormattedMessage
+                    id="action.startDate"
+                    values={{
+                      date: formatDate(a.dateTaken, {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      }),
+                    }}
+                  />
+                </Text>
 
-            <Text>
-              📅{" "}
-              <FormattedMessage
-                id="action.dateTaken"
-                values={{
-                  date: formatDate(a.dateTaken, {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  }),
-                }}
-              />
-            </Text>
-            <Text>
-              📅{" "}
-              <FormattedMessage
-                id="action.returnDate"
-                values={{
-                  date: formatDate(a.dateReturned, {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  }),
-                }}
-              />
-            </Text>
+                <Text>
+                  📅{" "}
+                  <FormattedMessage
+                    id="action.returnDate"
+                    values={{
+                      date: formatDate(a.dateReturned, {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      }),
+                    }}
+                  />
+                </Text>
 
-            <Text>
-              👤{" "}
-              <FormattedMessage
-                id="action.takenFromLabel"
-                values={{ name: volunteerName(a.takenFrom) }}
-              />
-            </Text>
+                <Text>
+                  👤{" "}
+                  <FormattedMessage
+                    id="action.takenFromLabel"
+                    values={{ name: volunteerName(a.takenFrom) }}
+                  />
+                </Text>
 
-            <Badge colorScheme={a.paid ? "green" : "red"}>
-              {t({ id: a.paid ? "common.paid" : "common.unpaid" })}
-            </Badge>
-
+                <Badge colorScheme={a.paid ? "green" : "red"}>
+                  {t({ id: a.paid ? "common.paid" : "common.unpaid" })}
+                </Badge>
+              </>
+            )}
             {a.notes && (
               <Text fontSize="sm" color="gray.500" mt={1}>
                 📝 {a.notes}
               </Text>
             )}
+            <Button size="sm" onClick={() => openWhatsApp(a)} leftIcon={<span>💬</span>}>
+              {t({ id: "common.whatsapp" })}
+            </Button>
           </Box>
         ))}
       </SimpleGrid>
@@ -324,7 +351,15 @@ export default function ActionsTab() {
             <FormLabel>{t({ id: "action.status" })}</FormLabel>
             <Select
               value={form.status}
-              onChange={(e) => setForm({ ...form, status: e.target.value as ActionStatus })}
+              onChange={(e) => {
+                const newStatus = e.target.value as ActionStatus;
+                setForm({
+                  ...form,
+                  status: newStatus,
+                  // auto-set return date when switching to lending, clear otherwise
+                  dateReturned: returnDateForStatus[newStatus]?.() ?? 0,
+                });
+              }}
             >
               {ACTION_STATUSES.map((s) => (
                 <option key={s} value={s}>
@@ -387,16 +422,20 @@ export default function ActionsTab() {
               onChange={(e) => setForm({ ...form, dateTaken: new Date(e.target.value).getTime() })}
             />
           </FormControl>
-          <FormControl>
-            <FormLabel>{t({ id: "action.dateReturned" })}</FormLabel>
-            <Input
-              type="date"
-              value={new Date(form.dateReturned).toISOString().split("T")[0]}
-              onChange={(e) =>
-                setForm({ ...form, dateReturned: new Date(e.target.value).getTime() })
-              }
-            />
-          </FormControl>
+          {showMoreDetails(form.status) && (
+            <FormControl>
+              <FormLabel>{t({ id: "action.dateReturned" })}</FormLabel>
+              <Input
+                type="date"
+                value={
+                  form.dateReturned ? new Date(form.dateReturned).toISOString().split("T")[0] : ""
+                }
+                onChange={(e) =>
+                  setForm({ ...form, dateReturned: new Date(e.target.value).getTime() })
+                }
+              />
+            </FormControl>
+          )}
 
           <Checkbox
             isChecked={form.paid}

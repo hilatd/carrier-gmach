@@ -198,6 +198,7 @@ export const he = {
   "action.select.carrier": "בחרי מנשא",
   "action.select.volunteer": "בחרי מתנדבת",
   "action.returnDate": "החזרה: {date}",
+  "action.startDate": "שאילה: {date}",
   "action.takenFromLabel": "נלקח מ: {name}",
 
   // Action Statuses

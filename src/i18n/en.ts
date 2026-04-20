@@ -200,6 +200,7 @@ export const en = {
   "action.select.carrier": "Select carrier",
   "action.select.volunteer": "Select volunteer",
   "action.returnDate": "Return: {date}",
+  "action.startDate": "taken: {date}",
   "action.takenFromLabel": "From: {name}",
 
   // Action Statuses
