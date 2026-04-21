@@ -344,7 +344,7 @@ export default function ActionsTab() {
             placeholder={t({ id: "action.select.client" })}
             options={clients.map((c) => ({ label: c.name, value: c.id! }))}
           />
-<FormControl>
+          <FormControl>
             <FormLabel>{t({ id: "action.status" })}</FormLabel>
             <Select
               value={form.status}
@@ -386,7 +386,6 @@ export default function ActionsTab() {
               {t({ id: "action.error.carrierInUse" })}
             </Alert>
           )}
-          
 
           <FormControl>
             <FormLabel>{t({ id: "action.takenFrom" })}</FormLabel>
