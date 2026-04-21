@@ -201,6 +201,10 @@ export const he = {
   "action.startDate": "שאילה: {date}",
   "action.takenFromLabel": "נלקח מ: {name}",
 
+  // Error
+  "action.error.carrierInUse": "המנשא הזה כבר מושאל. אנא בחרי מנשא אחר.",
+  "action.error.carrierInUse.short": "(מושאל)",
+
   // Action Statuses
   "action.status.open": "פתוח",
   "action.status.lending": "בהשאלה",

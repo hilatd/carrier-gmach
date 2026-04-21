@@ -73,7 +73,6 @@ export const en = {
   "status.closed": "Closed",
 
   // requests
-  // Requests
   "request.new": "New Request",
   "request.edit": "Edit Request",
   "request.client": "Client",
@@ -202,6 +201,11 @@ export const en = {
   "action.returnDate": "Return: {date}",
   "action.startDate": "taken: {date}",
   "action.takenFromLabel": "From: {name}",
+
+  // Error
+  "action.error.carrierInUse":
+    "This carrier is already on loan. Please choose a different carrier.",
+  "action.error.carrierInUse.short": "(on loan)",
 
   // Action Statuses
   "action.status.open": "Open",

@@ -7,6 +7,8 @@ import { useFilterSort } from "../../hooks/useFilterSort";
 import { ACTION_STATUSES, ACTION_STATUS_COLORS } from "../../utils/actionOptions";
 import { useIntl, FormattedMessage } from "react-intl";
 import {
+  Alert,
+  AlertIcon,
   Badge,
   Box,
   Button,
@@ -31,6 +33,7 @@ import FilterSelect from "../search/FilterSelect";
 import SortControl from "../search/SortControl";
 import ResultsCount from "../search/ResultsCount";
 import SearchableSelect from "../search/SearchableSelect";
+import { useLendingCarriers } from "../../hooks/useLendingCarriers";
 
 const defaultReturnDate = () => {
   const date = new Date();
@@ -65,6 +68,7 @@ export default function ActionsTab() {
   const [form, setForm] = useState<Omit<Action, "id">>(empty);
   const [editId, setEditId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [carrierConflict, setCarrierConflict] = useState(false);
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure();
   const { isOpen: isFilterOpen, onOpen: onFilterOpen, onClose: onFilterClose } = useDisclosure();
   const bg = useColorModeValue("white", "gray.800");
@@ -73,7 +77,7 @@ export default function ActionsTab() {
     lending: defaultReturnDate,
     returned: Date.now,
   };
-
+  const lendingCarrierIds = useLendingCarriers(actions, editId);
   const clientName = (id: string) => clients.find((c) => c.id === id)?.name ?? "";
   const clientPhone = (id: string) => clients.find((v) => v.id === id)?.phone ?? "";
 
@@ -137,6 +141,11 @@ export default function ActionsTab() {
   };
 
   const handleSave = async () => {
+    if (form.status === "lending" && lendingCarrierIds.has(form.carrierId)) {
+      setCarrierConflict(true);
+      return;
+    }
+    setCarrierConflict(false);
     setSaving(true);
     const data = { ...form, updatedAt: Date.now() };
     if (editId) {
@@ -335,19 +344,7 @@ export default function ActionsTab() {
             placeholder={t({ id: "action.select.client" })}
             options={clients.map((c) => ({ label: c.name, value: c.id! }))}
           />
-
-          {/* replace the carrier FormControl */}
-          <SearchableSelect
-            label={t({ id: "action.carrier" })}
-            value={form.carrierId}
-            onChange={(v) => setForm({ ...form, carrierId: v })}
-            placeholder={t({ id: "action.select.carrier" })}
-            options={carriers.map((c) => ({
-              value: c.id!,
-              label: `${t({ id: `carrier.type.${c.type}` })}: ${c.brand} - ${c.model || ""} (${c.color})`,
-            }))}
-          />
-          <FormControl>
+<FormControl>
             <FormLabel>{t({ id: "action.status" })}</FormLabel>
             <Select
               value={form.status}
@@ -368,6 +365,28 @@ export default function ActionsTab() {
               ))}
             </Select>
           </FormControl>
+          {/* replace the carrier FormControl */}
+          <SearchableSelect
+            label={t({ id: "action.carrier" })}
+            value={form.carrierId}
+            onChange={(v) => {
+              setForm({ ...form, carrierId: v });
+              setCarrierConflict(false);
+            }}
+            placeholder={t({ id: "action.select.carrier" })}
+            options={carriers.map((c) => ({
+              value: c.id!,
+              label: `${t({ id: `carrier.type.${c.type}` })}: ${c.brand} - ${c.model || ""} (${c.color})`,
+              disabled: form.status === "lending" && lendingCarrierIds.has(c.id!),
+            }))}
+          />
+          {carrierConflict && (
+            <Alert status="error" borderRadius="lg" fontSize="sm">
+              <AlertIcon />
+              {t({ id: "action.error.carrierInUse" })}
+            </Alert>
+          )}
+          
 
           <FormControl>
             <FormLabel>{t({ id: "action.takenFrom" })}</FormLabel>

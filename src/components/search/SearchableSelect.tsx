@@ -8,14 +8,16 @@ import {
   InputRightElement,
   IconButton,
   useColorModeValue,
+  Text,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
+import { useIntl } from "react-intl";
 
 interface Props {
   label: string;
   value: string;
   onChange: (value: string) => void;
-  options: { label: string; value: string }[];
+  options: { label: string; value: string; disabled?: boolean }[];
   placeholder?: string;
 }
 
@@ -25,6 +27,8 @@ export default function SearchableSelect({ label, value, onChange, options, plac
   const bg = useColorModeValue("white", "gray.800");
   const hoverBg = useColorModeValue("brand.50", "gray.700");
   const borderCol = useColorModeValue("gray.200", "gray.600");
+
+  const { formatMessage: t } = useIntl();
 
   const selectedLabel = options.find((o) => o.value === value)?.label ?? "";
   // show what the user is typing, fall back to the selected label
@@ -97,14 +101,20 @@ export default function SearchableSelect({ label, value, onChange, options, plac
                 key={o.value}
                 px={4}
                 py={3}
-                cursor="pointer"
+                cursor={o.disabled ? "not-allowed" : "pointer"}
+                opacity={o.disabled ? 0.4 : 1}
                 fontSize="sm"
                 fontWeight={o.value === value ? "bold" : "normal"}
                 bg={o.value === value ? hoverBg : undefined}
-                _hover={{ bg: hoverBg }}
-                onMouseDown={() => pick(o.value)}
+                _hover={{ bg: o.disabled ? undefined : hoverBg }}
+                onMouseDown={() => !o.disabled && pick(o.value)}
               >
                 {o.label}
+                {o.disabled && (
+                  <Text as="span" fontSize="xs" color="red.400" ms={2}>
+                    {t({ id: "action.error.carrierInUse.short" })}
+                  </Text>
+                )}
               </Box>
             ))}
           </Box>
