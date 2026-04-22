@@ -201,6 +201,7 @@ export const en = {
   "action.returnDate": "Return: {date}",
   "action.startDate": "taken: {date}",
   "action.takenFromLabel": "From: {name}",
+  "action.totalFee": "Total fee",
 
   // Error
   "action.error.carrierInUse":

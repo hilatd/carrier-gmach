@@ -200,6 +200,7 @@ export const he = {
   "action.returnDate": "החזרה: {date}",
   "action.startDate": "שאילה: {date}",
   "action.takenFromLabel": "נלקח מ: {name}",
+  "action.totalFee": "תשלום כולל",
 
   // Error
   "action.error.carrierInUse": "המנשא הזה כבר מושאל. אנא בחרי מנשא אחר.",

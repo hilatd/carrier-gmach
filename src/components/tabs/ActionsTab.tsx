@@ -202,7 +202,9 @@ export default function ActionsTab() {
         await addDoc(collection(db, "actions"), { ...data, createdAt: now });
       }
 
-      await closeDuplicateWaitingList(form.carrierId, form.clientId);
+      if (form.status === "lending") {
+        await closeDuplicateWaitingList(form.carrierId, form.clientId);
+      }
     } finally {
       setSaving(false);
       onEditClose();

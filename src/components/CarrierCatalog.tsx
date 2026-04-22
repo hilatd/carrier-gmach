@@ -159,14 +159,14 @@ export default function CarrierCatalog() {
 
   return (
     <Box bg={sectionBg} py={16} px={6}>
-      <VStack spacing={3} mb={10} textAlign="center">
+      <VStack spacing={3} mb={4} textAlign="center">
         <Heading size="lg">{t({ id: "catalog.title" })}</Heading>
         <Text color="gray.500" maxW="560px">
           {t({ id: "catalog.subtitle" })}
         </Text>
       </VStack>
 
-      <Text as="span" fontSize="sm" lineHeight={1.6}>
+      <Text as="span" fontSize="sm" lineHeight={1} mb={2}>
         {t({ id: "catalog.link.title" })}{" "}
         <Link
           href="/carriersList"
