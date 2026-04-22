@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc, writeBatch } from "firebase/firestore";
 import { db } from "../../firebase";
 import type { Action, ActionStatus, Carrier, Client, Volunteer } from "../../types";
 import { useCollection } from "../../hooks/useCollection";
@@ -140,27 +140,73 @@ export default function ActionsTab() {
     onEditOpen();
   };
 
+  const closeDuplicateWaitingList = async (selectedCarrierId: string, clientId: string) => {
+    if (!selectedCarrierId || !clientId) return;
+
+    const carrier = carriers.find((c) => c.id === selectedCarrierId);
+    if (!carrier) return;
+
+    const similarCarrierIds = new Set(
+      carriers
+        .filter((c) => c.brand === carrier.brand && c.type === carrier.type && c.id !== carrier.id)
+        .map((c) => c.id!)
+    );
+
+    const toClose = actions.filter(
+      (a) =>
+        a.clientId === clientId && a.status === "waiting_list" && similarCarrierIds.has(a.carrierId)
+    );
+
+    if (!toClose.length) return;
+
+    const batch = writeBatch(db);
+    const now = Date.now();
+    for (const a of toClose) {
+      batch.update(doc(db, "actions", a.id!), {
+        status: "closed",
+        notes: "closed automatically",
+        updatedAt: now,
+      });
+    }
+
+    await batch.commit().catch((error) => console.error("Batch update failed:", error));
+  };
+
   const handleSave = async () => {
     if (form.status === "lending" && lendingCarrierIds.has(form.carrierId)) {
       setCarrierConflict(true);
       return;
     }
+
     setCarrierConflict(false);
     setSaving(true);
-    const data = { ...form, updatedAt: Date.now() };
-    if (editId) {
-      await updateDoc(doc(db, "actions", editId), data);
-      const c = carriers.find((c) => c.id === data.carrierId);
-      if (data?.returnedTo !== c?.volunteerId) {
-        await updateDoc(doc(db, "carriers", data.carrierId), {
-          volunteerId: data.returnedTo,
-          updatedAt: Date.now(),
-        });
-      }
-    } else await addDoc(collection(db, "actions"), { ...data, createdAt: Date.now() });
 
-    setSaving(false);
-    onEditClose();
+    const now = Date.now();
+    const data = { ...form, updatedAt: now };
+
+    try {
+      if (editId) {
+        const carrier = carriers.find((c) => c.id === data.carrierId);
+        await Promise.all([
+          updateDoc(doc(db, "actions", editId), data),
+          ...(data.returnedTo !== carrier?.volunteerId
+            ? [
+                updateDoc(doc(db, "carriers", data.carrierId), {
+                  volunteerId: data.returnedTo,
+                  updatedAt: now,
+                }),
+              ]
+            : []),
+        ]);
+      } else {
+        await addDoc(collection(db, "actions"), { ...data, createdAt: now });
+      }
+
+      await closeDuplicateWaitingList(form.carrierId, form.clientId);
+    } finally {
+      setSaving(false);
+      onEditClose();
+    }
   };
 
   const openWhatsApp = (action: Action) => {
@@ -386,7 +432,6 @@ export default function ActionsTab() {
               {t({ id: "action.error.carrierInUse" })}
             </Alert>
           )}
-
           <FormControl>
             <FormLabel>{t({ id: "action.takenFrom" })}</FormLabel>
             <Select
@@ -401,7 +446,6 @@ export default function ActionsTab() {
               ))}
             </Select>
           </FormControl>
-
           <FormControl>
             <FormLabel>{t({ id: "action.lastContactBy" })}</FormLabel>
             <Select
@@ -441,18 +485,28 @@ export default function ActionsTab() {
             />
           </FormControl>
           {showMoreDetails(form.status) && (
-            <FormControl>
-              <FormLabel>{t({ id: "action.dateReturned" })}</FormLabel>
-              <Input
-                type="date"
-                value={
-                  form.dateReturned ? new Date(form.dateReturned).toISOString().split("T")[0] : ""
-                }
-                onChange={(e) =>
-                  setForm({ ...form, dateReturned: new Date(e.target.value).getTime() })
-                }
-              />
-            </FormControl>
+            <>
+              <FormControl>
+                <FormLabel>{t({ id: "action.dateReturned" })}</FormLabel>
+                <Input
+                  type="date"
+                  value={
+                    form.dateReturned ? new Date(form.dateReturned).toISOString().split("T")[0] : ""
+                  }
+                  onChange={(e) =>
+                    setForm({ ...form, dateReturned: new Date(e.target.value).getTime() })
+                  }
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>{t({ id: "action.totalFee" })}</FormLabel>
+                <Input
+                  type="number"
+                  value={form.totalFee}
+                  onChange={(e) => setForm({ ...form, totalFee: Number(e.target.value) })}
+                />
+              </FormControl>
+            </>
           )}
 
           <Checkbox
@@ -461,7 +515,6 @@ export default function ActionsTab() {
           >
             {t({ id: "action.paid" })}
           </Checkbox>
-
           <FormControl>
             <FormLabel>{t({ id: "action.notes" })}</FormLabel>
             <Textarea
