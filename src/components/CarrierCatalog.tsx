@@ -13,6 +13,7 @@ import {
   ListIcon,
   useColorModeValue,
   Divider,
+  Link,
 } from "@chakra-ui/react";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
@@ -165,6 +166,18 @@ export default function CarrierCatalog() {
         </Text>
       </VStack>
 
+      <Text as="span" fontSize="sm" lineHeight={1.6}>
+        {t({ id: "catalog.link.title" })}{" "}
+        <Link
+          href="/carriersList"
+          rel="noopener noreferrer"
+          color="brand.500"
+          textDecoration="underline"
+          fontWeight="semibold"
+        >
+          {t({ id: "catalog.link.click" })}
+        </Link>
+      </Text>
       <Grid
         templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
         gap={6}

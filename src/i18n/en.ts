@@ -218,6 +218,8 @@ export const en = {
   "catalog.title": "Our Carrier Collection",
   "catalog.subtitle":
     "Not sure which carrier is right for you? Here's a quick guide to help you choose.",
+  "catalog.link.title": "For full catalog",
+  "catalog.link.click": "click here",
   "catalog.age": "Age",
   "catalog.difficulty": "Difficulty",
   "catalog.best": "Best for",
@@ -287,4 +289,13 @@ export const en = {
   "catalog.accessories.pro3": "No learning curve",
   "catalog.accessories.con1": "Not a carrier on its own",
   "catalog.accessories.con2": "Seasonal use only",
+  "carriersList.eyebrow": "Jerusalem Carrier Gemach",
+  "carriersList.title": "Our Carrier Inventory",
+  "carriersList.subtitle":
+    "All carriers currently available to borrow, organized by type. Each item is in good condition and ready to use.",
+  "carriersList.unit": "carrier",
+  "carriersList.units": "carriers",
+  "carriersList.empty": "No carriers available at the moment.",
+  "carriersList.note":
+    "Availability changes frequently. Submit a request and a volunteer will match you with the right carrier.",
 };

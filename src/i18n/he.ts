@@ -215,6 +215,8 @@ export const he = {
   // Carrier Catalog
   "catalog.title": "סוגי המנשאים שלנו",
   "catalog.subtitle": "לא בטוחים איזה מנשא מתאים לכם? הנה מדריך קצר שיעזור לכם לבחור.",
+  "catalog.link.title": "לקטלוג המלא",
+  "catalog.link.click": "לחצי כאן",
   "catalog.age": "גיל",
   "catalog.difficulty": "רמת קושי",
   "catalog.best": "הכי מתאים ל",
@@ -284,4 +286,13 @@ export const he = {
   "catalog.accessories.pro3": "ללא עקומת למידה",
   "catalog.accessories.con1": "לא מנשא עצמאי",
   "catalog.accessories.con2": "שימוש עונתי בלבד",
+
+  "carriersList.eyebrow": "גמ״ח המנשאים הקהילתי ירושלים",
+  "carriersList.title": "המנשאים שלנו",
+  "carriersList.subtitle":
+    "כל המנשאים הזמינים להשאלה, מסודרים לפי סוג. כל הפריטים במצב תקין ומוכנים לשימוש.",
+  "carriersList.unit": "מנשא",
+  "carriersList.units": "מנשאים",
+  "carriersList.empty": "אין מנשאים זמינים כרגע.",
+  "carriersList.note": "הזמינות משתנה תדיר. שלחו פנייה ומתנדבת תתאים לכם את המנשא המתאים.",
 };
