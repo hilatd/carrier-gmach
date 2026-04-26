@@ -29,7 +29,8 @@ service cloud.firestore {
 
     match /clients/{id} {
       allow create: if true;
-      allow read, update, delete: if isActiveVolunteer();
+      allow read: if true;
+      allow update, delete: if isActiveVolunteer();
     }
 
     match /requests/{id} {
@@ -48,6 +49,10 @@ service cloud.firestore {
 
     match /carrier_volunteer/{id} {
       allow read, write: if isActiveVolunteer();
+    }
+    match /error_logs/{id} {
+      allow create: if true;
+      allow read: if isActiveVolunteer();
     }
   }
 }

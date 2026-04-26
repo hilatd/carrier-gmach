@@ -52,6 +52,7 @@ export const he = {
   "form.error.email": "נא להזין כתובת אימייל תקינה",
   "form.error.legal": "יש לאשר את תנאי השימוש להמשך",
   "form.success.title": "הפניה נשלחה! 💜",
+  "form.error.submit": "משהו השתבש. אנא נסי שוב או פני אלינו ישירות.",
 
   // Volunteer login
   "volunteerLogin.error": "המשתמשת אינה מתנדבת רשומה",

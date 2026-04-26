@@ -52,6 +52,7 @@ export const en = {
   "form.error.email": "Please enter a valid email address",
   "form.error.legal": "You must accept the terms to continue",
   "form.success.title": "Request sent! 💜",
+  "form.error.submit": "Something went wrong. Please try again or contact us directly.",
 
   // Volunteer login
   "volunteerLogin.error": "This account is not an authorized volunteer.",

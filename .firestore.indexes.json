@@ -61,13 +61,9 @@
       "collectionGroup": "clients",
       "queryScope": "COLLECTION",
       "fields": [
-        {
-          "fieldPath": "deletedAt",
+         {
+          "fieldPath": "email",
           "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "createdAt",
-          "order": "DESCENDING"
         },
         {
           "fieldPath": "__name__",

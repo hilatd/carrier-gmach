@@ -4,6 +4,8 @@ import { db } from "../firebase";
 import { useIntl } from "react-intl";
 import type { CarrierRequest, Client } from "../types";
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   FormControl,
@@ -28,6 +30,7 @@ import {
 } from "@chakra-ui/react";
 import { CheckIcon } from "@chakra-ui/icons";
 import { sendConfirmationEmail } from "../utils/sendConfirmationEmail";
+import { logError } from "../utils/logError";
 
 // ─── Phone validation & formatting ────────────────────────────────────────────
 function normalizePhone(raw: string): string {
@@ -128,6 +131,7 @@ export default function RequestForm() {
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const bg = useColorModeValue("white", "gray.800");
   const borderCol = useColorModeValue("gray.100", "gray.700");
@@ -217,7 +221,18 @@ export default function RequestForm() {
       setSubmitted(true);
     } catch (err) {
       console.error("Submission error:", err);
-      setSubmitted(true);
+      // error log
+      // Firestore failed — do NOT show success
+      const errorDetails = {
+        type: "submission_failure",
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        error: String(err),
+        timestamp: Date.now(),
+      };
+      await logError(errorDetails).catch(console.error);
+      setSubmitError(t({ id: "form.error.submit" }));
     } finally {
       setLoading(false);
     }
@@ -467,6 +482,12 @@ export default function RequestForm() {
               <FormErrorMessage>{errors.legal}</FormErrorMessage>
             </FormControl>
           </>
+        )}
+        {submitError && (
+          <Alert status="error" borderRadius="lg">
+            <AlertIcon />
+            {submitError}
+          </Alert>
         )}
 
         {/* ── Navigation buttons ── */}
