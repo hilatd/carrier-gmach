@@ -42,7 +42,8 @@ service cloud.firestore {
     }
 
     match /carriers/{id} {
-      allow read, write: if isActiveVolunteer();
+      allow read: if true;
+      allow write, update, delete: if isActiveVolunteer();
     }
 
     match /carrier_volunteer/{id} {
