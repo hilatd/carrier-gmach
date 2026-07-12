@@ -162,10 +162,13 @@ export const en = {
   "volunteer.bio": "Personal words",
   "volunteer.bio.placeholder": "A few words about yourself...",
   "volunteer.image": "Profile photo",
-  "volunteer.image.upload": "Upload photo",
-  "volunteer.image.uploading": "Uploading...",
-  "volunteer.image.change": "Change photo",
+  "volunteer.image.saveFirst": "Save the volunteer first, then add a photo",
   "volunteer.isActive": "Active volunteer",
+
+  //image
+  "image.upload": "Upload photo",
+  "image.uploading": "Uploading...",
+  "image.change": "Change photo",
 
   //About us
   "aboutUs.title": "Meet Our Volunteers",

@@ -162,10 +162,13 @@ export const he = {
   "volunteer.bio": "כמה מילים אישיות",
   "volunteer.bio.placeholder": "כמה מילים על עצמך...",
   "volunteer.image": "תמונת פרופיל",
-  "volunteer.image.upload": "העלי תמונה",
-  "volunteer.image.uploading": "מעלה...",
-  "volunteer.image.change": "החלפת תמונה",
+  "volunteer.image.saveFirst": "שמרי את המתנדבת תחילה, ואז ניתן להוסיף תמונה",
   "volunteer.isActive": "מתנדבת פעילה",
+
+  //image
+  "image.upload": "העלי תמונה",
+  "image.uploading": "מעלה...",
+  "image.change": "החלפת תמונה",
 
   // About us
   "aboutUs.title": "הכירו את המתנדבות שלנו",

@@ -1,14 +1,17 @@
 import { useRef, useState } from "react";
 import { useIntl } from "react-intl";
-import { Avatar, Button, Input, VStack, Text } from "@chakra-ui/react";
+import { Avatar, Button, Input, VStack, Text, Tooltip } from "@chakra-ui/react";
 
 interface Props {
   currentUrl: string;
   onUpload: (file: File) => Promise<void>;
   uploading: boolean;
+  disabled?: boolean;
+  disabledTooltip?: string;
+  name: string;
 }
 
-export default function ImageUpload({ currentUrl, onUpload, uploading }: Props) {
+export default function ImageUpload({ currentUrl, onUpload, uploading, disabled, disabledTooltip, name  }: Props) {
   const { formatMessage: t } = useIntl();
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string>(currentUrl);
@@ -21,29 +24,33 @@ export default function ImageUpload({ currentUrl, onUpload, uploading }: Props) 
     await onUpload(file);
   };
 
-  return (
+ return (
     <VStack spacing={3}>
       <Avatar
         size="xl"
         src={preview || undefined}
-        name="volunteer"
-        cursor="pointer"
-        onClick={() => inputRef.current?.click()}
-        _hover={{ opacity: 0.8 }}
+        name={name}
+        cursor={disabled ? "not-allowed" : "pointer"}
+        opacity={disabled ? 0.5 : 1}
+        onClick={() => !disabled && inputRef.current?.click()}
+        _hover={{ opacity: disabled ? 0.5 : 0.8 }}
       />
-      <Button
-        size="sm"
-        variant="outline"
-        isLoading={uploading}
-        loadingText={t({ id: "volunteer.image.uploading" })}
-        onClick={() => inputRef.current?.click()}
-      >
-        {currentUrl ? t({ id: "volunteer.image.change" }) : t({ id: "volunteer.image.upload" })}
-      </Button>
+      <Tooltip label={disabled ? disabledTooltip : undefined} isDisabled={!disabled}>
+        <Button
+          size="sm"
+          variant="outline"
+          isLoading={uploading}
+          isDisabled={disabled}
+          loadingText={t({ id: "image.uploading" })}
+          onClick={() => !disabled && inputRef.current?.click()}
+        >
+          {currentUrl
+            ? t({ id: "image.change" })
+            : t({ id: "image.upload" })}
+        </Button>
+      </Tooltip>
       <Input ref={inputRef} type="file" accept="image/*" display="none" onChange={handleChange} />
-      <Text fontSize="xs" color="gray.400">
-        JPG, PNG, WEBP
-      </Text>
+      {!disabled && <Text fontSize="xs" color="gray.400">JPG, PNG, WEBP</Text>}
     </VStack>
   );
 }

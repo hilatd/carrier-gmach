@@ -5,7 +5,7 @@ import type { Volunteer } from "../../types";
 import { useCollection } from "../../hooks/useCollection";
 import { useFilterSort } from "../../hooks/useFilterSort";
 import { useIntl } from "react-intl";
-import { uploadVolunteerImage } from "../../utils/uploadImage";
+import { uploadImage } from "../../utils/uploadImage";
 import ImageUpload from "../ImageUpload";
 import {
   Avatar,
@@ -69,15 +69,16 @@ export default function VolunteersTab() {
     onOpen();
   };
 
-  const handleImageUpload = async (file: File) => {
-    setUploading(true);
-    try {
-      const url = await uploadVolunteerImage(file);
-      setForm((prev) => ({ ...prev, imageUrl: url }));
-    } finally {
-      setUploading(false);
-    }
-  };
+const handleImageUpload = async (file: File) => {
+  if (!editId) return; // need an ID to have a stable public_id
+  setUploading(true);
+  try {
+    const url = await uploadImage(file, "volunteers", `volunteer_${editId}`);
+    setForm((prev) => ({ ...prev, imageUrl: url }));
+  } finally {
+    setUploading(false);
+  }
+};
 
   const handleSave = async () => {
     setSaving(true);
@@ -187,6 +188,9 @@ export default function VolunteersTab() {
             currentUrl={form.imageUrl}
             onUpload={handleImageUpload}
             uploading={uploading}
+            disabled={!editId}
+            name="volunteer"
+            disabledTooltip={t({ id: "volunteer.image.saveFirst" })}
           />
 
           <FormControl>
