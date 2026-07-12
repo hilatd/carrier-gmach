@@ -189,7 +189,7 @@ export default function ActionsTab() {
         const carrier = carriers.find((c) => c.id === data.carrierId);
         await Promise.all([
           updateDoc(doc(db, "actions", editId), data),
-          ...(data.returnedTo !== carrier?.volunteerId
+          ...(data.returnedTo && data.returnedTo !== carrier?.volunteerId
             ? [
                 updateDoc(doc(db, "carriers", data.carrierId), {
                   volunteerId: data.returnedTo,
