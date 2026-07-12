@@ -149,6 +149,9 @@ export default function RequestForm() {
     const e: typeof errors = {};
     if (step === "personal") {
       if (!form.name.trim()) e.name = t({ id: "form.error.required" });
+      else if (form.name.trim().split(/\s+/).length < 2) {
+        e.name = t({ id: "form.error.fullName" });
+      }
       if (!form.phone.trim()) e.phone = t({ id: "form.error.required" });
       else if (!isValidIsraeliPhone(form.phone)) e.phone = t({ id: "form.error.phone" });
       if (!form.email.trim()) e.email = t({ id: "form.error.required" });

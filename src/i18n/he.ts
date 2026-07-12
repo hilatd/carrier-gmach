@@ -48,6 +48,7 @@ export const he = {
   "form.back": "חזרה",
   "form.phone.helper": "מספר נייד ישראלי לדוגמא 052-123-4567",
   "form.error.required": "שדה חובה",
+  "form.error.fullName": "אנא הזיני שם פרטי ושם משפחה",
   "form.error.phone": "נא להזין מספר נייד ישראלי תקין",
   "form.error.email": "נא להזין כתובת אימייל תקינה",
   "form.error.legal": "יש לאשר את תנאי השימוש להמשך",

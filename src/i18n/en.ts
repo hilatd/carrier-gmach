@@ -48,6 +48,7 @@ export const en = {
   "form.back": "Back",
   "form.phone.helper": "Israeli mobile number e.g. 052-123-4567",
   "form.error.required": "This field is required",
+  "form.error.fullName": "Please enter your first and last name",
   "form.error.phone": "Please enter a valid Israeli mobile number",
   "form.error.email": "Please enter a valid email address",
   "form.error.legal": "You must accept the terms to continue",
