@@ -211,6 +211,7 @@ export const en = {
   "action.startDate": "taken: {date}",
   "action.takenFromLabel": "From: {name}",
   "action.totalFee": "Total fee",
+  "action.showUnhandled": "show only active loans",
 
   // Error
   "action.error.carrierInUse":

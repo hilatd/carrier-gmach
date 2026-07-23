@@ -209,6 +209,8 @@ export const he = {
   "action.startDate": "שאילה: {date}",
   "action.takenFromLabel": "נלקח מ: {name}",
   "action.totalFee": "תשלום כולל",
+  "action.showUnhandled": "הצג רק השאלות פתוחות",
+
 
   // Error
   "action.error.carrierInUse": "המנשא הזה כבר מושאל. אנא בחרי מנשא אחר.",

@@ -68,6 +68,7 @@ export default function ActionsTab() {
   const [form, setForm] = useState<Omit<Action, "id">>(empty);
   const [editId, setEditId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [activeOnly, setActiveOnly] = useState(true); // ← default checked
   const [carrierConflict, setCarrierConflict] = useState(false);
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure();
   const { isOpen: isFilterOpen, onOpen: onFilterOpen, onClose: onFilterClose } = useDisclosure();
@@ -121,6 +122,15 @@ export default function ActionsTab() {
       { key: "takenFrom", match: (a, v) => a.takenFrom === v },
     ],
   });
+
+    // apply unhandled checkbox on top of filter/search results
+    const displayed = useMemo(
+      () =>
+        activeOnly
+          ? filtered.filter((r) => r.status !== "returned" && r.status !== "closed")
+          : filtered,
+      [filtered, activeOnly]
+    );
 
   const openNew = () => {
     setForm({
@@ -233,11 +243,22 @@ export default function ActionsTab() {
         </Button>
       </HStack>
 
-      <ResultsCount count={filtered.length} />
+      {/* Unhandled checkbox */}
+            <Checkbox
+              mb={4}
+              isChecked={activeOnly}
+              onChange={(e) => setActiveOnly(e.target.checked)}
+              colorScheme="brand"
+              fontWeight="medium"
+            >
+              {t({ id: "request.showUnhandled" })}
+            </Checkbox>
+
+      <ResultsCount count={displayed.length} />
 
       {/* Cards */}
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
-        {filtered.map((a) => (
+        {displayed.map((a) => (
           <Box
             onClick={() => openEdit(a)}
             key={a.id}
