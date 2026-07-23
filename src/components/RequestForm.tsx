@@ -209,7 +209,7 @@ export default function RequestForm() {
         clientId,
         status: "open",
         notes: form.notes,
-        comments: "",
+        comment: "",
         babyAge: form.babyAge,
         babyWeight: form.babyWeight,
         carriersExperience: form.carriersExperience,

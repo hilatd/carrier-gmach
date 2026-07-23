@@ -66,6 +66,7 @@ export const he = {
   "dashboard.carriers": "מנשאים",
   "dashboard.clients": "שואלות",
   "dashboard.volunteers": "מתנדבות",
+  "dashboard.templates": "הודעות מוכנות",
 
   // Status
   "status.open": "פתוח",
@@ -86,7 +87,7 @@ export const he = {
   "request.source": "מקור",
   "request.handledBy": "מטופל ע״י",
   "request.notes": "הערות",
-  "request.comments": "הערת מתנדבת",
+  "request.comment": "הערת מתנדבת",
   "request.select.client": "בחרי שואלת",
   "request.select.volunteer": "בחרי מתנדבת",
   "request.showUnhandled": "הצג רק פניות פתוחות",

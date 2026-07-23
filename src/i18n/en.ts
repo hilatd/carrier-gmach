@@ -66,6 +66,7 @@ export const en = {
   "dashboard.carriers": "Carriers",
   "dashboard.clients": "Clients",
   "dashboard.volunteers": "Volunteers",
+  "dashboard.templates": "Templates",
 
   // Status
   "status.open": "Open",
@@ -86,7 +87,7 @@ export const en = {
   "request.source": "Source",
   "request.handledBy": "Handled By",
   "request.notes": "Notes",
-  "request.comments": "Comments",
+  "request.comment": "Comments",
   "request.select.client": "Select client",
   "request.select.volunteer": "Select volunteer",
   "request.showUnhandled": "Show unhandled only",
