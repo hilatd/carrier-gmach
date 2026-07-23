@@ -16,6 +16,7 @@ export interface Client {
   phone: string;
   email: string;
   address: string;
+  comment: string;
   createdAt: number;
   updatedAt: number;
   deletedAt: number | null;

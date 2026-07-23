@@ -159,7 +159,7 @@ export default function VolunteersTab() {
             </Link>
             <Text>📧 {v.email}</Text>
             {v.address && <Text>📧 {v.address}</Text>}
-            {v.comment && <Text>{v.comment}</Text>}
+            {v.comment && <Text>🗯️ {v.comment}</Text>}
             {v.bio && (
               <Text fontSize="sm" color="gray.500" mt={2} fontStyle="italic">
                 💬 {v.bio}

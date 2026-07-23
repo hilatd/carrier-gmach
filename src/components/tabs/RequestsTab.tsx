@@ -238,7 +238,7 @@ export default function RequestsTab() {
             )}
             {r.comments && (
               <Text fontSize="sm" color="gray.500">
-                📝 {r.comments}
+                🗯️ {r.comments}
               </Text>
             )}
 

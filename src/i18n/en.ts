@@ -155,6 +155,7 @@ export const en = {
   "client.phone": "Phone",
   "client.email": "Email",
   "client.address": "Address",
+  "client.comment": "Comment",
   "client.add": "Add Client",
 
   // Volunteers

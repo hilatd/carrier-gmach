@@ -154,6 +154,7 @@ export const he = {
   "client.phone": "טלפון",
   "client.email": "אימייל",
   "client.address": "כתובת",
+  "client.comment": "הערה",
   "client.add": "הוסיפי שואלת",
 
   // Volunteers

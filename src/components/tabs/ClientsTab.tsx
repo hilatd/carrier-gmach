@@ -28,6 +28,7 @@ const empty: Omit<Client, "id"> = {
   phone: "",
   email: "",
   address: "",
+  comment: "",
   createdAt: Date.now(),
   updatedAt: Date.now(),
   deletedAt: null,
@@ -90,6 +91,7 @@ export default function ClientsTab() {
             </Link>
             <Text>📧 {c.email}</Text>
             <Text>📍 {c.address}</Text>
+            <Text>🗯️ {c.comment}</Text>
             <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(c)}>
               {t({ id: "common.edit" })}
             </Button>
@@ -111,7 +113,7 @@ export default function ClientsTab() {
         loading={saving}
       >
         <VStack spacing={4}>
-          {(["name", "phone", "email", "address"] as const).map((f) => (
+          {(["name", "phone", "email", "address", "comment"] as const).map((f) => (
             <FormControl key={f}>
               <FormLabel>{t({ id: `client.${f}` })}</FormLabel>
               <Input value={form[f]} onChange={(e) => setForm({ ...form, [f]: e.target.value })} />
