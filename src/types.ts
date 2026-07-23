@@ -9,21 +9,23 @@ export type CarrierTypes =
   | "accessories"
   | "other";
 export type CarrierState = "good" | "damaged" | "for_sell" | "maintenance";
+export type templateLables = "request" | "loan" | "waiting_list" | "after" | "other";
 
-export interface Client {
+interface Entity {
   id?: string;
-  name: string;
-  phone: string;
-  email: string;
-  address: string;
   comment: string;
   createdAt: number;
   updatedAt: number;
   deletedAt: number | null;
 }
+export interface Client extends Entity {
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+}
 
-export interface Volunteer {
-  id?: string;
+export interface Volunteer extends Entity {
   name: string;
   phone: string;
   email: string;
@@ -31,31 +33,21 @@ export interface Volunteer {
   imageUrl: string;
   bio: string;
   isActive: boolean;
-  comment: string;
-  createdAt: number;
-  updatedAt: number;
-  deletedAt: number | null;
 }
 
-export interface CarrierRequest {
-  id?: string;
+export interface CarrierRequest extends Entity {
   clientId: string;
   status: RequestStatus;
   notes: string;
-  comments: string;
   babyAge: string;
   babyWeight: string;
   carriersExperience: string;
   carriersRequested: string;
   source: string;
   handledBy: string;
-  createdAt: number;
-  updatedAt: number;
-  deletedAt: number | null;
 }
 
-export interface Action {
-  id?: string;
+export interface Action extends Entity {
   clientId: string;
   carrierId: string;
   takenFrom: string;
@@ -69,13 +61,9 @@ export interface Action {
   totalFee: number;
   paid: boolean;
   notes: string;
-  createdAt: number;
-  updatedAt: number;
-  deletedAt: number | null;
 }
 
-export interface Carrier {
-  id?: string;
+export interface Carrier extends Entity {
   type: CarrierTypes;
   brand: string;
   model: string;
@@ -84,7 +72,10 @@ export interface Carrier {
   volunteerId: string;
   notes: string;
   imageUrl: string;
-  createdAt: number;
-  updatedAt: number;
-  deletedAt: number | null;
+}
+
+export interface Template extends Entity {
+  text: string;
+  name: string;
+  labels: templateLables[];
 }

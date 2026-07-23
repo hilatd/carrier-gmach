@@ -45,7 +45,7 @@ const empty: Omit<CarrierRequest, "id"> = {
   clientId: "",
   status: "open",
   notes: "",
-  comments: "",
+  comment: "",
   babyAge: "",
   babyWeight: "",
   carriersExperience: "",
@@ -236,9 +236,9 @@ export default function RequestsTab() {
                 📝 {r.notes}
               </Text>
             )}
-            {r.comments && (
+            {r.comment && (
               <Text fontSize="sm" color="gray.500">
-                🗯️ {r.comments}
+                🗯️ {r.comment}
               </Text>
             )}
 
@@ -407,10 +407,10 @@ export default function RequestsTab() {
             />
           </FormControl>
           <FormControl>
-            <FormLabel>{t({ id: "request.comments" })}</FormLabel>
+            <FormLabel>{t({ id: "request.comment" })}</FormLabel>
             <Textarea
-              value={form.comments}
-              onChange={(e) => setForm({ ...form, comments: e.target.value })}
+              value={form.comment}
+              onChange={(e) => setForm({ ...form, comment: e.target.value })}
             />
           </FormControl>
         </VStack>

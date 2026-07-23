@@ -45,6 +45,7 @@ const empty: Omit<Action, "id"> = {
   carrierId: "",
   takenFrom: "",
   lastContactBy: "",
+  comment: '',
   status: "open",
   dateReturned: 0,
   dateTaken: Date.now(),
