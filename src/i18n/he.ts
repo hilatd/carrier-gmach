@@ -211,7 +211,6 @@ export const he = {
   "action.totalFee": "תשלום כולל",
   "action.showUnhandled": "הצג רק השאלות פתוחות",
 
-
   // Error
   "action.error.carrierInUse": "המנשא הזה כבר מושאל. אנא בחרי מנשא אחר.",
   "action.error.carrierInUse.short": "(מושאל)",

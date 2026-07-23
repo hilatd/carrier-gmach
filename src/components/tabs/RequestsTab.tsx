@@ -236,7 +236,7 @@ export default function RequestsTab() {
                 📝 {r.notes}
               </Text>
             )}
-             {r.comments && (
+            {r.comments && (
               <Text fontSize="sm" color="gray.500">
                 📝 {r.comments}
               </Text>

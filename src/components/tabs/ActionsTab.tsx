@@ -123,14 +123,14 @@ export default function ActionsTab() {
     ],
   });
 
-    // apply unhandled checkbox on top of filter/search results
-    const displayed = useMemo(
-      () =>
-        activeOnly
-          ? filtered.filter((r) => r.status !== "returned" && r.status !== "closed")
-          : filtered,
-      [filtered, activeOnly]
-    );
+  // apply unhandled checkbox on top of filter/search results
+  const displayed = useMemo(
+    () =>
+      activeOnly
+        ? filtered.filter((r) => r.status !== "returned" && r.status !== "closed")
+        : filtered,
+    [filtered, activeOnly]
+  );
 
   const openNew = () => {
     setForm({
@@ -244,15 +244,15 @@ export default function ActionsTab() {
       </HStack>
 
       {/* Unhandled checkbox */}
-            <Checkbox
-              mb={4}
-              isChecked={activeOnly}
-              onChange={(e) => setActiveOnly(e.target.checked)}
-              colorScheme="brand"
-              fontWeight="medium"
-            >
-              {t({ id: "request.showUnhandled" })}
-            </Checkbox>
+      <Checkbox
+        mb={4}
+        isChecked={activeOnly}
+        onChange={(e) => setActiveOnly(e.target.checked)}
+        colorScheme="brand"
+        fontWeight="medium"
+      >
+        {t({ id: "request.showUnhandled" })}
+      </Checkbox>
 
       <ResultsCount count={displayed.length} />
 

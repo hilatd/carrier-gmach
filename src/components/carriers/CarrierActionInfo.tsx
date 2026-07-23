@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useIntl, FormattedMessage } from "react-intl";
-import type { Action, Client } from "../../types";
+import type { Action, Client, Volunteer } from "../../types";
 import { ACTION_STATUS_COLORS } from "../../utils/actionOptions";
 import {
   Badge,
@@ -14,11 +14,13 @@ import {
   DrawerHeader,
   DrawerOverlay,
   HStack,
+  Link,
   Text,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import { useLang } from "../../i18n/useLang";
+import { useCurrentVolunteer } from "../../hooks/useCurrentVolunteer";
 
 interface Props {
   carrierId: string;
@@ -28,6 +30,7 @@ interface Props {
 
 export default function CarrierActionInfo({ carrierId, actions, clients }: Props) {
   const { formatMessage: t, formatDate } = useIntl();
+  const currentVolunteer = useCurrentVolunteer();
   const [isHistoryDrawerOpen, setHistoryDrawerOpen] = useState(false);
   const [isWaitingListDrawerOpen, setWaitingListDrawerOpen] = useState(false);
   const dividerColor = useColorModeValue("gray.200", "gray.600");
@@ -36,6 +39,7 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
   const dir = lang === "he" ? "rtl" : "ltr";
 
   const clientName = (id: string) => clients.find((c) => c.id === id)?.name ?? "";
+  const clientPhone = (id: string) => clients.find((c) => c.id === id)?.phone ?? "";
 
   // current = most recent non-closed/returned action for this carrier
   const currentAction = useMemo(
@@ -65,6 +69,18 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
         .sort((a, b) => b.createdAt - a.createdAt),
     [actions, carrierId]
   );
+  function buildWhatsAppMessage(volunteer: Volunteer, clientName: string): string {
+    return encodeURIComponent(
+      `היי ${clientName}
+ זאת ${volunteer.name},`
+    );
+  }
+
+  const openWhatsApp = (clientId: string) => {
+    if (!currentVolunteer) return;
+    const msg = buildWhatsAppMessage(currentVolunteer, clientName(clientId));
+    window.open(`https://wa.me/${clientPhone(clientId)}?text=${msg}`, "_blank");
+  };
 
   return (
     <>
@@ -81,6 +97,16 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
               <Text fontSize="sm" fontWeight="semibold">
                 👤 {clientName(currentAction.clientId)}
               </Text>
+              <Link
+                href={`tel:${clientPhone(currentAction.clientId)}`}
+                color="brand.500"
+                fontWeight="medium"
+              >
+                📞 {clientPhone(currentAction.clientId)}
+              </Link>
+              <Button size="sm" onClick={() => openWhatsApp(currentAction.clientId)} leftIcon={<span>💬</span>}>
+                {t({ id: "common.whatsapp" })}
+              </Button>
               <Text fontSize="xs" color="gray.500">
                 📅{" "}
                 {formatDate(currentAction.dateTaken, {
@@ -154,6 +180,13 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
                   >
                     <HStack justify="space-between" mb={2}>
                       <Text fontWeight="bold">{clientName(a.clientId)}</Text>
+                      <Link
+                        href={`tel:${clientPhone(a.clientId)}`}
+                        color="brand.500"
+                        fontWeight="medium"
+                      >
+                        📞 {clientPhone(a.clientId)}
+                      </Link>
                       <Badge colorScheme={ACTION_STATUS_COLORS[a.status]}>
                         {t({ id: `action.status.${a.status}` })}
                       </Badge>
@@ -225,6 +258,13 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
                   >
                     <HStack justify="space-between" mb={2}>
                       <Text fontWeight="bold">{clientName(a.clientId)}</Text>
+                      <Button
+                        size="sm"
+                        onClick={() => openWhatsApp(a.clientId)}
+                        leftIcon={<span>💬</span>}
+                      >
+                        {t({ id: "common.whatsapp" })}
+                      </Button>
                       <Badge colorScheme={ACTION_STATUS_COLORS[a.status]}>
                         {t({ id: `action.status.${a.status}` })}
                       </Badge>
