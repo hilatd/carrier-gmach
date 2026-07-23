@@ -41,6 +41,7 @@ const empty: Omit<Carrier, "id"> = {
   brand: "",
   color: "",
   model: "",
+  comment: "",
   state: "good",
   volunteerId: "",
   notes: "",
