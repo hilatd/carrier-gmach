@@ -196,7 +196,7 @@ export const he = {
   // Actions
   "action.new": "השאלה חדשה",
   "action.edit": "עריכת השאלה",
-  "action.client": "משאילה",
+  "action.client": "שואלת",
   "action.carrier": "מנשא",
   "action.status": "סטטוס",
   "action.takenFrom": "נלקח מ",
@@ -206,7 +206,7 @@ export const he = {
   "action.dateTaken": "תאריך שאילה",
   "action.paid": "שולם",
   "action.notes": "הערות",
-  "action.select.client": "בחרי משאילה",
+  "action.select.client": "בחרי שואלת",
   "action.select.carrier": "בחרי מנשא",
   "action.select.volunteer": "בחרי מתנדבת",
   "action.returnDate": "החזרה: {date}",

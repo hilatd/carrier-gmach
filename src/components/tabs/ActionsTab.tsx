@@ -322,7 +322,7 @@ export default function ActionsTab() {
                   />
                 </Text>
 
-                <Badge colorScheme={a.paid ? "green" : "red"}>
+                <Badge me={2} colorScheme={a.paid ? "green" : "red"}>
                   {t({ id: a.paid ? "common.paid" : "common.unpaid" })}
                 </Badge>
               </>
