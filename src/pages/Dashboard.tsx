@@ -20,6 +20,7 @@ import CarriersTab from "../components/tabs/CarriersTab";
 import ClientsTab from "../components/tabs/ClientsTab";
 import VolunteersTab from "../components/tabs/VolunteersTab";
 import { useIntl } from "react-intl";
+import TemplatesTab from "../components/tabs/TemplatesTab";
 
 const TABS = [
   { emoji: "📋", labelId: "dashboard.requests" },
@@ -27,6 +28,7 @@ const TABS = [
   { emoji: "🎽", labelId: "dashboard.carriers" },
   { emoji: "👤", labelId: "dashboard.clients" },
   { emoji: "🙋", labelId: "dashboard.volunteers" },
+  { emoji: "🗯️", labelId: "dashboard.templates" },
 ];
 
 export default function Dashboard() {
@@ -79,6 +81,9 @@ export default function Dashboard() {
               <TabPanel p={0}>
                 <VolunteersTab />
               </TabPanel>
+               <TabPanel p={0}>
+                <TemplatesTab />
+              </TabPanel>
             </TabPanels>
           </Tabs>
         </Box>
@@ -93,6 +98,7 @@ export default function Dashboard() {
             {tabIndex === 2 && <CarriersTab />}
             {tabIndex === 3 && <ClientsTab />}
             {tabIndex === 4 && <VolunteersTab />}
+            {tabIndex === 5 && <TemplatesTab />}
           </Box>
 
           <Flex
