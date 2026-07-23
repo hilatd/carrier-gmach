@@ -118,6 +118,7 @@ export const en = {
   "carrier.history": "Loan History",
   "carrier.waitingList": "Loan Waiting List",
   "carrier.historyEmpty": "No past loans",
+  "carrier.image.saveFirst": "Save the volunteer first, then add a photo",
   "carrier.viewAction": "View",
   "carrier.deleteConfirm":
     "Are you sure you want to delete this carrier? All related loans will also be removed.",
@@ -169,6 +170,7 @@ export const en = {
   "image.upload": "Upload photo",
   "image.uploading": "Uploading...",
   "image.change": "Change photo",
+  "image.delete": "Remove photo",
 
   //About us
   "aboutUs.title": "Meet Our Volunteers",

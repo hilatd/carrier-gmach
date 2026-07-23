@@ -7,6 +7,7 @@ import { useFilterSort } from "../../hooks/useFilterSort";
 import { useIntl } from "react-intl";
 import CarrierActionInfo from "../carriers/CarrierActionInfo";
 import {
+  Avatar,
   Badge,
   Box,
   Button,
@@ -31,6 +32,9 @@ import ResultsCount from "../search/ResultsCount";
 import { CARRIER_TYPES, CARRIER_STATES, stateColor } from "../../utils/carrierOptions";
 import FilterRadioButton from "../search/FilterRadioButton";
 import { softDeleteCarrier } from "../../utils/deleteCarrier";
+import ImageUpload from "../ImageUpload";
+import { uploadImage } from "../../utils/uploadImage";
+import { DB_NAME } from "../../const";
 
 const empty: Omit<Carrier, "id"> = {
   type: "other",
@@ -40,6 +44,7 @@ const empty: Omit<Carrier, "id"> = {
   state: "good",
   volunteerId: "",
   notes: "",
+  imageUrl: "",
   createdAt: Date.now(),
   updatedAt: Date.now(),
   deletedAt: null,
@@ -47,13 +52,14 @@ const empty: Omit<Carrier, "id"> = {
 
 export default function CarriersTab() {
   const { formatMessage: t } = useIntl();
-  const { data: carriers, loading } = useCollection<Carrier>("carriers");
+  const { data: carriers, loading } = useCollection<Carrier>(DB_NAME.CARRIER);
   const { data: actions } = useCollection<Action>("actions");
   const { data: clients } = useCollection<Client>("clients");
   const { data: volunteers } = useCollection<Volunteer>("volunteers");
   const [form, setForm] = useState<Omit<Carrier, "id">>(empty);
   const [editId, setEditId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure();
   const { isOpen: isFilterOpen, onOpen: onFilterOpen, onClose: onFilterClose } = useDisclosure();
   const bg = useColorModeValue("white", "gray.800");
@@ -127,10 +133,30 @@ export default function CarriersTab() {
   const handleSave = async () => {
     setSaving(true);
     const data = { ...form, updatedAt: Date.now() };
-    if (editId) await updateDoc(doc(db, "carriers", editId), data);
-    else await addDoc(collection(db, "carriers"), { ...data, createdAt: Date.now() });
+    if (editId) await updateDoc(doc(db, DB_NAME.CARRIER, editId), data);
+    else await addDoc(collection(db, DB_NAME.CARRIER), { ...data, createdAt: Date.now() });
     setSaving(false);
     onEditClose();
+  };
+  const handleImageUpload = async (file: File) => {
+    if (!editId) return; // need an ID to have a stable public_id
+    setUploading(true);
+    try {
+      const url = await uploadImage(file, DB_NAME.CARRIER, `carrier_${editId}`);
+      setForm((prev) => ({ ...prev, imageUrl: url }));
+    } finally {
+      setUploading(false);
+    }
+  };
+  const handleImageDelete = async () => {
+    setForm((prev) => ({ ...prev, imageUrl: "" }));
+    // save immediately to Firestore so the deletion persists
+    if (editId) {
+      await updateDoc(doc(db, DB_NAME.CARRIER, editId), {
+        imageUrl: "",
+        updatedAt: Date.now(),
+      });
+    }
   };
 
   if (loading) return null;
@@ -157,6 +183,7 @@ export default function CarriersTab() {
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
         {filtered.map((c) => (
           <Box key={c.id} bg={bg} p={5} borderRadius="xl" boxShadow="md">
+            {c.imageUrl && <Avatar src={c.imageUrl || undefined} name={c.model} size="sm" />}
             <Text fontWeight="bold" fontSize="lg">
               {t({ id: `carrier.type.${c.type}` })}: {c.brand} — {c.model}
             </Text>
@@ -258,6 +285,16 @@ export default function CarriersTab() {
         loading={saving}
       >
         <VStack spacing={4}>
+          {/* Image upload */}
+          <ImageUpload
+            currentUrl={form.imageUrl}
+            onUpload={handleImageUpload}
+            uploading={uploading}
+            disabled={!editId}
+            name="carrier"
+            onDelete={handleImageDelete}
+            disabledTooltip={t({ id: "carrier.image.saveFirst" })}
+          />
           <FormControl>
             <FormLabel>{t({ id: "carrier.type" })}</FormLabel>
             <Select

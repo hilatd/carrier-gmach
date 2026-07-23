@@ -69,16 +69,26 @@ export default function VolunteersTab() {
     onOpen();
   };
 
-const handleImageUpload = async (file: File) => {
-  if (!editId) return; // need an ID to have a stable public_id
-  setUploading(true);
-  try {
-    const url = await uploadImage(file, "volunteers", `volunteer_${editId}`);
-    setForm((prev) => ({ ...prev, imageUrl: url }));
-  } finally {
-    setUploading(false);
-  }
-};
+  const handleImageUpload = async (file: File) => {
+    if (!editId) return; // need an ID to have a stable public_id
+    setUploading(true);
+    try {
+      const url = await uploadImage(file, "volunteers", `volunteer_${editId}`);
+      setForm((prev) => ({ ...prev, imageUrl: url }));
+    } finally {
+      setUploading(false);
+    }
+  };
+  const handleImageDelete = async () => {
+    setForm((prev) => ({ ...prev, imageUrl: "" }));
+    // save immediately to Firestore so the deletion persists
+    if (editId) {
+      await updateDoc(doc(db, "volunteers", editId), {
+        imageUrl: "",
+        updatedAt: Date.now(),
+      });
+    }
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -190,6 +200,7 @@ const handleImageUpload = async (file: File) => {
             uploading={uploading}
             disabled={!editId}
             name="volunteer"
+            onDelete={handleImageDelete}
             disabledTooltip={t({ id: "volunteer.image.saveFirst" })}
           />
 

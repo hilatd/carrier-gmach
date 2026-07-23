@@ -80,6 +80,7 @@ export interface Carrier {
   state: CarrierState;
   volunteerId: string;
   notes: string;
+  imageUrl: string;
   createdAt: number;
   updatedAt: number;
   deletedAt: number | null;

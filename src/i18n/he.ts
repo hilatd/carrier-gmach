@@ -118,7 +118,7 @@ export const he = {
   "carrier.history": "היסטוריית השאלות",
   "carrier.waitingList": "רשימת המתנה",
   "carrier.historyEmpty": "אין השאלות קודמות",
-  "carrier.viewAction": "צפייה",
+  "carrier.image.saveFirst": "שמרי את המנשא תחילה, ואז ניתן להוסיף תמונה",
   "carrier.deleteConfirm": "האם את בטוחה שתרצי למחוק את המנשא? כל ההשאלות הקשורות יוסרו גם כן.",
 
   // Carrier Types
@@ -169,6 +169,7 @@ export const he = {
   "image.upload": "העלי תמונה",
   "image.uploading": "מעלה...",
   "image.change": "החלפת תמונה",
+  "image.delete": "הסירי תמונה",
 
   // About us
   "aboutUs.title": "הכירו את המתנדבות שלנו",
