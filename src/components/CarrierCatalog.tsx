@@ -166,18 +166,20 @@ export default function CarrierCatalog() {
         </Text>
       </VStack>
 
-      <Text as="span" fontSize="sm" lineHeight={1} mb={2}>
-        {t({ id: "catalog.link.title" })}{" "}
-        <Link
-          href="/carriersList"
-          rel="noopener noreferrer"
-          color="brand.500"
-          textDecoration="underline"
-          fontWeight="semibold"
-        >
-          {t({ id: "catalog.link.click" })}
-        </Link>
-      </Text>
+      <VStack spacing={3} mb={4} textAlign="center">
+        <Text as="span" fontSize="lg" lineHeight={1} mb={2}>
+          {t({ id: "catalog.link.title" })}{" "}
+          <Link
+            href="/carriersList"
+            rel="noopener noreferrer"
+            color="brand.500"
+            textDecoration="underline"
+            fontWeight="semibold"
+          >
+            {t({ id: "catalog.link.click" })}
+          </Link>
+        </Text>
+      </VStack>
       <Grid
         templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
         gap={6}

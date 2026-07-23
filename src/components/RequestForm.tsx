@@ -199,7 +199,7 @@ export default function RequestForm() {
         name: form.name,
         phone: toE164(form.phone),
         email: form.email.toLocaleLowerCase(),
-        comment: '',
+        comment: "",
         createdAt: Date.now(),
         updatedAt: Date.now(),
         deletedAt: null,
