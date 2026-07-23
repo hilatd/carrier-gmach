@@ -376,13 +376,14 @@ export default function RequestsTab() {
             />
           </FormControl>
 
-          <FormControl>
-            <FormLabel>{t({ id: "request.source" })}</FormLabel>
-            <Input
-              value={form.source}
-              onChange={(e) => setForm({ ...form, source: e.target.value })}
-            />
-          </FormControl>
+          {form.source && (
+            <FormControl>
+              <FormLabel>{t({ id: "request.source" })}</FormLabel>
+              <Text>
+                {t({ id: `form.source.options.${form.source}`, defaultMessage: form.source })}
+              </Text>
+            </FormControl>
+          )}
 
           <FormControl>
             <FormLabel>{t({ id: "request.handledBy" })}</FormLabel>
