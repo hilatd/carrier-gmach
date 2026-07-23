@@ -94,6 +94,10 @@ export const en = {
 
   //legal
   "legal.title": "Terms & Conditions",
+  "legal.readTitle": "Terms & Conditions",
+  "legal.scrollHint": "Scroll down to read the terms",
+  "legal.confirm": "I have read and agree to the terms",
+  "legal.confirmed": "You have read and confirmed the terms",
 
   // Search & Filter
   "common.search": "Free search...",

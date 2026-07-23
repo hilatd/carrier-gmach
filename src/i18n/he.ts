@@ -94,6 +94,10 @@ export const he = {
 
   //legal
   "legal.title": "תנאי השימוש",
+  "legal.readTitle": "תקנון ותנאי שימוש",
+  "legal.scrollHint": "גללי למטה לקריאת התקנון",
+  "legal.confirm": "קראתי ואני מסכימה לתנאים",
+  "legal.confirmed": "קראת ואישרת את התקנון",
 
   // Search & Filter
   "common.search": "חיפוש חופשי...",

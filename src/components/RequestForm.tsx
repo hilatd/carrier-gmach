@@ -21,8 +21,6 @@ import {
   VStack,
   Text,
   useColorModeValue,
-  Checkbox,
-  Link,
   HStack,
   Circle,
   Divider,
@@ -31,6 +29,7 @@ import {
 import { CheckIcon } from "@chakra-ui/icons";
 import { sendConfirmationEmail } from "../utils/sendConfirmationEmail";
 import { logError } from "../utils/logError";
+import LegalScroller from "./LegalScroller";
 
 // ─── Phone validation & formatting ────────────────────────────────────────────
 function normalizePhone(raw: string): string {
@@ -463,26 +462,13 @@ export default function RequestForm() {
 
             {/* Legal */}
             <FormControl isRequired isInvalid={!!errors.legal}>
-              <Checkbox
-                isChecked={form.legal}
-                onChange={(e) => set("legal", e.target.checked)}
-                colorScheme="brand"
-                alignItems="flex-start"
-              >
-                <Text as="span" fontSize="sm" lineHeight={1.6}>
-                  {t({ id: "form.agreement.prefix" })}{" "}
-                  <Link
-                    href="/legal"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    color="brand.500"
-                    textDecoration="underline"
-                    fontWeight="semibold"
-                  >
-                    {t({ id: "form.agreement.link" })}
-                  </Link>
-                </Text>
-              </Checkbox>
+              <Text fontSize="sm" fontWeight="semibold" mb={2}>
+                {t({ id: "legal.readTitle" })}
+              </Text>
+
+              {/* Scrollable legal box */}
+              <LegalScroller onRead={() => set("legal", true)} isRead={form.legal} />
+
               <FormErrorMessage>{errors.legal}</FormErrorMessage>
             </FormControl>
           </>

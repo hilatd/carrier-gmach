@@ -104,7 +104,11 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
               >
                 📞 {clientPhone(currentAction.clientId)}
               </Link>
-              <Button size="sm" onClick={() => openWhatsApp(currentAction.clientId)} leftIcon={<span>💬</span>}>
+              <Button
+                size="sm"
+                onClick={() => openWhatsApp(currentAction.clientId)}
+                leftIcon={<span>💬</span>}
+              >
                 {t({ id: "common.whatsapp" })}
               </Button>
               <Text fontSize="xs" color="gray.500">
