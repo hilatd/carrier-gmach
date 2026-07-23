@@ -11,6 +11,7 @@ export default function Legal() {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(true);
   const bg = useColorModeValue("gray.50", "gray.900");
+  const dir = lang === "he" ? "rtl" : "ltr";
 
   useEffect(() => {
     const fetch = async () => {
@@ -22,7 +23,7 @@ export default function Legal() {
     fetch();
   }, [lang]);
   return (
-    <Box bg={bg} minH="100vh" p={10} maxW="800px" mx="auto">
+    <Box dir={dir} bg={bg} minH="100vh" p={10} maxW="800px" mx="auto">
       <Heading mb={6}>{t({ id: "legal.title" })} </Heading>
       {loading ? (
         <Spinner />
