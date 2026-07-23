@@ -37,6 +37,7 @@ const empty: Omit<Volunteer, "id"> = {
   imageUrl: "",
   bio: "",
   isActive: true,
+  comment: "",
   createdAt: Date.now(),
   updatedAt: Date.now(),
   deletedAt: null,
@@ -157,6 +158,8 @@ export default function VolunteersTab() {
               📞 {v.phone}
             </Link>
             <Text>📧 {v.email}</Text>
+           {v.address && <Text>📧 {v.address}</Text>}
+           {v.comment && <Text>{v.comment}</Text>}
             {v.bio && (
               <Text fontSize="sm" color="gray.500" mt={2} fontStyle="italic">
                 💬 {v.bio}
@@ -230,6 +233,14 @@ export default function VolunteersTab() {
             <Input
               value={form.address}
               onChange={(e) => setForm({ ...form, address: e.target.value })}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>{t({ id: "volunteer.comment" })}</FormLabel>
+            <Input
+              value={form.comment}
+              onChange={(e) => setForm({ ...form, comment: e.target.value })}
             />
           </FormControl>
 

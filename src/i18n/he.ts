@@ -86,6 +86,7 @@ export const he = {
   "request.source": "מקור",
   "request.handledBy": "מטופל ע״י",
   "request.notes": "הערות",
+  "request.comments": "הערת מתנדבת",
   "request.select.client": "בחרי שואלת",
   "request.select.volunteer": "בחרי מתנדבת",
   "request.showUnhandled": "הצג רק פניות פתוחות",
@@ -164,6 +165,7 @@ export const he = {
   "volunteer.image": "תמונת פרופיל",
   "volunteer.image.saveFirst": "שמרי את המתנדבת תחילה, ואז ניתן להוסיף תמונה",
   "volunteer.isActive": "מתנדבת פעילה",
+  "volunteer.comment": "הערה",
 
   //image
   "image.upload": "העלי תמונה",

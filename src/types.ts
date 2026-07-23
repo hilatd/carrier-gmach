@@ -30,6 +30,7 @@ export interface Volunteer {
   imageUrl: string;
   bio: string;
   isActive: boolean;
+  comment: string;
   createdAt: number;
   updatedAt: number;
   deletedAt: number | null;
@@ -40,6 +41,7 @@ export interface CarrierRequest {
   clientId: string;
   status: RequestStatus;
   notes: string;
+  comments: string;
   babyAge: string;
   babyWeight: string;
   carriersExperience: string;

@@ -45,6 +45,7 @@ const empty: Omit<CarrierRequest, "id"> = {
   clientId: "",
   status: "open",
   notes: "",
+  comments: "",
   babyAge: "",
   babyWeight: "",
   carriersExperience: "",
@@ -235,6 +236,11 @@ export default function RequestsTab() {
                 📝 {r.notes}
               </Text>
             )}
+             {r.comments && (
+              <Text fontSize="sm" color="gray.500">
+                📝 {r.comments}
+              </Text>
+            )}
 
             <HStack mt={3} wrap="wrap" spacing={2}>
               <Button size="sm" onClick={() => openWhatsApp(r)} leftIcon={<span>💬</span>}>
@@ -397,6 +403,13 @@ export default function RequestsTab() {
             <Textarea
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>{t({ id: "request.comments" })}</FormLabel>
+            <Textarea
+              value={form.comments}
+              onChange={(e) => setForm({ ...form, comments: e.target.value })}
             />
           </FormControl>
         </VStack>

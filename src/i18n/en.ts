@@ -86,6 +86,7 @@ export const en = {
   "request.source": "Source",
   "request.handledBy": "Handled By",
   "request.notes": "Notes",
+  "request.comments": "Comments",
   "request.select.client": "Select client",
   "request.select.volunteer": "Select volunteer",
   "request.showUnhandled": "Show unhandled only",
@@ -165,6 +166,7 @@ export const en = {
   "volunteer.image": "Profile photo",
   "volunteer.image.saveFirst": "Save the volunteer first, then add a photo",
   "volunteer.isActive": "Active volunteer",
+  "volunteer.comment": "comment",
 
   //image
   "image.upload": "Upload photo",
