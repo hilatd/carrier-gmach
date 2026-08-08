@@ -218,6 +218,7 @@ export const en = {
   "action.takenFromLabel": "From: {name}",
   "action.totalFee": "Total fee",
   "action.showUnhandled": "show only active loans",
+  "action.waitingList.carriersHint": "Select all carriers this client is waiting for",
 
   // Error
   "action.error.carrierInUse":

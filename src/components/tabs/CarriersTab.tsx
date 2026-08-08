@@ -54,9 +54,9 @@ const empty: Omit<Carrier, "id"> = {
 export default function CarriersTab() {
   const { formatMessage: t } = useIntl();
   const { data: carriers, loading } = useCollection<Carrier>(DB_NAME.CARRIER);
-  const { data: actions } = useCollection<Action>("actions");
-  const { data: clients } = useCollection<Client>("clients");
-  const { data: volunteers } = useCollection<Volunteer>("volunteers");
+  const { data: actions } = useCollection<Action>(DB_NAME.ACTION);
+  const { data: clients } = useCollection<Client>(DB_NAME.CLIENT);
+  const { data: volunteers } = useCollection<Volunteer>(DB_NAME.VOLUNTEER);
   const [form, setForm] = useState<Omit<Carrier, "id">>(empty);
   const [editId, setEditId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);

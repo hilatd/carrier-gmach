@@ -216,6 +216,7 @@ export const he = {
   "action.takenFromLabel": "נלקח מ: {name}",
   "action.totalFee": "תשלום כולל",
   "action.showUnhandled": "הצג רק השאלות פתוחות",
+  "action.waitingList.carriersHint": "בחרי את כל המנשאים שהלקוחה ממתינה להם",
 
   // Error
   "action.error.carrierInUse": "המנשא הזה כבר מושאל. אנא בחרי מנשא אחר.",

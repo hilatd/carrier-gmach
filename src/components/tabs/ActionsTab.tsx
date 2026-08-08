@@ -33,7 +33,9 @@ import FilterSelect from "../search/FilterSelect";
 import SortControl from "../search/SortControl";
 import ResultsCount from "../search/ResultsCount";
 import SearchableSelect from "../search/SearchableSelect";
+import SearchableMultiSelect from "../search/SearchableMultiSelect";
 import { useLendingCarriers } from "../../hooks/useLendingCarriers";
+import { DB_NAME } from "../../const";
 
 const defaultReturnDate = () => {
   const date = new Date();
@@ -62,13 +64,14 @@ const empty: Omit<Action, "id"> = {
 
 export default function ActionsTab() {
   const { formatMessage: t, formatDate } = useIntl();
-  const { data: actions, loading } = useCollection<Action>("actions");
-  const { data: clients } = useCollection<Client>("clients");
-  const { data: volunteers } = useCollection<Volunteer>("volunteers");
-  const { data: carriers } = useCollection<Carrier>("carriers");
+  const { data: actions, loading } = useCollection<Action>(DB_NAME.ACTION);
+  const { data: clients } = useCollection<Client>(DB_NAME.CLIENT);
+  const { data: volunteers } = useCollection<Volunteer>(DB_NAME.VOLUNTEER);
+  const { data: carriers } = useCollection<Carrier>(DB_NAME.CARRIER);
   const [form, setForm] = useState<Omit<Action, "id">>(empty);
   const [editId, setEditId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [selectedCarrierIds, setSelectedCarrierIds] = useState<string[]>([]);
   const [activeOnly, setActiveOnly] = useState(true); // ← default checked
   const [carrierConflict, setCarrierConflict] = useState(false);
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure();
@@ -141,6 +144,7 @@ export default function ActionsTab() {
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
+    setSelectedCarrierIds([]);
     setEditId(null);
     onEditOpen();
   };
@@ -209,6 +213,13 @@ export default function ActionsTab() {
               ]
             : []),
         ]);
+      } else if (form.status === "waiting_list" && selectedCarrierIds.length > 0) {
+        const batch = writeBatch(db);
+        for (const carrierId of selectedCarrierIds) {
+          const ref = doc(collection(db, "actions"));
+          batch.set(ref, { ...data, carrierId, createdAt: now });
+        }
+        await batch.commit();
       } else {
         await addDoc(collection(db, "actions"), { ...data, createdAt: now });
       }
@@ -435,21 +446,34 @@ export default function ActionsTab() {
               ))}
             </Select>
           </FormControl>
-          {/* replace the carrier FormControl */}
-          <SearchableSelect
-            label={t({ id: "action.carrier" })}
-            value={form.carrierId}
-            onChange={(v) => {
-              setForm({ ...form, carrierId: v });
-              setCarrierConflict(false);
-            }}
-            placeholder={t({ id: "action.select.carrier" })}
-            options={carriers.map((c) => ({
-              value: c.id!,
-              label: `${t({ id: `carrier.type.${c.type}` })}: ${c.brand} - ${c.model || ""} (${c.color})`,
-              disabled: form.status === "lending" && lendingCarrierIds.has(c.id!),
-            }))}
-          />
+          {/* Carrier — multi for new waiting_list, single otherwise */}
+          {!editId && form.status === "waiting_list" ? (
+            <SearchableMultiSelect
+              label={t({ id: "action.carrier" })}
+              values={selectedCarrierIds}
+              onChange={setSelectedCarrierIds}
+              placeholder={t({ id: "action.select.carrier" })}
+              options={carriers.map((c) => ({
+                value: c.id!,
+                label: `${t({ id: `carrier.type.${c.type}` })}: ${c.brand} - ${c.model || ""} (${c.color})`,
+              }))}
+            />
+          ) : (
+            <SearchableSelect
+              label={t({ id: "action.carrier" })}
+              value={form.carrierId}
+              onChange={(v) => {
+                setForm({ ...form, carrierId: v });
+                setCarrierConflict(false);
+              }}
+              placeholder={t({ id: "action.select.carrier" })}
+              options={carriers.map((c) => ({
+                value: c.id!,
+                label: `${t({ id: `carrier.type.${c.type}` })}: ${c.brand} - ${c.model || ""} (${c.color})`,
+                disabled: form.status === "lending" && lendingCarrierIds.has(c.id!),
+              }))}
+            />
+          )}
           {carrierConflict && (
             <Alert status="error" borderRadius="lg" fontSize="sm">
               <AlertIcon />
