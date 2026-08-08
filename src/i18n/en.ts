@@ -219,6 +219,7 @@ export const en = {
   "action.totalFee": "Total fee",
   "action.showUnhandled": "show only active loans",
   "action.waitingList.carriersHint": "Select all carriers this client is waiting for",
+  "action.waitingList.remove": "Remove from waiting list",
 
   // Error
   "action.error.carrierInUse":

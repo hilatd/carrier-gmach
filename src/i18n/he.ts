@@ -217,6 +217,7 @@ export const he = {
   "action.totalFee": "תשלום כולל",
   "action.showUnhandled": "הצג רק השאלות פתוחות",
   "action.waitingList.carriersHint": "בחרי את כל המנשאים שהלקוחה ממתינה להם",
+  "action.waitingList.remove": "הסירי מרשימת המתנה",
 
   // Error
   "action.error.carrierInUse": "המנשא הזה כבר מושאל. אנא בחרי מנשא אחר.",
