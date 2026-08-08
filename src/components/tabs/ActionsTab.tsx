@@ -36,6 +36,7 @@ import SearchableSelect from "../search/SearchableSelect";
 import SearchableMultiSelect from "../search/SearchableMultiSelect";
 import { useLendingCarriers } from "../../hooks/useLendingCarriers";
 import { DB_NAME } from "../../const";
+import { useSort } from "../../hooks/useSort";
 
 const defaultReturnDate = () => {
   const date = new Date();
@@ -103,8 +104,6 @@ export default function ActionsTab() {
     filtered,
     search,
     setSearch,
-    sortOrder,
-    setSortOrder,
     pendingFilters,
     setPendingFilters,
     activeFilterCount,
@@ -127,13 +126,23 @@ export default function ActionsTab() {
     ],
   });
 
+  const { sorted, sortOrder, setSortOrder, sortField, setSortField, sortFields } = useSort(
+    filtered,
+    [
+      { key: "createdAt", label: t({ id: "common.sort.createdAt" }), getValue: (a) => a.createdAt },
+      {
+        key: "dateReturned",
+        label: t({ id: "action.dateReturned" }),
+        getValue: (a) => a.dateReturned ?? 0,
+      },
+    ]
+  );
+
   // apply unhandled checkbox on top of filter/search results
   const displayed = useMemo(
     () =>
-      activeOnly
-        ? filtered.filter((r) => r.status !== "returned" && r.status !== "closed")
-        : filtered,
-    [filtered, activeOnly]
+      activeOnly ? sorted.filter((r) => r.status !== "returned" && r.status !== "closed") : sorted,
+    [sorted, activeOnly]
   );
 
   const openNew = () => {
@@ -245,6 +254,13 @@ export default function ActionsTab() {
       <HStack mb={5} spacing={3} wrap="wrap">
         <Button onClick={openNew}>+ {t({ id: "action.new" })}</Button>
         <SearchBar value={search} onChange={setSearch} />
+        <SortControl
+          value={sortOrder}
+          onChange={setSortOrder}
+          sortField={sortField}
+          onSortFieldChange={setSortField}
+          sortFields={sortFields}
+        />
         <Button
           onClick={onFilterOpen}
           variant={activeFilterCount > 0 ? "solid" : "outline"}
@@ -371,8 +387,6 @@ export default function ActionsTab() {
         }}
         activeFilterCount={activeFilterCount}
       >
-        <SortControl value={sortOrder} onChange={setSortOrder} />
-
         <FilterSelect
           label={t({ id: "action.status" })}
           value={pendingFilters["status"] ?? ""}
