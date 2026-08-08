@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useIntl, FormattedMessage } from "react-intl";
-import type { Action, Client, Volunteer } from "../../types";
+import type { Action, Carrier, Client, Volunteer } from "../../types";
 import { ACTION_STATUS_COLORS } from "../../utils/actionOptions";
 import {
   Badge,
@@ -21,14 +21,16 @@ import {
 } from "@chakra-ui/react";
 import { useLang } from "../../i18n/useLang";
 import { useCurrentVolunteer } from "../../hooks/useCurrentVolunteer";
+import { closeDuplicateWaitingList } from "../../utils/closeWaitingList";
 
 interface Props {
   carrierId: string;
   actions: Action[];
   clients: Client[];
+  carriers: Carrier[];
 }
 
-export default function CarrierActionInfo({ carrierId, actions, clients }: Props) {
+export default function CarrierActionInfo({ carrierId, actions, clients, carriers }: Props) {
   const { formatMessage: t, formatDate } = useIntl();
   const currentVolunteer = useCurrentVolunteer();
   const [isHistoryDrawerOpen, setHistoryDrawerOpen] = useState(false);
@@ -80,6 +82,13 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
     if (!currentVolunteer) return;
     const msg = buildWhatsAppMessage(currentVolunteer, clientName(clientId));
     window.open(`https://wa.me/${clientPhone(clientId)}?text=${msg}`, "_blank");
+  };
+
+  const closeWaitingAction = async (clientId: string) => {
+    // wherever you need it in CarrierActionInfo:
+    await closeDuplicateWaitingList(carrierId, clientId, carriers, actions);
+    setWaitingListDrawerOpen(false);
+
   };
 
   return (
@@ -287,6 +296,13 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
                         year: "numeric",
                       })}
                     </Text>
+                    <Button
+                      size="sm"
+                      onClick={() => closeWaitingAction(a.clientId)}
+                      leftIcon={<span>❌​</span>}
+                    >
+                      {t({ id: "action.waitingList.remove" })}
+                    </Button>
                   </Box>
                 ))}
               </VStack>

@@ -198,7 +198,12 @@ export default function CarriersTab() {
             <Badge mt={2} colorScheme={stateColor[c.state]}>
               {t({ id: `carrier.state.${c.state}` })}
             </Badge>
-            <CarrierActionInfo carrierId={c.id!} actions={actions} clients={clients} />
+            <CarrierActionInfo
+              carrierId={c.id!}
+              actions={actions}
+              clients={clients}
+              carriers={carriers}
+            />
             <HStack mb={2}>
               <Button size="xs" mt={3} variant="outline" onClick={() => openEdit(c)}>
                 {t({ id: "common.edit" })}

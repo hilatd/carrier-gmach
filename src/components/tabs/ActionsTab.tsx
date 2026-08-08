@@ -36,6 +36,7 @@ import SearchableSelect from "../search/SearchableSelect";
 import SearchableMultiSelect from "../search/SearchableMultiSelect";
 import { useLendingCarriers } from "../../hooks/useLendingCarriers";
 import { DB_NAME } from "../../const";
+import { closeDuplicateWaitingList } from "../../utils/closeWaitingList";
 
 const defaultReturnDate = () => {
   const date = new Date();
@@ -155,38 +156,6 @@ export default function ActionsTab() {
     onEditOpen();
   };
 
-  const closeDuplicateWaitingList = async (selectedCarrierId: string, clientId: string) => {
-    if (!selectedCarrierId || !clientId) return;
-
-    const carrier = carriers.find((c) => c.id === selectedCarrierId);
-    if (!carrier) return;
-
-    const similarCarrierIds = new Set(
-      carriers
-        .filter((c) => c.brand === carrier.brand && c.type === carrier.type && c.id !== carrier.id)
-        .map((c) => c.id!)
-    );
-
-    const toClose = actions.filter(
-      (a) =>
-        a.clientId === clientId && a.status === "waiting_list" && similarCarrierIds.has(a.carrierId)
-    );
-
-    if (!toClose.length) return;
-
-    const batch = writeBatch(db);
-    const now = Date.now();
-    for (const a of toClose) {
-      batch.update(doc(db, "actions", a.id!), {
-        status: "closed",
-        notes: "closed automatically",
-        updatedAt: now,
-      });
-    }
-
-    await batch.commit().catch((error) => console.error("Batch update failed:", error));
-  };
-
   const handleSave = async () => {
     if (form.status === "lending" && lendingCarrierIds.has(form.carrierId)) {
       setCarrierConflict(true);
@@ -225,7 +194,7 @@ export default function ActionsTab() {
       }
 
       if (form.status === "lending") {
-        await closeDuplicateWaitingList(form.carrierId, form.clientId);
+        await closeDuplicateWaitingList(form.carrierId, form.clientId, carriers, actions);
       }
     } finally {
       setSaving(false);
