@@ -27,8 +27,8 @@ const TABS = [
   { emoji: "📦", labelId: "dashboard.actions" },
   { emoji: "🎽", labelId: "dashboard.carriers" },
   { emoji: "👤", labelId: "dashboard.clients" },
-  { emoji: "🙋", labelId: "dashboard.volunteers" },
-  { emoji: "🗯️", labelId: "dashboard.templates" },
+  { emoji: "🙋", labelId: "dashboard.volunteers" },/* 
+  { emoji: "🗯️", labelId: "dashboard.templates" }, */
 ];
 
 export default function Dashboard() {
