@@ -93,6 +93,28 @@ export const he = {
   "request.showUnhandled": "הצג רק פניות פתוחות",
   "requests.handled": "סמני כטופל",
 
+  //template
+  "template.new": "הודעה חדשה",
+  "template.name": "תיאור",
+  "template.text": "תוכן ההודעה",
+  "template.comment": "הערה",
+  "template.copy": "העתקה",
+  "template.copied": "הועתק!",
+  "template.copyFailed": "ההעתקה נכשלה",
+  "template.labels": "תוויות",
+  "template.filter.all": "הכל",
+  "template.showMore": "הצג עוד",
+  "template.showLess": "הצג פחות",
+  "template.comment.placeholder": "מתי משתמשים בהודעה הזו? (לא נשלח ללקוחה)",
+  "template.label.greeting": "פתיחה",
+  "template.label.followUp": "מעקב",
+  "template.label.pickup": "איסוף",
+  "template.label.reminder": "תזכורת",
+  "template.label.return": "החזרה",
+  "template.label.waitingList": "רשימת המתנה",
+  "template.label.payment": "תשלום והארכה",
+  "template.label.other": "אחר",
+
   //legal
   "legal.title": "תנאי השימוש",
   "legal.readTitle": "תקנון ותנאי שימוש",

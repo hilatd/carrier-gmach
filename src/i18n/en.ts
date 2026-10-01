@@ -93,6 +93,28 @@ export const en = {
   "request.showUnhandled": "Show unhandled only",
   "requests.handled": "Mark as handled",
 
+  // template
+  "template.new": "New Template",
+  "template.name": "Name",
+  "template.text": "Text",
+  "template.comment": "Comment",
+  "template.copy": "Copy",
+  "template.copied": "Copied!",
+  "template.copyFailed": "Copy failed",
+  "template.labels": "Labels",
+  "template.filter.all": "All",
+  "template.showMore": "Show more",
+  "template.showLess": "Show less",
+  "template.comment.placeholder": "When to use this message (not sent to the client)",
+  "template.label.greeting": "Greeting",
+  "template.label.followUp": "Follow-up",
+  "template.label.pickup": "Pickup",
+  "template.label.reminder": "Reminder",
+  "template.label.return": "Return",
+  "template.label.waitingList": "Waiting list",
+  "template.label.payment": "Payment & extension",
+  "template.label.other": "Other",
+
   //legal
   "legal.title": "Terms & Conditions",
   "legal.readTitle": "Terms & Conditions",

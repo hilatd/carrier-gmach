@@ -10,8 +10,8 @@ import ResultsCount from "./ResultsCount";
 interface Props {
   search: string;
   onSearchChange: (v: string) => void;
-  onFilterOpen: () => void;
-  activeFilterCount: number;
+  onFilterOpen?: () => void;
+  activeFilterCount?: number;
   count: number;
   sort?: {
     order: SortOrder;
@@ -33,7 +33,7 @@ export default function ListToolbar({
   children,
 }: Props) {
   const { formatMessage: t } = useIntl();
-  const hasFilters = activeFilterCount > 0;
+  const hasFilters = (activeFilterCount ?? 0) > 0;
 
   return (
     <VStack align="stretch" spacing={3} mb={4}>
@@ -42,31 +42,33 @@ export default function ListToolbar({
           <SearchBar value={search} onChange={onSearchChange} />
         </Box>
 
-        <Box position="relative">
-          <IconButton
-            aria-label={t({ id: "common.filter" })}
-            icon={<FilterIcon boxSize={5} />}
-            variant={hasFilters ? "solid" : "outline"}
-            colorScheme={hasFilters ? "brand" : "gray"}
-            onClick={onFilterOpen}
-          />
-          {hasFilters && (
-            <Circle
-              size="18px"
-              position="absolute"
-              top="-6px"
-              insetInlineEnd="-6px"
-              bg="white"
-              color="gray.800"
-              fontSize="xs"
-              fontWeight="bold"
-              boxShadow="sm"
-              pointerEvents="none"
-            >
-              {activeFilterCount}
-            </Circle>
-          )}
-        </Box>
+        {onFilterOpen && (
+          <Box position="relative">
+            <IconButton
+              aria-label={t({ id: "common.filter" })}
+              icon={<FilterIcon boxSize={5} />}
+              variant={hasFilters ? "solid" : "outline"}
+              colorScheme={hasFilters ? "brand" : "gray"}
+              onClick={onFilterOpen}
+            />
+            {hasFilters && (
+              <Circle
+                size="18px"
+                position="absolute"
+                top="-6px"
+                insetInlineEnd="-6px"
+                bg="white"
+                color="gray.800"
+                fontSize="xs"
+                fontWeight="bold"
+                boxShadow="sm"
+                pointerEvents="none"
+              >
+                {activeFilterCount}
+              </Circle>
+            )}
+          </Box>
+        )}
 
         {sort && <SortMenu {...sort} />}
       </HStack>

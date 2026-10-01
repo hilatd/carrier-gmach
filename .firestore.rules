@@ -22,6 +22,10 @@ service cloud.firestore {
       allow write: if isActiveVolunteer();
     }
 
+    match /templates/{id} {
+      allow read, write: if isActiveVolunteer();
+    }
+
     match /legal/{id} {
       allow read: if true;
       allow write: if isActiveVolunteer();

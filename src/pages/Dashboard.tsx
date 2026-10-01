@@ -81,7 +81,7 @@ export default function Dashboard() {
               <TabPanel p={0}>
                 <VolunteersTab />
               </TabPanel>
-               <TabPanel p={0}>
+              <TabPanel p={0}>
                 <TemplatesTab />
               </TabPanel>
             </TabPanels>
