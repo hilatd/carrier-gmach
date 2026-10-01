@@ -64,7 +64,7 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
     () =>
       actions
         .filter(
-          (a) => a.carrierId === carrierId && (a.status === "waiting_list" || a.status === "open")
+          (a) => a.carrierId === carrierId && (a.status === "waiting_list")
         )
         .sort((a, b) => b.createdAt - a.createdAt),
     [actions, carrierId]
