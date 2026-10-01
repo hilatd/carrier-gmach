@@ -182,7 +182,14 @@ export default function CarriersTab() {
       {/* Cards */}
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
         {filtered.map((c) => (
-          <Box key={c.id} bg={bg} p={5} borderRadius="xl" boxShadow="md">
+          <Box
+            onClick={() => openEdit(c)}
+            key={c.id}
+            bg={bg}
+            p={5}
+            borderRadius="xl"
+            boxShadow="md"
+          >
             {c.imageUrl && (
               <ImageViewer
                 src={c.imageUrl}
