@@ -27,16 +27,16 @@ import {
   Link,
 } from "@chakra-ui/react";
 import EditModal from "../EditModal";
-import SearchBar from "../search/SearchBar";
 import FilterDrawer from "../search/FilterDrawer";
 import FilterSelect from "../search/FilterSelect";
-import SortControl from "../search/SortControl";
-import ResultsCount from "../search/ResultsCount";
 import SearchableSelect from "../search/SearchableSelect";
 import SearchableMultiSelect from "../search/SearchableMultiSelect";
 import { useLendingCarriers } from "../../hooks/useLendingCarriers";
 import { DB_NAME } from "../../const";
+import { useSort } from "../../hooks/useSort";
 import { sendEmail } from "../../utils/sendConfirmationEmail";
+import { AddIcon, CheckIcon } from "@chakra-ui/icons";
+import ListToolbar from "../search/ListToolbars";
 
 const defaultReturnDate = () => {
   const date = new Date();
@@ -105,8 +105,6 @@ export default function ActionsTab() {
     filtered,
     search,
     setSearch,
-    sortOrder,
-    setSortOrder,
     pendingFilters,
     setPendingFilters,
     activeFilterCount,
@@ -129,13 +127,23 @@ export default function ActionsTab() {
     ],
   });
 
+  const { sorted, sortOrder, setSortOrder, sortField, setSortField, sortFields } = useSort(
+    filtered,
+    [
+      { key: "dateTaken", label: t({ id: "action.dateTaken" }), getValue: (a) => a.dateTaken },
+      {
+        key: "dateReturned",
+        label: t({ id: "action.dateReturned" }),
+        getValue: (a) => a.dateReturned ?? 0,
+      },
+    ]
+  );
+
   // apply unhandled checkbox on top of filter/search results
   const displayed = useMemo(
     () =>
-      activeOnly
-        ? filtered.filter((r) => r.status !== "returned" && r.status !== "closed")
-        : filtered,
-    [filtered, activeOnly]
+      activeOnly ? sorted.filter((r) => r.status !== "returned" && r.status !== "closed") : sorted,
+    [sorted, activeOnly]
   );
 
   const openNew = () => {
@@ -248,31 +256,47 @@ export default function ActionsTab() {
   return (
     <Box>
       {/* Top bar */}
-      <HStack mb={5} spacing={3} wrap="wrap">
-        <Button onClick={openNew}>+ {t({ id: "action.new" })}</Button>
-        <SearchBar value={search} onChange={setSearch} />
-        <Button
-          onClick={onFilterOpen}
-          variant={activeFilterCount > 0 ? "solid" : "outline"}
-          colorScheme={activeFilterCount > 0 ? "brand" : "gray"}
-        >
-          🔽 {t({ id: "common.filter" })}
-          {activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
-        </Button>
-      </HStack>
-
-      {/* Unhandled checkbox */}
-      <Checkbox
-        mb={4}
-        isChecked={activeOnly}
-        onChange={(e) => setActiveOnly(e.target.checked)}
-        colorScheme="brand"
-        fontWeight="medium"
+      <ListToolbar
+        search={search}
+        onSearchChange={setSearch}
+        onFilterOpen={onFilterOpen}
+        activeFilterCount={activeFilterCount}
+        count={displayed.length}
+        sort={{
+          order: sortOrder,
+          onOrderChange: setSortOrder,
+          field: sortField,
+          onFieldChange: setSortField,
+          fields: sortFields,
+        }}
       >
-        {t({ id: "request.showUnhandled" })}
-      </Checkbox>
+        <Button
+          size="sm"
+          borderRadius="full"
+          flexShrink={0}
+          variant={activeOnly ? "solid" : "outline"}
+          colorScheme={activeOnly ? "brand" : "gray"}
+          leftIcon={activeOnly ? <CheckIcon boxSize={3} /> : undefined}
+          onClick={() => setActiveOnly((v) => !v)}
+        >
+          {t({ id: "action.showUnhandled" })}
+        </Button>
+      </ListToolbar>
 
-      <ResultsCount count={displayed.length} />
+      {/* floating "new" button */}
+      <Button
+        position="fixed"
+        insetInlineEnd={5}
+        bottom={{ base: "88px", md: 8 }}
+        zIndex="docked"
+        size="lg"
+        borderRadius="full"
+        boxShadow="lg"
+        leftIcon={<AddIcon boxSize={3} />}
+        onClick={openNew}
+      >
+        {t({ id: "action.new" })}
+      </Button>
 
       {/* Cards */}
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
@@ -377,8 +401,6 @@ export default function ActionsTab() {
         }}
         activeFilterCount={activeFilterCount}
       >
-        <SortControl value={sortOrder} onChange={setSortOrder} />
-
         <FilterSelect
           label={t({ id: "action.status" })}
           value={pendingFilters["status"] ?? ""}

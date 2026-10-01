@@ -14,15 +14,15 @@ export default function App() {
     <BrowserRouter>
       <Box minH="100vh">
         <DataProvider>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<VolunteerLogin />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/legal" element={<Legal />} />
-          <Route path="/carriersList" element={<CarriersList />} />
-        </Routes>
-        <Footer />
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<VolunteerLogin />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/legal" element={<Legal />} />
+            <Route path="/carriersList" element={<CarriersList />} />
+          </Routes>
+          <Footer />
         </DataProvider>
       </Box>
     </BrowserRouter>
