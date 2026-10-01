@@ -107,8 +107,8 @@ export const he = {
   "common.reset": "איפוס",
   "common.apply": "החל",
   "common.results": "{count} תוצאות",
-  "common.sortNewest": "חדש לישן",
-  "common.sortOldest": "ישן לחדש",
+  "common.sort.newest": "חדש לישן",
+  "common.sort.oldest": "ישן לחדש",
   "common.all": "הכל",
 
   // carrier

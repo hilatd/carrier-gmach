@@ -131,7 +131,7 @@ export default function ActionsTab() {
   const { sorted, sortOrder, setSortOrder, sortField, setSortField, sortFields } = useSort(
     filtered,
     [
-      { key: "createdAt", label: t({ id: "common.sort.createdAt" }), getValue: (a) => a.createdAt },
+      { key: "dateTaken", label: t({ id: "action.dateTaken" }), getValue: (a) => a.dateTaken },
       {
         key: "dateReturned",
         label: t({ id: "action.dateReturned" }),
@@ -260,13 +260,6 @@ export default function ActionsTab() {
       <HStack mb={5} spacing={3} wrap="wrap">
         <Button onClick={openNew}>+ {t({ id: "action.new" })}</Button>
         <SearchBar value={search} onChange={setSearch} />
-        <SortControl
-          value={sortOrder}
-          onChange={setSortOrder}
-          sortField={sortField}
-          onSortFieldChange={setSortField}
-          sortFields={sortFields}
-        />
         <Button
           onClick={onFilterOpen}
           variant={activeFilterCount > 0 ? "solid" : "outline"}
@@ -275,6 +268,13 @@ export default function ActionsTab() {
           🔽 {t({ id: "common.filter" })}
           {activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
         </Button>
+        <SortControl
+          value={sortOrder}
+          onChange={setSortOrder}
+          sortField={sortField}
+          onSortFieldChange={setSortField}
+          sortFields={sortFields}
+        />
       </HStack>
 
       {/* Unhandled checkbox */}

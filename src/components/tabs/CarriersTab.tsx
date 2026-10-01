@@ -27,7 +27,6 @@ import EditModal from "../EditModal";
 import SearchBar from "../search/SearchBar";
 import FilterDrawer from "../search/FilterDrawer";
 import FilterSelect from "../search/FilterSelect";
-import SortControl from "../search/SortControl";
 import ResultsCount from "../search/ResultsCount";
 import { CARRIER_TYPES, CARRIER_STATES, stateColor } from "../../utils/carrierOptions";
 import FilterRadioButton from "../search/FilterRadioButton";
@@ -88,8 +87,6 @@ export default function CarriersTab() {
     filtered,
     search,
     setSearch,
-    sortOrder,
-    setSortOrder,
     pendingFilters,
     setPendingFilters,
     activeFilterCount,
@@ -244,7 +241,6 @@ export default function CarriersTab() {
         }}
         activeFilterCount={activeFilterCount}
       >
-        <SortControl value={sortOrder} onChange={setSortOrder} />
         <FilterRadioButton
           label={t({ id: "carrier.availabality" })}
           value={pendingFilters["availabality"] ?? ""}

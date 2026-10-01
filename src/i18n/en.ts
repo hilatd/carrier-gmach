@@ -107,8 +107,8 @@ export const en = {
   "common.reset": "Reset",
   "common.apply": "Apply",
   "common.results": "{count} results",
-  "common.sortNewest": "Newest first",
-  "common.sortOldest": "Oldest first",
+  "common.sort.newest": "Newest first",
+  "common.sort.oldest": "Oldest first",
   "common.all": "All",
 
   // carrier
