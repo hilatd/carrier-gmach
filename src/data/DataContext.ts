@@ -7,6 +7,7 @@ export const COLLECTIONS = [
   DB_NAME.CLIENT,
   DB_NAME.VOLUNTEER,
   DB_NAME.REQUEST,
+  DB_NAME.TEMPLATE,
 ] as const;
 export type CollectionName = (typeof COLLECTIONS)[number];
 

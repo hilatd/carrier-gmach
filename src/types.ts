@@ -1,3 +1,5 @@
+import type { TemplateLabel } from "./utils/templateOptions";
+
 export type RequestStatus = "open" | "pending" | "handled" | "closed";
 export type ActionStatus = "lending" | "returned" | "waiting_list" | "closed";
 export type CarrierTypes =
@@ -9,7 +11,6 @@ export type CarrierTypes =
   | "accessories"
   | "other";
 export type CarrierState = "good" | "damaged" | "for_sell" | "wash" | "maintenance";
-export type templateLables = "request" | "loan" | "waiting_list" | "after" | "other";
 
 interface Entity {
   id?: string;
@@ -77,5 +78,5 @@ export interface Carrier extends Entity {
 export interface Template extends Entity {
   text: string;
   name: string;
-  labels: templateLables[];
+  labels: TemplateLabel[];
 }

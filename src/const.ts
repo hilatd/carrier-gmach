@@ -3,5 +3,6 @@ export const DB_NAME = {
   VOLUNTEER: "volunteers",
   ACTION: "actions",
   CLIENT: "clients",
+  TEMPLATE: "templates",
   REQUEST: "requests",
 };
