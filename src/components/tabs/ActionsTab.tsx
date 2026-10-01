@@ -37,6 +37,7 @@ import SearchableMultiSelect from "../search/SearchableMultiSelect";
 import { useLendingCarriers } from "../../hooks/useLendingCarriers";
 import { DB_NAME } from "../../const";
 import { useSort } from "../../hooks/useSort";
+import { sendEmail } from "../../utils/sendConfirmationEmail";
 
 const defaultReturnDate = () => {
   const date = new Date();
@@ -49,7 +50,7 @@ const empty: Omit<Action, "id"> = {
   takenFrom: "",
   lastContactBy: "",
   comment: "",
-  status: "open",
+  status: "lending",
   dateReturned: 0,
   dateTaken: Date.now(),
   returnedTo: "",
@@ -84,6 +85,7 @@ export default function ActionsTab() {
     returned: Date.now,
   };
   const lendingCarrierIds = useLendingCarriers(actions, editId);
+  const client = (id: string) => clients.find((c) => c.id === id) ?? { name: "", email: "" };
   const clientName = (id: string) => clients.find((c) => c.id === id)?.name ?? "";
   const clientPhone = (id: string) => clients.find((v) => v.id === id)?.phone ?? "";
 
@@ -235,6 +237,10 @@ export default function ActionsTab() {
 
       if (form.status === "lending") {
         await closeDuplicateWaitingList(form.carrierId, form.clientId);
+      }
+      if (form.status === "returned") {
+        const { name, email } = client(form.clientId);
+        await sendEmail({ name, email }, "feedback");
       }
     } finally {
       setSaving(false);
@@ -501,11 +507,13 @@ export default function ActionsTab() {
               onChange={(e) => setForm({ ...form, takenFrom: e.target.value })}
             >
               <option value="">{t({ id: "action.select.volunteer" })}</option>
-              {volunteers.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.name}
-                </option>
-              ))}
+              {volunteers
+                .filter((v) => v.isActive)
+                .map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.name}
+                  </option>
+                ))}
             </Select>
           </FormControl>
           <FormControl>
@@ -515,11 +523,13 @@ export default function ActionsTab() {
               onChange={(e) => setForm({ ...form, lastContactBy: e.target.value })}
             >
               <option value="">{t({ id: "action.select.volunteer" })}</option>
-              {volunteers.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.name}
-                </option>
-              ))}
+              {volunteers
+                .filter((v) => v.isActive)
+                .map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.name}
+                  </option>
+                ))}
             </Select>
           </FormControl>
           <FormControl>
@@ -529,11 +539,13 @@ export default function ActionsTab() {
               onChange={(e) => setForm({ ...form, returnedTo: e.target.value })}
             >
               <option value="">{t({ id: "action.select.volunteer" })}</option>
-              {volunteers.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.name}
-                </option>
-              ))}
+              {volunteers
+                .filter((v) => v.isActive)
+                .map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.name}
+                  </option>
+                ))}
             </Select>
           </FormControl>
           <FormControl>

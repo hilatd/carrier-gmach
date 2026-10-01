@@ -7,11 +7,13 @@ import Dashboard from "./pages/Dashboard";
 import Legal from "./pages/Legal";
 import Footer from "./components/Footer";
 import CarriersList from "./pages/CarriersList";
+import { DataProvider } from "./data/DataProvider";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Box minH="100vh">
+        <DataProvider>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -21,6 +23,7 @@ export default function App() {
           <Route path="/carriersList" element={<CarriersList />} />
         </Routes>
         <Footer />
+        </DataProvider>
       </Box>
     </BrowserRouter>
   );

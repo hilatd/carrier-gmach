@@ -119,6 +119,7 @@ export const he = {
   "carrier.volunteer": "מתנדבת",
   "carrier.color": "צבע",
   "carrier.notes": "הערות",
+  "carrier.comment": "הערת השאלה",
   "carrier.currentAction": "השאלה נוכחית",
   "carrier.noActiveAction": "אין השאלה פעילה",
   "carrier.history": "היסטוריית השאלות",
@@ -146,6 +147,7 @@ export const he = {
   "carrier.state.good": "תקין",
   "carrier.state.damaged": "פגום",
   "carrier.state.for_sell": "למכירה",
+  "carrier.state.wash": "בכביסה",
   "carrier.state.maintenance": "בתיקון",
 
   // Clients
