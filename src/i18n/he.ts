@@ -97,6 +97,7 @@ export const he = {
   "template.new": "הודעה חדשה",
   "template.name": "תיאור",
   "template.text": "תוכן ההודעה",
+  "template.text.placeholder": "...תוכן ההודעה...",
   "template.comment": "הערה",
   "template.copy": "העתקה",
   "template.copied": "הועתק!",

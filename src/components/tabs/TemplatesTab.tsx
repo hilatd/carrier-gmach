@@ -62,7 +62,7 @@ function TemplateCard({ template, onEdit }: { template: Template; onEdit: () => 
   };
 
   return (
-    <VStack align="stretch" spacing={3} bg={bg} p={5} borderRadius="xl" boxShadow="md">
+    <VStack  onClick={onEdit} align="stretch" spacing={3} bg={bg} p={5} borderRadius="xl" boxShadow="md">
       <HStack justify="space-between" align="start">
         <Text fontWeight="bold" fontSize="lg">
           {template.name}
@@ -244,7 +244,7 @@ export default function TemplatesTab() {
       </Button>
 
       <EditModal
-        title={editId ? t({ id: "template.edit" }) : t({ id: "template.new" })}
+        title={editId ? t({ id: "common.edit" }) : t({ id: "template.new" })}
         isOpen={isOpen}
         onClose={onClose}
         onSave={handleSave}

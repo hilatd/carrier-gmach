@@ -97,6 +97,7 @@ export const en = {
   "template.new": "New Template",
   "template.name": "Name",
   "template.text": "Text",
+  "template.text.placeholder": "placeholder...",
   "template.comment": "Comment",
   "template.copy": "Copy",
   "template.copied": "Copied!",
