@@ -1,5 +1,5 @@
 export type RequestStatus = "open" | "pending" | "handled" | "closed";
-export type ActionStatus = "open" | "lending" | "returned" | "waiting_list" | "closed";
+export type ActionStatus = "lending" | "returned" |"waiting_list" | "closed";
 export type CarrierTypes =
   | "backpack"
   | "woven_wrap"
@@ -8,7 +8,7 @@ export type CarrierTypes =
   | "rings"
   | "accessories"
   | "other";
-export type CarrierState = "good" | "damaged" | "for_sell" | "maintenance";
+export type CarrierState = "good" | "damaged" | "for_sell" | "wash" | "maintenance";
 export type templateLables = "request" | "loan" | "waiting_list" | "after" | "other";
 
 interface Entity {

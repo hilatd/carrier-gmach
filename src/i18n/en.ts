@@ -119,6 +119,7 @@ export const en = {
   "carrier.volunteer": "Volunteer",
   "carrier.color": "Color",
   "carrier.notes": "Notes",
+  "carrier.comment": "Comment",
   "carrier.currentAction": "Current Loan",
   "carrier.noActiveAction": "No active loan",
   "carrier.history": "Loan History",
@@ -148,6 +149,7 @@ export const en = {
   "carrier.state.good": "Good",
   "carrier.state.damaged": "Damaged",
   "carrier.state.for_sell": "For Sale",
+  "carrier.state.wash": "Washing",
   "carrier.state.maintenance": "In Maintenance",
   // Clients
   "client.new": "New Client",

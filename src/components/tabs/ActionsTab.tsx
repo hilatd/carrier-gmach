@@ -48,7 +48,7 @@ const empty: Omit<Action, "id"> = {
   takenFrom: "",
   lastContactBy: "",
   comment: "",
-  status: "open",
+  status: "lending",
   dateReturned: 0,
   dateTaken: Date.now(),
   returnedTo: "",
@@ -487,7 +487,7 @@ export default function ActionsTab() {
               onChange={(e) => setForm({ ...form, takenFrom: e.target.value })}
             >
               <option value="">{t({ id: "action.select.volunteer" })}</option>
-              {volunteers.map((v) => (
+              {volunteers.filter((v) => v.isActive).map((v) => (
                 <option key={v.id} value={v.id}>
                   {v.name}
                 </option>
@@ -501,7 +501,7 @@ export default function ActionsTab() {
               onChange={(e) => setForm({ ...form, lastContactBy: e.target.value })}
             >
               <option value="">{t({ id: "action.select.volunteer" })}</option>
-              {volunteers.map((v) => (
+              {volunteers.filter((v) => v.isActive).map((v) => (
                 <option key={v.id} value={v.id}>
                   {v.name}
                 </option>
@@ -515,7 +515,7 @@ export default function ActionsTab() {
               onChange={(e) => setForm({ ...form, returnedTo: e.target.value })}
             >
               <option value="">{t({ id: "action.select.volunteer" })}</option>
-              {volunteers.map((v) => (
+              {volunteers.filter((v) => v.isActive).map((v) => (
                 <option key={v.id} value={v.id}>
                   {v.name}
                 </option>
