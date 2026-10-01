@@ -107,8 +107,8 @@ export const en = {
   "common.reset": "Reset",
   "common.apply": "Apply",
   "common.results": "{count} results",
-  "common.sortNewest": "Newest first",
-  "common.sortOldest": "Oldest first",
+  "common.sort.newest": "Newest first",
+  "common.sort.oldest": "Oldest first",
   "common.all": "All",
 
   // carrier
@@ -119,6 +119,7 @@ export const en = {
   "carrier.volunteer": "Volunteer",
   "carrier.color": "Color",
   "carrier.notes": "Notes",
+  "carrier.comment": "Comment",
   "carrier.currentAction": "Current Loan",
   "carrier.noActiveAction": "No active loan",
   "carrier.history": "Loan History",
@@ -148,6 +149,7 @@ export const en = {
   "carrier.state.good": "Good",
   "carrier.state.damaged": "Damaged",
   "carrier.state.for_sell": "For Sale",
+  "carrier.state.wash": "Washing",
   "carrier.state.maintenance": "In Maintenance",
   // Clients
   "client.new": "New Client",
@@ -218,6 +220,7 @@ export const en = {
   "action.takenFromLabel": "From: {name}",
   "action.totalFee": "Total fee",
   "action.showUnhandled": "show only active loans",
+  "action.waitingList.carriersHint": "Select all carriers this client is waiting for",
 
   // Error
   "action.error.carrierInUse":

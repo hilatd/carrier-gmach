@@ -27,7 +27,6 @@ import EditModal from "../EditModal";
 import SearchBar from "../search/SearchBar";
 import FilterDrawer from "../search/FilterDrawer";
 import FilterSelect from "../search/FilterSelect";
-import SortControl from "../search/SortControl";
 import ResultsCount from "../search/ResultsCount";
 import { CARRIER_TYPES, CARRIER_STATES, stateColor } from "../../utils/carrierOptions";
 import FilterRadioButton from "../search/FilterRadioButton";
@@ -35,12 +34,14 @@ import { softDeleteCarrier } from "../../utils/deleteCarrier";
 import ImageUpload from "../ImageUpload";
 import { uploadImage } from "../../utils/uploadImage";
 import { DB_NAME } from "../../const";
+import ImageViewer from "../ImageViewer";
 
 const empty: Omit<Carrier, "id"> = {
   type: "other",
   brand: "",
   color: "",
   model: "",
+  comment: "",
   state: "good",
   volunteerId: "",
   notes: "",
@@ -53,9 +54,9 @@ const empty: Omit<Carrier, "id"> = {
 export default function CarriersTab() {
   const { formatMessage: t } = useIntl();
   const { data: carriers, loading } = useCollection<Carrier>(DB_NAME.CARRIER);
-  const { data: actions } = useCollection<Action>("actions");
-  const { data: clients } = useCollection<Client>("clients");
-  const { data: volunteers } = useCollection<Volunteer>("volunteers");
+  const { data: actions } = useCollection<Action>(DB_NAME.ACTION);
+  const { data: clients } = useCollection<Client>(DB_NAME.CLIENT);
+  const { data: volunteers } = useCollection<Volunteer>(DB_NAME.VOLUNTEER);
   const [form, setForm] = useState<Omit<Carrier, "id">>(empty);
   const [editId, setEditId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -86,8 +87,6 @@ export default function CarriersTab() {
     filtered,
     search,
     setSearch,
-    sortOrder,
-    setSortOrder,
     pendingFilters,
     setPendingFilters,
     activeFilterCount,
@@ -101,6 +100,7 @@ export default function CarriersTab() {
       c.model,
       c.color,
       c.notes,
+      c.comment,
       volunteerName(c.volunteerId ?? ""),
     ],
     filters: [
@@ -183,7 +183,13 @@ export default function CarriersTab() {
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
         {filtered.map((c) => (
           <Box key={c.id} bg={bg} p={5} borderRadius="xl" boxShadow="md">
-            {c.imageUrl && <Avatar src={c.imageUrl || undefined} name={c.model} size="sm" />}
+            {c.imageUrl && (
+              <ImageViewer
+                src={c.imageUrl}
+                name={c.model}
+                trigger={<Avatar src={c.imageUrl} name={c.model} size="sm" />}
+              />
+            )}{" "}
             <Text fontWeight="bold" fontSize="lg">
               {t({ id: `carrier.type.${c.type}` })}: {c.brand} — {c.model}
             </Text>
@@ -192,6 +198,11 @@ export default function CarriersTab() {
             {c.notes && (
               <Text fontSize="sm" color="gray.500">
                 📝 {c.notes}
+              </Text>
+            )}
+            {c.comment && (
+              <Text fontSize="sm" color="gray.500">
+                🗯️ {c.comment}
               </Text>
             )}
             <Badge mt={2} colorScheme={stateColor[c.state]}>
@@ -230,7 +241,6 @@ export default function CarriersTab() {
         }}
         activeFilterCount={activeFilterCount}
       >
-        <SortControl value={sortOrder} onChange={setSortOrder} />
         <FilterRadioButton
           label={t({ id: "carrier.availabality" })}
           value={pendingFilters["availabality"] ?? ""}
@@ -365,6 +375,13 @@ export default function CarriersTab() {
             <Textarea
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>{t({ id: "carrier.comment" })}</FormLabel>
+            <Textarea
+              value={form.comment}
+              onChange={(e) => setForm({ ...form, comment: e.target.value })}
             />
           </FormControl>
         </VStack>

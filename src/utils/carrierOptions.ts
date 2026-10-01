@@ -10,11 +10,18 @@ export const CARRIER_TYPES: CarrierTypes[] = [
   "other",
 ];
 
-export const CARRIER_STATES: CarrierState[] = ["good", "damaged", "for_sell", "maintenance"];
+export const CARRIER_STATES: CarrierState[] = [
+  "good",
+  "damaged",
+  "for_sell",
+  "wash",
+  "maintenance",
+];
 
 export const stateColor: Record<CarrierState, string> = {
   good: "green",
   damaged: "red",
   for_sell: "blue",
+  wash: "yellow",
   maintenance: "orange",
 };

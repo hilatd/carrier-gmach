@@ -27,7 +27,7 @@ import {
   Progress,
 } from "@chakra-ui/react";
 import { CheckIcon } from "@chakra-ui/icons";
-import { sendConfirmationEmail } from "../utils/sendConfirmationEmail";
+import { sendEmail } from "../utils/sendConfirmationEmail";
 import { logError } from "../utils/logError";
 import LegalScroller from "./LegalScroller";
 
@@ -221,7 +221,7 @@ export default function RequestForm() {
         deletedAt: null,
       };
       await addDoc(collection(db, "requests"), request);
-      await sendConfirmationEmail({ name: form.name, email: form.email });
+      await sendEmail({ name: form.name, email: form.email });
       setSubmitted(true);
     } catch (err) {
       console.error("Submission error:", err);
@@ -232,7 +232,7 @@ export default function RequestForm() {
         name: form.name,
         email: form.email,
         phone: form.phone,
-        error: String(err),
+        error: String(err) + JSON.parse(err as string),
         timestamp: Date.now(),
       };
       await logError(errorDetails).catch(console.error);

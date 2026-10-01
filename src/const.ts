@@ -4,4 +4,5 @@ export const DB_NAME = {
   ACTION: "actions",
   CLIENT: "clients",
   TEMPLATE: "templates",
+  REQUEST: "requests",
 };

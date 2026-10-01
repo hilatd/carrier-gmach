@@ -107,8 +107,8 @@ export const he = {
   "common.reset": "איפוס",
   "common.apply": "החל",
   "common.results": "{count} תוצאות",
-  "common.sortNewest": "חדש לישן",
-  "common.sortOldest": "ישן לחדש",
+  "common.sort.newest": "חדש לישן",
+  "common.sort.oldest": "ישן לחדש",
   "common.all": "הכל",
 
   // carrier
@@ -119,6 +119,7 @@ export const he = {
   "carrier.volunteer": "מתנדבת",
   "carrier.color": "צבע",
   "carrier.notes": "הערות",
+  "carrier.comment": "הערת השאלה",
   "carrier.currentAction": "השאלה נוכחית",
   "carrier.noActiveAction": "אין השאלה פעילה",
   "carrier.history": "היסטוריית השאלות",
@@ -146,6 +147,7 @@ export const he = {
   "carrier.state.good": "תקין",
   "carrier.state.damaged": "פגום",
   "carrier.state.for_sell": "למכירה",
+  "carrier.state.wash": "בכביסה",
   "carrier.state.maintenance": "בתיקון",
 
   // Clients
@@ -216,6 +218,7 @@ export const he = {
   "action.takenFromLabel": "נלקח מ: {name}",
   "action.totalFee": "תשלום כולל",
   "action.showUnhandled": "הצג רק השאלות פתוחות",
+  "action.waitingList.carriersHint": "בחרי את כל המנשאים שהלקוחה ממתינה להם",
 
   // Error
   "action.error.carrierInUse": "המנשא הזה כבר מושאל. אנא בחרי מנשא אחר.",

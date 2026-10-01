@@ -11,7 +11,6 @@ import {
   Badge,
   Box,
   Button,
-  Checkbox,
   FormControl,
   FormLabel,
   HStack,
@@ -26,11 +25,10 @@ import {
   Link,
 } from "@chakra-ui/react";
 import EditModal from "../EditModal";
-import SearchBar from "../search/SearchBar";
 import FilterDrawer from "../search/FilterDrawer";
 import FilterSelect from "../search/FilterSelect";
-import SortControl from "../search/SortControl";
-import ResultsCount from "../search/ResultsCount";
+import { CheckIcon, AddIcon } from "@chakra-ui/icons";
+import ListToolbar from "../search/ListToolbars";
 
 const STATUS_COLORS: Record<RequestStatus, string> = {
   open: "purple",
@@ -95,8 +93,6 @@ export default function RequestsTab() {
     filtered,
     search,
     setSearch,
-    sortOrder,
-    setSortOrder,
     pendingFilters,
     setPendingFilters,
     activeFilterCount,
@@ -166,33 +162,40 @@ export default function RequestsTab() {
 
   return (
     <Box>
-      {/* Top bar */}
-      <HStack mb={4} spacing={3} wrap="wrap">
-        <Button onClick={openNew}>+ {t({ id: "request.new" })}</Button>
-        <SearchBar value={search} onChange={setSearch} />
-        <Button
-          onClick={onFilterOpen}
-          variant={activeFilterCount > 0 ? "solid" : "outline"}
-          colorScheme={activeFilterCount > 0 ? "brand" : "gray"}
-        >
-          🔽 {t({ id: "common.filter" })}
-          {activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
-        </Button>
-      </HStack>
-
-      {/* Unhandled checkbox */}
-      <Checkbox
-        mb={4}
-        isChecked={unhandledOnly}
-        onChange={(e) => setUnhandledOnly(e.target.checked)}
-        colorScheme="brand"
-        fontWeight="medium"
+      <ListToolbar
+        search={search}
+        onSearchChange={setSearch}
+        onFilterOpen={onFilterOpen}
+        activeFilterCount={activeFilterCount}
+        count={displayed.length}
       >
-        {t({ id: "request.showUnhandled" })}
-      </Checkbox>
+        <Button
+          size="sm"
+          borderRadius="full"
+          flexShrink={0}
+          variant={unhandledOnly ? "solid" : "outline"}
+          colorScheme={unhandledOnly ? "brand" : "gray"}
+          leftIcon={unhandledOnly ? <CheckIcon boxSize={3} /> : undefined}
+          onClick={() => setUnhandledOnly((v) => !v)}
+        >
+          {t({ id: "request.showUnhandled" })}
+        </Button>
+      </ListToolbar>
 
-      <ResultsCount count={displayed.length} />
-
+      {/* floating "new" button */}
+      <Button
+        position="fixed"
+        insetInlineEnd={5}
+        bottom={{ base: "88px", md: 8 }}
+        zIndex="docked"
+        size="lg"
+        borderRadius="full"
+        boxShadow="lg"
+        leftIcon={<AddIcon boxSize={3} />}
+        onClick={openNew}
+      >
+        {t({ id: "request.new" })}
+      </Button>
       {/* Cards */}
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
         {displayed.map((r) => (
@@ -279,8 +282,6 @@ export default function RequestsTab() {
         }}
         activeFilterCount={activeFilterCount}
       >
-        <SortControl value={sortOrder} onChange={setSortOrder} />
-
         <FilterSelect
           label={t({ id: "request.status" })}
           value={pendingFilters["status"] ?? ""}

@@ -27,13 +27,16 @@ import {
   Link,
 } from "@chakra-ui/react";
 import EditModal from "../EditModal";
-import SearchBar from "../search/SearchBar";
 import FilterDrawer from "../search/FilterDrawer";
 import FilterSelect from "../search/FilterSelect";
-import SortControl from "../search/SortControl";
-import ResultsCount from "../search/ResultsCount";
 import SearchableSelect from "../search/SearchableSelect";
+import SearchableMultiSelect from "../search/SearchableMultiSelect";
 import { useLendingCarriers } from "../../hooks/useLendingCarriers";
+import { DB_NAME } from "../../const";
+import { useSort } from "../../hooks/useSort";
+import { sendEmail } from "../../utils/sendConfirmationEmail";
+import { AddIcon, CheckIcon } from "@chakra-ui/icons";
+import ListToolbar from "../search/ListToolbars";
 
 const defaultReturnDate = () => {
   const date = new Date();
@@ -45,8 +48,8 @@ const empty: Omit<Action, "id"> = {
   carrierId: "",
   takenFrom: "",
   lastContactBy: "",
-  comment: '',
-  status: "open",
+  comment: "",
+  status: "lending",
   dateReturned: 0,
   dateTaken: Date.now(),
   returnedTo: "",
@@ -62,13 +65,14 @@ const empty: Omit<Action, "id"> = {
 
 export default function ActionsTab() {
   const { formatMessage: t, formatDate } = useIntl();
-  const { data: actions, loading } = useCollection<Action>("actions");
-  const { data: clients } = useCollection<Client>("clients");
-  const { data: volunteers } = useCollection<Volunteer>("volunteers");
-  const { data: carriers } = useCollection<Carrier>("carriers");
+  const { data: actions, loading } = useCollection<Action>(DB_NAME.ACTION);
+  const { data: clients } = useCollection<Client>(DB_NAME.CLIENT);
+  const { data: volunteers } = useCollection<Volunteer>(DB_NAME.VOLUNTEER);
+  const { data: carriers } = useCollection<Carrier>(DB_NAME.CARRIER);
   const [form, setForm] = useState<Omit<Action, "id">>(empty);
   const [editId, setEditId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [selectedCarrierIds, setSelectedCarrierIds] = useState<string[]>([]);
   const [activeOnly, setActiveOnly] = useState(true); // ← default checked
   const [carrierConflict, setCarrierConflict] = useState(false);
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure();
@@ -80,6 +84,7 @@ export default function ActionsTab() {
     returned: Date.now,
   };
   const lendingCarrierIds = useLendingCarriers(actions, editId);
+  const client = (id: string) => clients.find((c) => c.id === id) ?? { name: "", email: "" };
   const clientName = (id: string) => clients.find((c) => c.id === id)?.name ?? "";
   const clientPhone = (id: string) => clients.find((v) => v.id === id)?.phone ?? "";
 
@@ -100,8 +105,6 @@ export default function ActionsTab() {
     filtered,
     search,
     setSearch,
-    sortOrder,
-    setSortOrder,
     pendingFilters,
     setPendingFilters,
     activeFilterCount,
@@ -124,13 +127,23 @@ export default function ActionsTab() {
     ],
   });
 
+  const { sorted, sortOrder, setSortOrder, sortField, setSortField, sortFields } = useSort(
+    filtered,
+    [
+      { key: "dateTaken", label: t({ id: "action.dateTaken" }), getValue: (a) => a.dateTaken },
+      {
+        key: "dateReturned",
+        label: t({ id: "action.dateReturned" }),
+        getValue: (a) => a.dateReturned ?? 0,
+      },
+    ]
+  );
+
   // apply unhandled checkbox on top of filter/search results
   const displayed = useMemo(
     () =>
-      activeOnly
-        ? filtered.filter((r) => r.status !== "returned" && r.status !== "closed")
-        : filtered,
-    [filtered, activeOnly]
+      activeOnly ? sorted.filter((r) => r.status !== "returned" && r.status !== "closed") : sorted,
+    [sorted, activeOnly]
   );
 
   const openNew = () => {
@@ -141,6 +154,7 @@ export default function ActionsTab() {
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
+    setSelectedCarrierIds([]);
     setEditId(null);
     onEditOpen();
   };
@@ -209,12 +223,23 @@ export default function ActionsTab() {
               ]
             : []),
         ]);
+      } else if (form.status === "waiting_list" && selectedCarrierIds.length > 0) {
+        const batch = writeBatch(db);
+        for (const carrierId of selectedCarrierIds) {
+          const ref = doc(collection(db, "actions"));
+          batch.set(ref, { ...data, carrierId, createdAt: now });
+        }
+        await batch.commit();
       } else {
         await addDoc(collection(db, "actions"), { ...data, createdAt: now });
       }
 
       if (form.status === "lending") {
         await closeDuplicateWaitingList(form.carrierId, form.clientId);
+      }
+      if (form.status === "returned") {
+        const { name, email } = client(form.clientId);
+        await sendEmail({ name, email }, "feedback");
       }
     } finally {
       setSaving(false);
@@ -231,31 +256,47 @@ export default function ActionsTab() {
   return (
     <Box>
       {/* Top bar */}
-      <HStack mb={5} spacing={3} wrap="wrap">
-        <Button onClick={openNew}>+ {t({ id: "action.new" })}</Button>
-        <SearchBar value={search} onChange={setSearch} />
-        <Button
-          onClick={onFilterOpen}
-          variant={activeFilterCount > 0 ? "solid" : "outline"}
-          colorScheme={activeFilterCount > 0 ? "brand" : "gray"}
-        >
-          🔽 {t({ id: "common.filter" })}
-          {activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
-        </Button>
-      </HStack>
-
-      {/* Unhandled checkbox */}
-      <Checkbox
-        mb={4}
-        isChecked={activeOnly}
-        onChange={(e) => setActiveOnly(e.target.checked)}
-        colorScheme="brand"
-        fontWeight="medium"
+      <ListToolbar
+        search={search}
+        onSearchChange={setSearch}
+        onFilterOpen={onFilterOpen}
+        activeFilterCount={activeFilterCount}
+        count={displayed.length}
+        sort={{
+          order: sortOrder,
+          onOrderChange: setSortOrder,
+          field: sortField,
+          onFieldChange: setSortField,
+          fields: sortFields,
+        }}
       >
-        {t({ id: "request.showUnhandled" })}
-      </Checkbox>
+        <Button
+          size="sm"
+          borderRadius="full"
+          flexShrink={0}
+          variant={activeOnly ? "solid" : "outline"}
+          colorScheme={activeOnly ? "brand" : "gray"}
+          leftIcon={activeOnly ? <CheckIcon boxSize={3} /> : undefined}
+          onClick={() => setActiveOnly((v) => !v)}
+        >
+          {t({ id: "action.showUnhandled" })}
+        </Button>
+      </ListToolbar>
 
-      <ResultsCount count={displayed.length} />
+      {/* floating "new" button */}
+      <Button
+        position="fixed"
+        insetInlineEnd={5}
+        bottom={{ base: "88px", md: 8 }}
+        zIndex="docked"
+        size="lg"
+        borderRadius="full"
+        boxShadow="lg"
+        leftIcon={<AddIcon boxSize={3} />}
+        onClick={openNew}
+      >
+        {t({ id: "action.new" })}
+      </Button>
 
       {/* Cards */}
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
@@ -360,8 +401,6 @@ export default function ActionsTab() {
         }}
         activeFilterCount={activeFilterCount}
       >
-        <SortControl value={sortOrder} onChange={setSortOrder} />
-
         <FilterSelect
           label={t({ id: "action.status" })}
           value={pendingFilters["status"] ?? ""}
@@ -435,21 +474,34 @@ export default function ActionsTab() {
               ))}
             </Select>
           </FormControl>
-          {/* replace the carrier FormControl */}
-          <SearchableSelect
-            label={t({ id: "action.carrier" })}
-            value={form.carrierId}
-            onChange={(v) => {
-              setForm({ ...form, carrierId: v });
-              setCarrierConflict(false);
-            }}
-            placeholder={t({ id: "action.select.carrier" })}
-            options={carriers.map((c) => ({
-              value: c.id!,
-              label: `${t({ id: `carrier.type.${c.type}` })}: ${c.brand} - ${c.model || ""} (${c.color})`,
-              disabled: form.status === "lending" && lendingCarrierIds.has(c.id!),
-            }))}
-          />
+          {/* Carrier — multi for new waiting_list, single otherwise */}
+          {!editId && form.status === "waiting_list" ? (
+            <SearchableMultiSelect
+              label={t({ id: "action.carrier" })}
+              values={selectedCarrierIds}
+              onChange={setSelectedCarrierIds}
+              placeholder={t({ id: "action.select.carrier" })}
+              options={carriers.map((c) => ({
+                value: c.id!,
+                label: `${t({ id: `carrier.type.${c.type}` })}: ${c.brand} - ${c.model || ""} (${c.color})`,
+              }))}
+            />
+          ) : (
+            <SearchableSelect
+              label={t({ id: "action.carrier" })}
+              value={form.carrierId}
+              onChange={(v) => {
+                setForm({ ...form, carrierId: v });
+                setCarrierConflict(false);
+              }}
+              placeholder={t({ id: "action.select.carrier" })}
+              options={carriers.map((c) => ({
+                value: c.id!,
+                label: `${t({ id: `carrier.type.${c.type}` })}: ${c.brand} - ${c.model || ""} (${c.color})`,
+                disabled: form.status === "lending" && lendingCarrierIds.has(c.id!),
+              }))}
+            />
+          )}
           {carrierConflict && (
             <Alert status="error" borderRadius="lg" fontSize="sm">
               <AlertIcon />
@@ -463,11 +515,13 @@ export default function ActionsTab() {
               onChange={(e) => setForm({ ...form, takenFrom: e.target.value })}
             >
               <option value="">{t({ id: "action.select.volunteer" })}</option>
-              {volunteers.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.name}
-                </option>
-              ))}
+              {volunteers
+                .filter((v) => v.isActive)
+                .map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.name}
+                  </option>
+                ))}
             </Select>
           </FormControl>
           <FormControl>
@@ -477,11 +531,13 @@ export default function ActionsTab() {
               onChange={(e) => setForm({ ...form, lastContactBy: e.target.value })}
             >
               <option value="">{t({ id: "action.select.volunteer" })}</option>
-              {volunteers.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.name}
-                </option>
-              ))}
+              {volunteers
+                .filter((v) => v.isActive)
+                .map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.name}
+                  </option>
+                ))}
             </Select>
           </FormControl>
           <FormControl>
@@ -491,11 +547,13 @@ export default function ActionsTab() {
               onChange={(e) => setForm({ ...form, returnedTo: e.target.value })}
             >
               <option value="">{t({ id: "action.select.volunteer" })}</option>
-              {volunteers.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.name}
-                </option>
-              ))}
+              {volunteers
+                .filter((v) => v.isActive)
+                .map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.name}
+                  </option>
+                ))}
             </Select>
           </FormControl>
           <FormControl>
