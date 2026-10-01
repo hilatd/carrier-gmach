@@ -63,9 +63,7 @@ export default function CarrierActionInfo({ carrierId, actions, clients }: Props
   const waitingListActions = useMemo(
     () =>
       actions
-        .filter(
-          (a) => a.carrierId === carrierId && (a.status === "waiting_list")
-        )
+        .filter((a) => a.carrierId === carrierId && a.status === "waiting_list")
         .sort((a, b) => b.createdAt - a.createdAt),
     [actions, carrierId]
   );

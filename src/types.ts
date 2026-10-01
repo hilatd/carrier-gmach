@@ -1,5 +1,5 @@
 export type RequestStatus = "open" | "pending" | "handled" | "closed";
-export type ActionStatus = "lending" | "returned" |"waiting_list" | "closed";
+export type ActionStatus = "lending" | "returned" | "waiting_list" | "closed";
 export type CarrierTypes =
   | "backpack"
   | "woven_wrap"
