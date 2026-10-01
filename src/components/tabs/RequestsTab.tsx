@@ -29,7 +29,6 @@ import EditModal from "../EditModal";
 import SearchBar from "../search/SearchBar";
 import FilterDrawer from "../search/FilterDrawer";
 import FilterSelect from "../search/FilterSelect";
-import SortControl from "../search/SortControl";
 import ResultsCount from "../search/ResultsCount";
 
 const STATUS_COLORS: Record<RequestStatus, string> = {
@@ -95,8 +94,6 @@ export default function RequestsTab() {
     filtered,
     search,
     setSearch,
-    sortOrder,
-    setSortOrder,
     pendingFilters,
     setPendingFilters,
     activeFilterCount,
@@ -279,8 +276,6 @@ export default function RequestsTab() {
         }}
         activeFilterCount={activeFilterCount}
       >
-        <SortControl value={sortOrder} onChange={setSortOrder} />
-
         <FilterSelect
           label={t({ id: "request.status" })}
           value={pendingFilters["status"] ?? ""}
