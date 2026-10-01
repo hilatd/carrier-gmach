@@ -232,7 +232,7 @@ export default function RequestForm() {
         name: form.name,
         email: form.email,
         phone: form.phone,
-        error: String(err),
+        error: String(err) + JSON.parse(err as string),
         timestamp: Date.now(),
       };
       await logError(errorDetails).catch(console.error);
