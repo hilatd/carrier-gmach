@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "../firebase";
-import { COLLECTIONS, DataContext, type DataState } from "./dataContext";
+import { COLLECTIONS, DataContext, type DataState } from "./DataContext";
 
 const initial = Object.fromEntries(
   COLLECTIONS.map((name) => [name, { data: [], loading: true }])

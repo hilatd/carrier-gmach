@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { DataContext, type CollectionName } from "../data/dataContext";
+import { DataContext, type CollectionName } from "../data/DataContext";
 
 export function useCollection<T>(name: string): { data: T[]; loading: boolean } {
   const ctx = useContext(DataContext);
